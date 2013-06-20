@@ -36,11 +36,10 @@ int main(int argc, char *argv[])  {
 	ReadModuleExt *m = new ReadModuleExt();
 
 	if (argc < 2) {
-		std::cout << "Usage: " << argv[0] << " identifier " << endl;
+		std::cout << "Use an identifier as argument for this instance" << endl;
 		return EXIT_FAILURE;
 	}
 	std::string identifier = argv[1];
-
 	m->Init(identifier);
 
 	do {
@@ -48,8 +47,6 @@ int main(int argc, char *argv[])  {
 	} while (!m->Stop()); 
 
 	delete m;
-
-	std::cout << "End of " << identifier << endl;
 
 	return EXIT_SUCCESS;
 }

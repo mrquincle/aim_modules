@@ -9,42 +9,38 @@
  * bio-industry, for animal experimentation, or anything that violates the Universal
  * Declaration of Human Rights.
  *
- * @copyright LGPLv3
  */
 
-#include <string>
-#include <vector>
+#include "ReadModule.h"
 
-namespace rur {
+using namespace rur;
 
-class ReadModule {
-private:
-  
-  int dummyInput;
+ReadModule::ReadModule():
+  cliParam(0)
+{
+  const char* const channel[3] = {"readAudio", "readInfrared", "writeLeftWheel"};
+  cliParam = new Param();
+  dummyAudio = long_seq(0);
+  dummyInfrared = int(0);
+}
 
-protected:
-  static const int channel_count = 1;
-  const char* channel[1];
+ReadModule::~ReadModule() {
+  delete cliParam;
+}
 
-public:
-  ReadModule() {
-    const char* const channel[1] = {"readInput"};
-    dummyInput = int(0);
-  }
-  
-  ~ReadModule() { }
-  
-  void Tick() {} 
-  
-  bool Stop() { return false; }
-  
-  void Init(std::string & name) { }
-  
-  // Read from this function and assume it means something
-  inline int *readInput(bool blocking_dummy=false) {
-    return &dummyInput;
-  }
-  
-};
+void ReadModule::Init(std::string & name) {
+  cliParam->module_id = name;
+}
+
+long_seq* ReadModule::readAudio(bool blocking) {
+  return &dummyAudio;
+}
+
+int* ReadModule::readInfrared(bool blocking) {
+  return &dummyInfrared;
+}
+
+bool ReadModule::writeLeftWheel(const int output) {
+  return true;
 }
 

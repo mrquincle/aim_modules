@@ -1,7 +1,7 @@
 <package>
-  <name>TemplateModule</name>
-  <description brief="TemplateModule">
-     TemplateModule
+  <name>ReadModule</name>
+  <description brief="ReadModule">
+     ReadModule
   </description>
   <author>Anne van Rossum</author>
   <license>LGPL v3</license>
