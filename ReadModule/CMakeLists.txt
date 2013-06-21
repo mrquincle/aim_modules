@@ -92,11 +92,11 @@ foreach(dir ${dirs})
 	message(STATUS "INCLUDE_DIRECTORY='${dir}'")
 endforeach()
 
-SET(PROJECT_HEADER ../aim-core/inc/${PROJECT_NAME}.h)
+SET(PROJECT_HEADER ${CMAKE_SOURCE_DIR}/aim-core/inc/${PROJECT_NAME}.h)
 IF (NOT EXISTS ${PROJECT_HEADER})
-	MESSAGE(FATAL_ERROR "No ${PROJECT_HEADER} header file found."
-		"Did the RurBuilder run and generate a header file (with content) in aim-core/inc?"
-		"Did you perhaps forget to install omniidl/omniORB or do you need to update the RurBuilder itself?")
+	MESSAGE(FATAL_ERROR "No ${PROJECT_HEADER} header file found. "
+		"Did the RurBuilder run and generate a header file (with content) in aim-core/inc? "
+		"Did you perhaps forget to install omniidl/omniORB or do you need to update the RurBuilder itself? ")
 ENDIF() 
 
 MESSAGE(STATUS "Header files included: ${AIM_HEADERS} ${FOLDER_HEADER}")

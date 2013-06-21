@@ -14,33 +14,36 @@
 #include "ReadModule.h"
 
 using namespace rur;
+using namespace yarp::os;
 
 ReadModule::ReadModule():
   cliParam(0)
 {
-  const char* const channel[3] = {"readAudio", "readInfrared", "writeLeftWheel"};
+  const char* const channel[1] = {"readInput"};
   cliParam = new Param();
-  dummyAudio = long_seq(0);
-  dummyInfrared = int(0);
+  portInput = new BufferedPort<Bottle>();
 }
 
 ReadModule::~ReadModule() {
   delete cliParam;
+  delete portInput;
 }
 
 void ReadModule::Init(std::string & name) {
   cliParam->module_id = name;
+  std::stringstream yarpPortName;
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/readmodule" << name << "/input";
+  portInput->open(yarpPortName.str().c_str());
+  
 }
 
-long_seq* ReadModule::readAudio(bool blocking) {
-  return &dummyAudio;
-}
-
-int* ReadModule::readInfrared(bool blocking) {
-  return &dummyInfrared;
-}
-
-bool ReadModule::writeLeftWheel(const int output) {
-  return true;
+int* ReadModule::readInput(bool blocking) {
+  Bottle *b = portInput->read(blocking);
+  if (b != NULL) { 
+    portInputValue = b->get(0).asInt();
+    return &portInputValue;
+  }
+  return NULL;
 }
 

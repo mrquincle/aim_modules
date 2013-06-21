@@ -46,9 +46,33 @@ OPTION(BUILD_STANDARD  "Default build option" ON)
 # Check again if one of the options has turned on from one of the .cmake files
 IF (BUILD_YARP OR BUILD_ROS OR BUILD_ZEROMQ OR BUILD_NODEJS)
 	SET(BUILD_STANDARD OFF)
-ENDIF ()
+ENDIF()
 
-EXECUTE_PROCESS(COMMAND middleware_name.sh MIDDLEWARE_NAME )
+# Load config file from user if it exists
+IF (EXISTS "${CMAKE_SOURCE_DIR}/aim-devel/middleware_local.aim")
+	SET(CONFIG_FILE "${CMAKE_SOURCE_DIR}/aim-devel/middleware_local.aim")
+ELSE()
+	SET(CONFIG_FILE "${CMAKE_CURRENT_SOURCE_DIR}/middleware_default.aim")
+ENDIF()
+
+FILE(STRINGS ${CONFIG_FILE} ConfigContents)
+FOREACH(Item ${ConfigContents})
+	STRING(REGEX REPLACE "^[ ]+" "" UnindentedItem ${Item})
+	# only keep everything before # sign
+	STRING(REGEX MATCH "^[^#]+" NameAndValue ${UnindentedItem})
+	IF (NOT "${NameAndValue}" STREQUAL "")
+		# name is thing before = sign, value comes after
+		STRING(REGEX MATCH "^[^=]+" Name ${NameAndValue})
+		STRING(REPLACE "${Name}=" "" Value ${NameAndValue})
+		IF (NOT "${Name}" STREQUAL "" AND NOT "${Value}" STREQUAL "")
+			MESSAGE(STATUS "Set ${Name}=${Value}")
+#			SET(${Name} "${Value}")
+			IF ("${Name}" STREQUAL "middleware")
+				SET(MIDDLEWARE_NAME "${Value}")
+			ENDIF()				
+		ENDIF()
+	ENDIF()
+ENDFOREACH()
 
 IF (NOT "${MIDDLEWARE_NAME}" STREQUAL "")
 	SET(MIDDLEWARE "${MIDDLEWARE_NAME}")
@@ -113,14 +137,14 @@ ENDIF ()
 #CONFIGURE_FILE( ${CMAKE_SOURCE_DIR}/aim/config.h.cmake ${CMAKE_SOURCE_DIR}/aim/inc/Config.h )
 
 # Find all cmake packages
-IF (BUILD_YARP)
+IF (${MIDDLEWARE} STREQUAL "yarp")
 	MESSAGE(STATUS "YARP build, useful for YARP middleware")
 	FIND_PACKAGE(YARP REQUIRED)
 	INCLUDE_DIRECTORIES(${YARP_INCLUDE_DIRS} PARENT_SCOPE)
 	SET(LIBS ${LIBS} ${YARP_LIBRARIES} -lrt -lpthread)
-ENDIF (BUILD_YARP)
+ENDIF()
 
-IF (BUILD_ROS)
+IF (${MIDDLEWARE} STREQUAL "ros")
 	MESSAGE(STATUS "The project source dir: ${PROJECT_SOURCE_DIR}")
 	IF ("$ENV{ROS_ROOT}" STREQUAL "")
 		MESSAGE(FATAL_ERROR "Requires env. variable $ROS_ROOT. Run for example: \"source /opt/ros/groovy/setup.bash\".")
@@ -141,9 +165,9 @@ IF (BUILD_ROS)
 	SET(LIBS ${LIBS} "$ENV{ROS_ROOT}/../../lib/libroscpp_serialization.so")
 
 	SET(PARENT_INCLUDE_DIRS ${INCLUDE_DIRS} PARENT_SCOPE)
-ENDIF (BUILD_ROS)
+ENDIF()
 
-IF (BUILD_ZEROMQ)
+IF (${MIDDLEWARE} STREQUAL "zeromq")
 	MESSAGE(STATUS "ZeroMQ build, useful for ZeroMQ message queues")
 	FIND_PACKAGE(ZMQ REQUIRED)
 	INCLUDE_DIRECTORIES(${ZMQ_INCLUDE_DIRS})
@@ -155,12 +179,12 @@ IF (BUILD_ZEROMQ)
 
 	# Currently tacitly assuming rt is always there...
 	SET(LIBS ${LIBS} rt)
-ENDIF (BUILD_ZEROMQ)
+ENDIF()
 
-IF (BUILD_NODEJS)
+IF (${MIDDLEWARE} STREQUAL "nodejs")
 	MESSAGE("[*] NodeJS build, compiles a NodeJS addon")
 	MESSAGE("[*] For now: use node-gyp to build")
-ENDIF (BUILD_NODEJS)
+ENDIF()
 
 # Source directory
 SET(SOURCE_DIR "src")

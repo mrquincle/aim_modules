@@ -26,6 +26,10 @@ namespace rur {
 
 class ReadModuleExt: public ReadModule {
 public:
+	ReadModuleExt();
+
+	~ReadModuleExt();
+
 	// The tick function will be called from the ReadModuleMain file
 	void Tick();
 

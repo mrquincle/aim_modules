@@ -31,14 +31,7 @@ typedef sequence<long> long_seq;
 interface ReadModule {
 
   // Input from microphone in the form of an array
-  void Audio(in long_seq input);
-
-  // Input from infrared sensor
-  void Infrared(in long sensor_l);
-
-  // A command to one of the wheels
-  void LeftWheel(out long output);
-
+  void Input(in long input);
 };
 
 };
