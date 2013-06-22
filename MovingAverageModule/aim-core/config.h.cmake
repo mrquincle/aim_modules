@@ -3,6 +3,7 @@
 
 #cmakedefine BUILD_YARP
 #cmakedefine BUILD_ROS
+#cmakedefine BUILD_NODEJS
 #cmakedefine BUILD_DEFAULT
 
 #endif // CONFIG_H

@@ -11,6 +11,11 @@
  *
  */
 
+#ifndef MOVINGAVERAGEMODULE_H_
+#define MOVINGAVERAGEMODULE_H_
+
+#include <string>
+#include <vector>
 #include <string>
 #include <vector>
 
@@ -25,42 +30,35 @@ typedef std::vector<int> long_seq;
 
 class MovingAverageModule {
 private:
+  Param *cliParam;
   
   int dummyInput;
-  
-  Param *cliParam;
-
 protected:
   static const int channel_count = 2;
   const char* channel[2];
-
 public:
-  MovingAverageModule() {
-    const char* const channel[2] = {"readInput", "writeAverage"};
-    dummyInput = int(0);
-    cliParam = new Param();
-  }
+  MovingAverageModule();
   
-  ~MovingAverageModule() { }
+  ~MovingAverageModule();
   
-  void Tick() {} 
-  
-  bool Stop() { return false; }
-  
-  void Init(std::string & name) { }
+  // Extend this with your own code, first call MovingAverageModule::Init(name);
+  void Init(std::string& name);
   
   // Function to get Param struct (to subsequently set CLI parameters)
-  inline Param *GetParam() { return cliParam; };
+  inline Param *GetParam() { return cliParam; }
+  
+  // Overwrite this function with your own code
+  virtual void Tick() {}
+  
+  // Overwrite this function with your own code
+  bool Stop() { return false; }
   
   // Read from this function and assume it means something
-  inline int *readInput(bool blocking_dummy=false) {
-    return &dummyInput;
-  }
-  
+  // Remark: check if result is not NULL
+  int *readInput(bool blocking=false);
   // Write to this function and assume it ends up at some receiving module
-  inline bool writeAverage(const int output) {
-    return true;
-  }
+  bool writeAverage(const int output);
 };
-}
+} // End of namespace
 
+#endif // MOVINGAVERAGEMODULE_H_
