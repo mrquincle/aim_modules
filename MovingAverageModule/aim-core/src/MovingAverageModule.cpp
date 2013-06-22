@@ -14,28 +14,51 @@
 #include "MovingAverageModule.h"
 
 using namespace rur;
+using namespace yarp::os;
 
 MovingAverageModule::MovingAverageModule():
   cliParam(0)
 {
   const char* const channel[2] = {"readInput", "writeAverage"};
   cliParam = new Param();
-  dummyInput = int(0);
+  portInput = new BufferedPort<Bottle>();
+  portAverage = new BufferedPort<Bottle>();
 }
 
 MovingAverageModule::~MovingAverageModule() {
   delete cliParam;
+  delete portInput;
+  delete portAverage;
 }
 
 void MovingAverageModule::Init(std::string & name) {
   cliParam->module_id = name;
+  std::stringstream yarpPortName;
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/movingaveragemodule" << name << "/input";
+  portInput->open(yarpPortName.str().c_str());
+  
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/movingaveragemodule" << name << "/average";
+  portAverage->open(yarpPortName.str().c_str());
+  
 }
 
 int* MovingAverageModule::readInput(bool blocking) {
-  return &dummyInput;
+  Bottle *b = portInput->read(blocking);
+  if (b != NULL) { 
+    portInputValue = b->get(0).asInt();
+    return &portInputValue;
+  }
+  return NULL;
 }
 
 bool MovingAverageModule::writeAverage(const int output) {
+  Bottle &outputPrepare = portAverage->prepare();
+  outputPrepare.clear();
+  outputPrepare.addInt(output);
+  bool forceStrict = true; // wait till previous sends are complete
+  portAverage->write(forceStrict);
   return true;
 }
 

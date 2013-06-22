@@ -18,6 +18,10 @@
 #include <vector>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <yarp/os/BufferedPort.h>
+#include <yarp/os/Network.h>
+#include <yarp/os/Bottle.h>
 
 namespace rur {
 
@@ -32,7 +36,10 @@ class MovingAverageModule {
 private:
   Param *cliParam;
   
-  int dummyInput;
+  yarp::os::Network yarp;
+  int portInputValue;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portInput;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portAverage;
 protected:
   static const int channel_count = 2;
   const char* channel[2];
