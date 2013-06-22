@@ -1,6 +1,6 @@
 /**
- * @file BlueSourceModule.cpp
- * @brief ...
+ * @file BlueSourceModuleExt.cpp
+ * @brief BlueSourceModule extension
  *
  * This file is created at Almende B.V. It is open-source software and part of the Common 
  * Hybrid Agent Platform (CHAP). A toolbox with a lot of open-source tools, ranging from 
@@ -22,10 +22,16 @@
 
 #include <BlueSourceModule.h>
 
-using namespace rur;
+namespace rur {
 
+class BlueSourceModuleExt: public BlueSourceModule {
+public:
+	// The tick function will be called from the BlueSourceModuleMain file
+	void Tick();
 
-
-void BlueSourceModule::Tick() {
+	// As soon as Stop() returns "true", the BlueSourceModuleMain will stop the module
+	bool Stop();
+};
 
 }
+
