@@ -74,6 +74,7 @@ public:
 		int pick = rand() % data_set.size();
 		mixture_model[k].mean = data_set[pick];
 		mixture_model[k].covariance = matrix_t::Identity(data_set[pick].size(), data_set[pick].size());
+		assert (mixture_model.size() != 0);
 		mixture_model[k].weight = 1.0/mixture_model.size();
 	}
 
@@ -81,7 +82,7 @@ public:
 	 * Calculate Gaussian kernel between x and \mu (the mean) given the covariance \Sigma.
 	 */
 	value_t gaussian_kernel(const vector_t & x, const vector_t & mean, const matrix_t & covariance) {
-		return value_t(1)/(std::sqrt( std::pow(2*M_PI,mean.size()) * covariance.determinant ) ) *
+		return value_t(1)/(std::sqrt( std::pow(2*M_PI,mean.size()) * covariance.determinant() ) ) *
 				std::exp( (-(x-mean).adjoint() * covariance.inverse() * (x-mean))  / 2 );
 	}
 
@@ -119,7 +120,9 @@ public:
 			sum_w += p[i];
 			sum_mu += p[i]*data_set[i];
 		}
+		assert (data_set.size() != 0);
 		mixture_model[k].weight = sum_w / data_set.size();
+		assert (sum_w != 0);
 		mixture_model[k].mean = sum_mu / sum_w;
 
 		for (int i = 0; i < data_set.size(); ++i) {
