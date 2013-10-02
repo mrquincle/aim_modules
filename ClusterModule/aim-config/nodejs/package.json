@@ -1,0 +1,18 @@
+{
+	"author": "Name <email@example.com> (http://www.example.com)",
+	"name": "ClusterModule",
+	"description": "...",
+	"version": "0.0.1",
+	"keywords": ["aim-module"],
+	"scripts": {
+		"install": "node-gyp configure; node-gyp build"
+	},
+	"engines": {
+		"node": ">= 0.10.0"
+	},
+	"dependencies": {
+		"node-gyp": ">= 0.9.6"
+	},
+	"devDependencies": {
+	}
+}
