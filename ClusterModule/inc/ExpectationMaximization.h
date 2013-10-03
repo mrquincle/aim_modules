@@ -41,84 +41,224 @@ public:
 	//! Define a matrix as a dense Eigen matrix of floats.
 	typedef float value_t;
 	typedef Eigen::Matrix<value_t,Eigen::Dynamic,Eigen::Dynamic> matrix_t;
-	typedef Eigen::Matrix<value_t,Eigen::Dynamic,Eigen::Dynamic> vector_t;
+	typedef Eigen::Matrix<value_t,Eigen::Dynamic,1> vector_t; // column_vector
+
+	struct Pair {
+		Pair(size_t ground_truth) {
+			this->prediction = 0;
+			this->ground_truth = ground_truth;
+		}
+		size_t prediction;
+		size_t ground_truth;
+	};
 
 	// The hidden variables are these that define a Gaussian, we also add a weight for the mixture model
 	struct Gaussian {
 		matrix_t covariance;
 		vector_t mean;
 		value_t weight;
+		std::vector<size_t> r_data;
 	};
 
-	ExpectationMaximization() {
+	ExpectationMaximization(int K, int D) {
 		srand(time(NULL));
+
+		mixture_model.resize(K);
+		for (int k = 0; k < K; ++k) {
+			init(k, D);
+		}
 	}
 
 	~ExpectationMaximization() {}
 
+	/**
+	 * Add a sample, size is given as separate parameter, so it is possible to take only the first N items from the
+	 * sample rather than the entire vector.
+	 */
+	void addSample(std::vector<value_t> & x, size_t label, size_t size = 0) {
+		if (!size) size = x.size();
+		assert (size <= x.size());
+		vector_t v(size); v.setZero();
+		v = vector_t::Map(x.data(), size, 1); // create column-vector
+		data_set.push_back(v);
+		labels.push_back(Pair(label));
+	}
 
-	void run(int K) {
-		for (int k = 0; k < K; ++k) {
-			init(k);
-		}
-		int T = 1; // timespan
-		for (int t = 0; t < T || converged(); ++t) {
-			for (int k = 0; k < K; ++k) {
-				calculate(k);
-			}
+	void tick() {
+		assert (mixture_model.size());
+
+		calculate_probabilities();
+		for (int k = 0; k < mixture_model.size(); ++k) {
+			calculate(k);
 		}
 	}
 
+	void evaluate() {
+		for (int i = 0; i < data_set.size(); ++i) {
+			labels[i].prediction = generated_by(i);
+		}
+
+		size_t a, b, c, d; a = b = c = d = 0;
+		for (int i = 0; i < data_set.size(); ++i) {
+			for (int j = i+1; j < data_set.size(); ++j) {
+				if (labels[i].ground_truth == labels[j].ground_truth) {
+					if (labels[i].prediction == labels[j].prediction) {
+						a++;
+					} else {
+						c++;
+					}
+				} else {
+					if (labels[i].prediction == labels[j].prediction) {
+						d++;
+					} else {
+						b++;
+					}
+				}
+			}
+		}
+
+		value_t quality = (a+b) / value_t(a+b+c+d);
+		std::cout << "Rand index is " << quality << std::endl;
+	}
+
+	void print() {
+		// print clusters
+		for (int k = 0; k < mixture_model.size(); ++k) {
+			std::set<size_t> l;
+			l.clear();
+			for (int i = 0; i < mixture_model[k].r_data.size(); ++i) {
+				l.insert(labels[mixture_model[k].r_data[i]].ground_truth);
+			}
+			std::cout << "Cluster " << k << " corresponds with ";
+			if (l.size()) {
+				std::set<size_t>::iterator iter;
+				for (iter = l.begin(); iter != l.end(); ++iter) {
+					std::cout << *iter << " ";
+				}
+			} else {
+				std::cout << "nothing";
+			}
+			std::cout << std::endl;
+		}
+
+		// print means
+		for (int k = 0; k < mixture_model.size(); ++k) {
+			std::cout << "Mean of model " << k << ": " << mixture_model[k].mean.transpose() << std::endl;
+		}
+	}
+
+
+protected:
+
 	// e.g. http://www.hindawi.com/journals/mpe/2013/757240/
-	void init(int k) {
-		int pick = rand() % data_set.size();
-		mixture_model[k].mean = data_set[pick];
-		mixture_model[k].covariance = matrix_t::Identity(data_set[pick].size(), data_set[pick].size());
+	void init(int k, int d) {
+		assert (mixture_model.size());
+		mixture_model[k].r_data.clear();
+
+//		int pick = rand() % data_set.size();
+//		mixture_model[k].mean = data_set[pick];
+		mixture_model[k].mean.setRandom(d);
+		mixture_model[k].mean = (mixture_model[k].mean.array() + 1) / 2;
+
+		mixture_model[k].covariance = matrix_t::Identity(d, d);
 		assert (mixture_model.size() != 0);
 		mixture_model[k].weight = 1.0/mixture_model.size();
 	}
 
 	/**
 	 * Calculate Gaussian kernel between x and \mu (the mean) given the covariance \Sigma.
+	 *
+	 *   f(x_1,...x_d) = 1/(sqrt((2*PI)^d |\Sigma| )) * exp( -1/2 * (x-\mu)' \Sigma^-1 (x-\mu ) )
+	 *
+	 * Returns a scalar
 	 */
 	value_t gaussian_kernel(const vector_t & x, const vector_t & mean, const matrix_t & covariance) {
-		return value_t(1)/(std::sqrt( std::pow(2*M_PI,mean.size()) * covariance.determinant() ) ) *
-				std::exp( (-(x-mean).adjoint() * covariance.inverse() * (x-mean))  / 2 );
+		value_t det = covariance.determinant();
+		if (!(det >= 0)) {
+			std::cout << "Determinant of a covariance matrix should be positive " << det << std::endl;
+			det = fabs(det);
+		}
+		value_t sq = std::pow(2*M_PI,mean.size()) * det ;
+		assert (sq >= 0);
+		value_t factor = std::sqrt( sq );
+		assert (factor != 0);
+
+		return (value_t(1)/factor) *
+				std::exp( (value_t)((x-mean).transpose() * covariance.inverse() * (x-mean)) * value_t(-0.5) );
 	}
 
 	/**
 	 * This is the expectation step. It calculates the probability that data item "i" is indeed generated by kernel
 	 * "k". Use it in lock-step with the maximization step.
 	 */
-	value_t generated_by(int i, int k) {
+	void generated_by(int i, std::vector<value_t> &clusters) {
 		assert (i < data_set.size());
-		assert (k < mixture_model.size());
+		clusters.clear();
+		clusters.resize(mixture_model.size());
 
 		// calculate the contribution to "i" for every model
-		value_t sum = 0;
 		for (int m = 0; m < mixture_model.size(); ++m) {
-			sum += mixture_model[m].weight *
+			clusters[m] = mixture_model[m].weight *
 					gaussian_kernel(data_set[i], mixture_model[m].mean, mixture_model[m].covariance);
 		}
 
 		// and compare that with model "k"
-		return (mixture_model[k].weight *
-				gaussian_kernel(data_set[i], mixture_model[k].mean, mixture_model[k].covariance)) / sum;
+//		value_t result = (mixture_model[k].weight *
+//				gaussian_kernel(data_set[i], mixture_model[k].mean, mixture_model[k].covariance)) / sum;
+//		std::cout << "Generated " << i << " by cluster " << k << " with prob " << result << std::endl;
+//		return result;
+	}
+
+	void calculate_probabilities() {
+		probabilities.clear();
+		probabilities.resize(data_set.size());
+		for (int i = 0; i < probabilities.size(); ++i) {
+			generated_by(i, probabilities[i]);
+		}
+
+		for (int i = 0; i < probabilities.size(); ++i) {
+			value_t sum(0);
+			for (int k = 0; k < probabilities[i].size(); ++k) {
+				sum += probabilities[i][k];
+			}
+			if (sum != 0) {
+				for (int k = 0; k < probabilities[i].size(); ++k) {
+					probabilities[i][k] = probabilities[i][k] / sum;
+					assert (probabilities[i][k] <= 1.0);
+					assert (probabilities[i][k] >= 0.0);
+				}
+			}
+		}
+
+	}
+
+	int generated_by(int i) {
+		int k = 0, k_min = 0;
+		value_t min = probabilities[i][k];
+		for (k = 1; k < probabilities[i].size(); ++k) {
+			if (probabilities[i][k] < min) {
+				min = probabilities[i][k];
+				k_min = k;
+			}
+		}
+		mixture_model[k_min].r_data.push_back(i);
+		return k_min;
 	}
 
 	void calculate(int k) {
+//		std::cout << "Calculate cluster " << k << std::endl;
 		value_t sum_w = 0;
 		// check if default construction goes well for vector/matrix
-		vector_t sum_mu;
-		matrix_t sum_sigma;
+		size_t d = data_set[0].size();
+		vector_t sum_mu(d);
+		matrix_t sum_sigma(d,d);
 
-		std::vector<value_t> p;
-		p.reserve(data_set.size());
+		sum_mu.setZero();
+		sum_sigma.setZero();
 
 		for (int i = 0; i < data_set.size(); ++i) {
-			p[i] = generated_by(i,k);
-			sum_w += p[i];
-			sum_mu += p[i]*data_set[i];
+			sum_w += probabilities[i][k];
+			sum_mu += probabilities[i][k]*data_set[i];
 		}
 		assert (data_set.size() != 0);
 		mixture_model[k].weight = sum_w / data_set.size();
@@ -126,10 +266,13 @@ public:
 		mixture_model[k].mean = sum_mu / sum_w;
 
 		for (int i = 0; i < data_set.size(); ++i) {
-			sum_sigma += p[i]*(data_set[i] - mixture_model[k].mean)*(data_set[i] - mixture_model[k].mean).transpose();
+			assert (probabilities[i][k] >= 0);
+			matrix_t m = (data_set[i] - mixture_model[k].mean)*(data_set[i] - mixture_model[k].mean).transpose();
+			assert (m.determinant() == 0);
+			sum_sigma += m * probabilities[i][k];
 		}
 
-		mixture_model[k].covariance = sum_sigma / sum_w;
+		std::cout << "Cluster " << k << " weight: " << mixture_model[k].weight << ", sum of prob " << sum_w << std::endl;
 	}
 
 
@@ -142,6 +285,10 @@ private:
 	std::vector<Gaussian> mixture_model;
 
 	std::vector<vector_t> data_set;
+
+	std::vector<Pair> labels;
+
+	std::vector<std::vector<value_t> > probabilities;
 
 };
 

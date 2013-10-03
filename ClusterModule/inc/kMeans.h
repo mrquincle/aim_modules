@@ -90,7 +90,6 @@ public:
 		vector_t v(size); v.setZero();
 		v = vector_t::Map(x.data(), 1, size); // create row-vector
 		data_set.push_back(v);
-//		std::cout << "Sample added: " << data_set.back() << std::endl;
 		labels.push_back(Pair(label));
 	}
 

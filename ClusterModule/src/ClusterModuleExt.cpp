@@ -26,13 +26,31 @@
 #include <fstream>
 
 #include <kMeans.h>
+#include <ExpectationMaximization.h>
 
 using namespace rur;
 
+enum DataSet { D_ABALONE, D_GAUSSIAN, D_IRIS, NUMBER_OF_DATASETS };
+
 void ClusterModuleExt::Init(std::string& name) {
 	std::ifstream f;
-//	std::string file = "../../data/abalone3.data";
-	std::string file = "./gaussian.data";
+	DataSet dataset = D_ABALONE;
+//	DataSet dataset = D_GAUSSIAN;
+	std::string file = "";
+	switch (dataset) {
+	case D_ABALONE: {
+		file = "../../data/abalone3.data";
+		// obtained # of clusters by $(cat ../../data/abalone3.data | cut -f11 -d',' | sort -n | uniq | wc -l)
+		predefined_clusters = 28;
+	}
+	break;
+	case D_GAUSSIAN: default: {
+		file = "../../data/gaussian.data";
+		predefined_clusters = 2;
+	}
+	break;
+	}
+
 	f.open(file.c_str());
 	if (f.is_open()) {
 		f >> d;
@@ -45,7 +63,7 @@ void ClusterModuleExt::Init(std::string& name) {
 
 	stop = false;
 
-	cluster_method = C_KMEANS;
+	cluster_method = C_EM_GMM;
 }
 
 //! Replace with your own functionality
@@ -57,8 +75,7 @@ void ClusterModuleExt::Tick() {
 		int D = item.size() - 1; // dimensionality of data samples (length of vector minus field for label)
 		std::cout << "Dimensionality is " << D << std::endl;
 
-		// cat ../../data/abalone3.data | cut -f11 -d',' | sort -n | uniq | wc -l
-		int K = 2; // # clusters
+		int K = predefined_clusters;
 		KMeans kmeans(K, D);
 		int S = d.size()-1; // # samples
 		std::cout << "Load all " << S << " samples" << std::endl;
@@ -68,18 +85,42 @@ void ClusterModuleExt::Tick() {
 		}
 		int T = 400; // time span
 		for (int t = 0; t < T; ++t) {
-//			std::cout << "Tick " << t << std::endl;
 			if (!(t%10)) std::cout << '.'; flush(std::cout);
 			kmeans.tick();
 		}
 		std::cout << std::endl;
 
 		kmeans.evaluate();
-//		std::cout << "Result k-means (cluster means): " << std::endl;
-//		kmeans.print();
 	}
 	break;
 	case C_EM_GMM: {
+		std::vector<float> & item = d.pop();
+		int D = item.size() - 1; // dimensionality of data samples (length of vector minus field for label)
+		std::cout << "Dimensionality is " << D << std::endl;
+
+		int K = predefined_clusters;
+		ExpectationMaximization expmax(K, D);
+
+		int S = d.size()-1; // # samples
+		S = 20;
+		std::cout << "Load all " << S << " samples" << std::endl;
+		for (int s = 0; s < S; ++s) {
+			expmax.addSample(item, item[D], D);
+			item = d.pop();
+		}
+
+		int T = 3; // time span
+//		std::cout << "We will run for " << T << " time steps (progress shown by dots)" << std::endl;
+		for (int t = 0; t < T; ++t) {
+//			std::cout << '.'; flush(std::cout);
+			expmax.tick();
+			expmax.evaluate();
+		}
+//		std::cout << std::endl;
+
+//		expmax.evaluate();
+
+		expmax.print();
 
 	}
 	break;

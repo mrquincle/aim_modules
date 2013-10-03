@@ -46,6 +46,8 @@ private:
 	ClusterMethod cluster_method;
 
 	bool stop;
+
+	int predefined_clusters;
 };
 
 }
