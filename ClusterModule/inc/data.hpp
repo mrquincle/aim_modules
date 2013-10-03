@@ -50,24 +50,26 @@ public:
 	}
 	virtual ~data() {}
 
-	inline void test() {
+	/*inline void test() {
 		if (set.size() == 0) {
 			std::cout << "Empty" << std::endl;
 			return;
 		}
 		int i = 0;
-		std::cout << "Size of first item is " <<  set[i].size() << std::endl;
+		std::cout << "Size of first item is " << set[i].size() << std::endl;
 
 		std::cout << "Content is " << set[i][0];
 		for (int j = 1; j < set[i].size(); ++j) {
 			std::cout << ", " << set[i][j];
 		}
 		std::cout << std::endl;
-	}
+	}*/
 
 	std::vector<T> &pop() {
 		return set[(++index) % set.size()];
 	}
+
+	inline size_t size() { return set.size(); }
 
 private:
 	int index;

@@ -42,9 +42,11 @@ protected:
   static const int channel_count = 3;
   const char* channel[3];
 public:
+  // Default constructor
   ClusterModule();
   
-  ~ClusterModule();
+  // Default destructor
+  virtual ~ClusterModule();
   
   // Extend this with your own code, first call ClusterModule::Init(name);
   void Init(std::string& name);
@@ -53,7 +55,7 @@ public:
   inline Param *GetParam() { return cliParam; }
   
   // Overwrite this function with your own code
-  virtual void Tick() {}
+  virtual void Tick() = 0;
   
   // Overwrite this function with your own code
   bool Stop() { return false; }

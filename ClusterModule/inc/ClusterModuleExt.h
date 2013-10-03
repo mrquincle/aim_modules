@@ -26,6 +26,8 @@
 
 namespace rur {
 
+enum ClusterMethod { C_KMEANS, C_EM_GMM, NUMBER_OF_CLUSTER_METHODS };
+
 class ClusterModuleExt: public ClusterModule {
 public:
 	void Init(std::string& name);
@@ -40,6 +42,10 @@ private:
 	data<float> d;
 
 	int index;
+
+	ClusterMethod cluster_method;
+
+	bool stop;
 };
 
 }
