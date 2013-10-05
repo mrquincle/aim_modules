@@ -30,6 +30,8 @@ enum ClusterMethod { C_KMEANS, C_EM_GMM, NUMBER_OF_CLUSTER_METHODS };
 
 class ClusterModuleExt: public ClusterModule {
 public:
+	typedef float value_t;
+
 	void Init(std::string& name);
 
 	// The tick function will be called from the ClusterModuleMain file
@@ -39,7 +41,7 @@ public:
 	bool Stop();
 
 private:
-	data<float> d;
+	data<value_t> d;
 
 	int index;
 

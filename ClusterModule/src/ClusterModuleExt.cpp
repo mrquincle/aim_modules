@@ -34,8 +34,9 @@ enum DataSet { D_ABALONE, D_GAUSSIAN, D_IRIS, NUMBER_OF_DATASETS };
 
 void ClusterModuleExt::Init(std::string& name) {
 	std::ifstream f;
-	DataSet dataset = D_ABALONE;
-//	DataSet dataset = D_GAUSSIAN;
+	DataSet dataset;
+	dataset = D_ABALONE;
+//	dataset = D_GAUSSIAN;
 	std::string file = "";
 	switch (dataset) {
 	case D_ABALONE: {
@@ -45,8 +46,10 @@ void ClusterModuleExt::Init(std::string& name) {
 	}
 	break;
 	case D_GAUSSIAN: default: {
-		file = "../../data/gaussian.data";
-		predefined_clusters = 2;
+		file = "../../data/gaussian3d1.data";
+		predefined_clusters = 3;
+//		file = "../../data/gaussian1.data";
+//		predefined_clusters = 2;
 	}
 	break;
 	}
@@ -57,6 +60,7 @@ void ClusterModuleExt::Init(std::string& name) {
 	} else {
 		std::cerr << "File " << file << " does not exist " << std::endl;
 	}
+
 //	d.test();
 
 	index = 0;
@@ -71,13 +75,13 @@ void ClusterModuleExt::Tick() {
 
 	switch(cluster_method) {
 	default: case C_KMEANS: {
-		std::vector<float> & item = d.pop();
+		std::vector<value_t> & item = d.pop();
 		int D = item.size() - 1; // dimensionality of data samples (length of vector minus field for label)
 		std::cout << "Dimensionality is " << D << std::endl;
 
 		int K = predefined_clusters;
 		KMeans kmeans(K, D);
-		int S = d.size()-1; // # samples
+		int S = d.size(); // # samples
 		std::cout << "Load all " << S << " samples" << std::endl;
 		for (int s = 0; s < S; ++s) {
 			kmeans.addSample(item, item[D], D);
@@ -94,31 +98,39 @@ void ClusterModuleExt::Tick() {
 	}
 	break;
 	case C_EM_GMM: {
-		std::vector<float> & item = d.pop();
+		std::vector<value_t> & item = d.pop();
 		int D = item.size() - 1; // dimensionality of data samples (length of vector minus field for label)
 		std::cout << "Dimensionality is " << D << std::endl;
+		std::cout << "Item is ";
+		for (int i = 0; i < item.size(); ++i)
+			std::cout << item[i] << ' ';
+		std::cout << std::endl;
 
 		int K = predefined_clusters;
 		ExpectationMaximization expmax(K, D);
 
-		int S = d.size()-1; // # samples
-		S = 20;
+		int S = d.size(); // # samples
 		std::cout << "Load all " << S << " samples" << std::endl;
 		for (int s = 0; s < S; ++s) {
 			expmax.addSample(item, item[D], D);
 			item = d.pop();
 		}
 
-		int T = 3; // time span
-//		std::cout << "We will run for " << T << " time steps (progress shown by dots)" << std::endl;
-		for (int t = 0; t < T; ++t) {
-//			std::cout << '.'; flush(std::cout);
-			expmax.tick();
-			expmax.evaluate();
-		}
-//		std::cout << std::endl;
+//		expmax.test();
 
-//		expmax.evaluate();
+		int T = 30; // time span
+		std::cout << "We will run for " << T << " time steps (progress shown by dots)" << std::endl;
+		for (int t = 0; t < T; ++t) {
+			expmax.tick();
+//			if (!(t%10)) {
+//				std::cout << std::endl;
+				expmax.evaluate();
+//			}
+//			std::cout << '.'; flush(std::cout);
+		}
+		std::cout << std::endl;
+
+		expmax.evaluate();
 
 		expmax.print();
 

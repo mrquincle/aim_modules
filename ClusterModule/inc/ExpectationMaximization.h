@@ -31,6 +31,8 @@
 #include <cmath>
 #include <cassert>
 #include <cstdlib>
+#include <assert.hpp>
+#include <iomanip>
 
 /**
  * Let's use expectation-maximization for a Gaussian mixture model: P(x|\theta_i,p_k)=\sum_1^K w_k p(x|\theta_k). So,
@@ -67,6 +69,7 @@ public:
 		for (int k = 0; k < K; ++k) {
 			init(k, D);
 		}
+		initialized = false;
 	}
 
 	~ExpectationMaximization() {}
@@ -84,8 +87,22 @@ public:
 		labels.push_back(Pair(label));
 	}
 
+	void initAfterAllSamples() {
+		if (initialized) return;
+		size_t S = data_set.size();
+		probabilities.clear();
+		probabilities.resize(S);
+		for (int i = 0; i < S; ++i) {
+			probabilities[i].clear();
+			probabilities[i].resize(mixture_model.size());
+		}
+		initialized = true;
+	}
+
 	void tick() {
 		assert (mixture_model.size());
+
+		initAfterAllSamples();
 
 		calculate_probabilities();
 		for (int k = 0; k < mixture_model.size(); ++k) {
@@ -94,6 +111,10 @@ public:
 	}
 
 	void evaluate() {
+		for (int k = 0; k < mixture_model.size(); ++k) {
+			mixture_model[k].r_data.clear();
+		}
+
 		for (int i = 0; i < data_set.size(); ++i) {
 			labels[i].prediction = generated_by(i);
 		}
@@ -142,11 +163,30 @@ public:
 		}
 
 		// print means
-		for (int k = 0; k < mixture_model.size(); ++k) {
-			std::cout << "Mean of model " << k << ": " << mixture_model[k].mean.transpose() << std::endl;
-		}
+//		for (int k = 0; k < mixture_model.size(); ++k) {
+//			std::cout << "Mean of model " << k << ": " << mixture_model[k].mean.transpose() << std::endl;
+//		}
 	}
 
+	void test() {
+		int dim = 2;
+		vector_t mean(dim);
+		for (int j = 0; j < dim; j++) {
+			mean[j] = 0;
+		}
+		for (int i = 0; i < 1000; i++) {
+			vector_t x(dim);
+			for (int j = 0; j < dim; j++) {
+				x[j] = drand48() * 4 -2;
+			}
+			matrix_t covariance = matrix_t::Identity(dim,dim);
+			value_t result = gaussian_kernel(x, mean, covariance);
+			for (int j = 0; j < dim; j++) {
+				std::cout << x[j] << ',';
+			}
+			std::cout << result << std::endl;
+		}
+	}
 
 protected:
 
@@ -154,13 +194,16 @@ protected:
 	void init(int k, int d) {
 		assert (mixture_model.size());
 		mixture_model[k].r_data.clear();
-
-//		int pick = rand() % data_set.size();
-//		mixture_model[k].mean = data_set[pick];
 		mixture_model[k].mean.setRandom(d);
 		mixture_model[k].mean = (mixture_model[k].mean.array() + 1) / 2;
 
+//		for (int i = 0; i < 3; i++) {
+//			mixture_model[k].mean[i] = 0;
+//		}
+//		mixture_model[k].mean[k%3] = 1;
+
 		mixture_model[k].covariance = matrix_t::Identity(d, d);
+		mixture_model[k].covariance *= 0.1;
 		assert (mixture_model.size() != 0);
 		mixture_model[k].weight = 1.0/mixture_model.size();
 	}
@@ -173,18 +216,32 @@ protected:
 	 * Returns a scalar
 	 */
 	value_t gaussian_kernel(const vector_t & x, const vector_t & mean, const matrix_t & covariance) {
-		value_t det = covariance.determinant();
-		if (!(det >= 0)) {
-			std::cout << "Determinant of a covariance matrix should be positive " << det << std::endl;
-			det = fabs(det);
-		}
-		value_t sq = std::pow(2*M_PI,mean.size()) * det ;
-		assert (sq >= 0);
+		value_t det = fabs(covariance.determinant());
+		assert (det >= 0.0);
+		assert (mean.size());
+		value_t sq = std::pow(2.0*M_PI,mean.size()) * det ;
+		assert (sq >= 0.0);
 		value_t factor = std::sqrt( sq );
-		assert (factor != 0);
+#ifdef VERBOSE
+		std::cout << "Multiply by " << (value_t(1)/factor) << " which is 1/sqrt(" << std::pow(2.0*M_PI,mean.size())
+		<< "*" << det << ")" << std::endl;
+#endif
 
-		return (value_t(1)/factor) *
+		value_t result = (value_t(1)/factor) *
 				std::exp( (value_t)((x-mean).transpose() * covariance.inverse() * (x-mean)) * value_t(-0.5) );
+
+#ifdef VERBOSE
+		std::cout << "Gaussian distance between" << mean.transpose() << " and data " << x.transpose() <<
+				" is " << result << std::endl;
+#endif
+
+		if ((result != result) || (result > 1000)) {
+#ifdef VERBOSE
+			std::cout << "Return 2 as large number" << std::endl;
+#endif
+			return 1000;
+		}
+		return result;
 	}
 
 	/**
@@ -193,86 +250,134 @@ protected:
 	 */
 	void generated_by(int i, std::vector<value_t> &clusters) {
 		assert (i < data_set.size());
-		clusters.clear();
-		clusters.resize(mixture_model.size());
 
 		// calculate the contribution to "i" for every model
 		for (int m = 0; m < mixture_model.size(); ++m) {
+//			std::cout << "Covariance: " << std::endl << mixture_model[m].covariance << std::endl;
 			clusters[m] = mixture_model[m].weight *
 					gaussian_kernel(data_set[i], mixture_model[m].mean, mixture_model[m].covariance);
-		}
 
-		// and compare that with model "k"
-//		value_t result = (mixture_model[k].weight *
-//				gaussian_kernel(data_set[i], mixture_model[k].mean, mixture_model[k].covariance)) / sum;
-//		std::cout << "Generated " << i << " by cluster " << k << " with prob " << result << std::endl;
-//		return result;
+//			std::cout << "Generated " << i << " by cluster " << m << " as " << clusters[m] <<
+//					" from weight " << mixture_model[m].weight <<
+//					std::endl;
+		}
 	}
 
+
 	void calculate_probabilities() {
-		probabilities.clear();
-		probabilities.resize(data_set.size());
+#ifdef VERBOSE
+		std::cout << "---------------------------------------------------" << std::endl;
+		for (int k = 0; k < mixture_model.size(); ++k) {
+			std::cout << "Calculate for cluster " << k << std::endl;
+			std::cout << "Weight " << mixture_model[k].weight << std::endl;
+			std::cout << "Mean " << mixture_model[k].mean.transpose() << std::endl;
+			std::cout << "Covariance " << std::endl << mixture_model[k].covariance << std::endl;
+			std::cout << " with determinant " << mixture_model[k].covariance.determinant() << std::endl;
+		}
+#endif
 		for (int i = 0; i < probabilities.size(); ++i) {
 			generated_by(i, probabilities[i]);
 		}
 
 		for (int i = 0; i < probabilities.size(); ++i) {
-			value_t sum(0);
+			value_t sum = 0;
+			ASSERT_EQ(mixture_model.size(), probabilities[i].size());
 			for (int k = 0; k < probabilities[i].size(); ++k) {
 				sum += probabilities[i][k];
 			}
 			if (sum != 0) {
 				for (int k = 0; k < probabilities[i].size(); ++k) {
 					probabilities[i][k] = probabilities[i][k] / sum;
-					assert (probabilities[i][k] <= 1.0);
-					assert (probabilities[i][k] >= 0.0);
+					ASSERT_LEQ(probabilities[i][k], 1.0);
+					ASSERT_GEQ(probabilities[i][k], 0.0);
 				}
+#ifdef EXCESSIVE_TESTS
+				sum = 0;
+				for (int k = 0; k < probabilities[i].size(); ++k) {
+					sum += probabilities[i][k];
+				}
+				ASSERT_ALMOST_EQ(sum, 1, 0.01);
+#endif
 			}
-		}
 
+#ifdef VERBOSE
+			std::cout << "Calculated probability of " << data_set[i].transpose() << " (for cluster k=[0..." << probabilities[i].size()-1 << "]): [ ";
+			for (int k = 0; k < probabilities[i].size(); ++k) {
+				std::cout << std::setw(4) << std::fixed << std::setprecision(3) << probabilities[i][k] << ' ';
+			}
+			std::cout << ']' << std::endl;
+#endif
+		}
 	}
 
 	int generated_by(int i) {
-		int k = 0, k_min = 0;
-		value_t min = probabilities[i][k];
+		int k = 0, k_max = 0;
+		value_t max = probabilities[i][k];
 		for (k = 1; k < probabilities[i].size(); ++k) {
-			if (probabilities[i][k] < min) {
-				min = probabilities[i][k];
-				k_min = k;
+			if (probabilities[i][k] > max) {
+				max = probabilities[i][k];
+				k_max = k;
 			}
 		}
-		mixture_model[k_min].r_data.push_back(i);
-		return k_min;
+		mixture_model[k_max].r_data.push_back(i);
+		return k_max;
 	}
 
+	/**
+	 * Calculate for cluster k the new weight, mean, and covariance.
+	 */
 	void calculate(int k) {
-//		std::cout << "Calculate cluster " << k << std::endl;
+		assert (data_set.size() != 0);
+
 		value_t sum_w = 0;
-		// check if default construction goes well for vector/matrix
 		size_t d = data_set[0].size();
+//		size_t d = probabilities.size();
 		vector_t sum_mu(d);
 		matrix_t sum_sigma(d,d);
 
 		sum_mu.setZero();
 		sum_sigma.setZero();
+#ifdef TWEAK
+		sum_sigma.setIdentity();
+		sum_sigma *= 0.1;
+#endif
 
 		for (int i = 0; i < data_set.size(); ++i) {
 			sum_w += probabilities[i][k];
-			sum_mu += probabilities[i][k]*data_set[i];
+			sum_mu += (probabilities[i][k]*data_set[i]);
 		}
-		assert (data_set.size() != 0);
-		mixture_model[k].weight = sum_w / data_set.size();
-		assert (sum_w != 0);
-		mixture_model[k].mean = sum_mu / sum_w;
+
+#ifdef VERBOSE
+		std::cout << "Weight becomes: " << sum_w << " / " << data_set.size() << std::endl;
+#endif
+		mixture_model[k].weight = sum_w / (value_t)data_set.size();
+
+#ifdef TWEAK
+		value_t threshold = 1.0/(mixture_model.size() * 10);
+		if (mixture_model[k].weight < threshold) {
+			mixture_model[k].weight = threshold;
+		}
+#endif
+
+		if (sum_w != 0) {
+			mixture_model[k].mean = sum_mu / sum_w;
+		} else {
+			mixture_model[k].mean = sum_mu;
+		}
 
 		for (int i = 0; i < data_set.size(); ++i) {
-			assert (probabilities[i][k] >= 0);
-			matrix_t m = (data_set[i] - mixture_model[k].mean)*(data_set[i] - mixture_model[k].mean).transpose();
-			assert (m.determinant() == 0);
-			sum_sigma += m * probabilities[i][k];
+			ASSERT_LEQ(probabilities[i][k], 1.0);
+			ASSERT_GEQ(probabilities[i][k], 0.0);
+			matrix_t m = (data_set[i] - mixture_model[k].mean) * (data_set[i] - mixture_model[k].mean).transpose();
+			sum_sigma += (m * probabilities[i][k]);
 		}
 
-		std::cout << "Cluster " << k << " weight: " << mixture_model[k].weight << ", sum of prob " << sum_w << std::endl;
+		if (sum_w != 0) {
+			mixture_model[k].covariance = sum_sigma / sum_w;
+		} else {
+			mixture_model[k].covariance = sum_sigma;
+		}
+
 	}
 
 
@@ -282,14 +387,19 @@ protected:
 	}
 
 private:
+	// there are K clusters, in this case a "mixture of k models"
 	std::vector<Gaussian> mixture_model;
 
+	// the data set
 	std::vector<vector_t> data_set;
 
+	// storing the labels to check later what matches
 	std::vector<Pair> labels;
 
+	//! Per data item store the probability that it belongs to a given cluster k
 	std::vector<std::vector<value_t> > probabilities;
 
+	bool initialized;
 };
 
 
