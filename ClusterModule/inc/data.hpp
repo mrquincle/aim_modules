@@ -32,6 +32,7 @@ struct comma_ws: std::ctype<char> {
 	static const mask* make_table() {
 		static std::vector<mask> v(classic_table(), classic_table() + table_size);
 		v[','] |= space;  // comma will be classified as whitespace
+		v[' '] |= space;  // space will also be classified as whitespace
 		v['.'] &= ~space; // dot is nothing
 		return &v[0];
 	}
@@ -97,7 +98,8 @@ private:
 			std::vector<T> t;
 			ss.imbue(std::locale(std::locale(), new comma_ws));
 			std::copy(std::istream_iterator<T>(ss), std::istream_iterator<T>(), std::back_inserter(t));
-			d.set.push_back(t);
+			if (!t.empty())
+				d.set.push_back(t);
 		}
 		return in;
 	}

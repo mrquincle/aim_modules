@@ -34,6 +34,8 @@
 #include <assert.hpp>
 #include <iomanip>
 
+#include <map>
+
 /**
  * Let's use expectation-maximization for a Gaussian mixture model: P(x|\theta_i,p_k)=\sum_1^K w_k p(x|\theta_k). So,
  * the latter term is Gaussian p(x|\theta_k) = p(x|\mu_k,\Sigma_k), in the usual exponential form.
@@ -80,7 +82,7 @@ public:
 	 */
 	void addSample(std::vector<value_t> & x, size_t label, size_t size = 0) {
 		if (!size) size = x.size();
-		assert (size <= x.size());
+		ASSERT_LEQ(size, x.size());
 		vector_t v(size); v.setZero();
 		v = vector_t::Map(x.data(), size, 1); // create column-vector
 		data_set.push_back(v);
@@ -144,28 +146,37 @@ public:
 
 	void print() {
 		// print clusters
-		for (int k = 0; k < mixture_model.size(); ++k) {
-			std::set<size_t> l;
-			l.clear();
-			for (int i = 0; i < mixture_model[k].r_data.size(); ++i) {
-				l.insert(labels[mixture_model[k].r_data[i]].ground_truth);
-			}
-			std::cout << "Cluster " << k << " corresponds with ";
-			if (l.size()) {
-				std::set<size_t>::iterator iter;
-				for (iter = l.begin(); iter != l.end(); ++iter) {
-					std::cout << *iter << " ";
-				}
-			} else {
-				std::cout << "nothing";
+		std::vector< std::vector <size_t> > lab;
+		lab.resize(mixture_model.size());
+		for (int i = 0; i < mixture_model.size(); ++i) {
+			lab[i].resize(mixture_model.size());
+		}
+
+		for (int l = 0; l < labels.size(); ++l) {
+			assert (labels[l].ground_truth-1 >= 0);
+			assert (labels[l].ground_truth-1 < mixture_model.size());
+			lab[labels[l].ground_truth-1][labels[l].prediction]++;
+		}
+
+		std::cout << "Create label matrix of ground truth x prediction (" << mixture_model.size() << "x" << mixture_model.size()
+				<< ")" << std::endl;
+		for (int i = 0; i < lab.size(); ++i) {
+			std::cout << "label " << i << ": ";
+			for (int j = 0; j < lab[i].size(); ++j) {
+				std::cout << std::setw(3) << std::fixed << lab[i][j] << ' ';
 			}
 			std::cout << std::endl;
 		}
 
-		// print means
-//		for (int k = 0; k < mixture_model.size(); ++k) {
-//			std::cout << "Mean of model " << k << ": " << mixture_model[k].mean.transpose() << std::endl;
-//		}
+		std::cout << "Final weights of mixture models: ";
+		for (int k = 0; k < mixture_model.size(); ++k) {
+			std::cout << mixture_model[k].weight << ' ';
+		}
+		std::cout << std::endl;
+
+		for (int k = 0; k < mixture_model.size(); ++k) {
+			std::cout << "Mean of model " << k << ": " << mixture_model[k].mean.transpose() << std::endl;
+		}
 	}
 
 	void test() {
@@ -214,6 +225,9 @@ protected:
 	 *   f(x_1,...x_d) = 1/(sqrt((2*PI)^d |\Sigma| )) * exp( -1/2 * (x-\mu)' \Sigma^-1 (x-\mu ) )
 	 *
 	 * Returns a scalar
+	 *
+	 * @todo: Test this function for a covariance matrix with a determinant of zero. And for a vector x that is exactly equal to the
+	 * mean.
 	 */
 	value_t gaussian_kernel(const vector_t & x, const vector_t & mean, const matrix_t & covariance) {
 		value_t det = fabs(covariance.determinant());
@@ -235,9 +249,10 @@ protected:
 				" is " << result << std::endl;
 #endif
 
-		if ((result != result) || (result > 1000)) {
+		int large_number = 1000;
+		if ((result != result) || (result > large_number)) {
 #ifdef VERBOSE
-			std::cout << "Return 2 as large number" << std::endl;
+			std::cout << "Return " << large_number << " as large number" << std::endl;
 #endif
 			return 1000;
 		}

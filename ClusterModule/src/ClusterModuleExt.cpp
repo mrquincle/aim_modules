@@ -35,21 +35,31 @@ enum DataSet { D_ABALONE, D_GAUSSIAN, D_IRIS, NUMBER_OF_DATASETS };
 void ClusterModuleExt::Init(std::string& name) {
 	std::ifstream f;
 	DataSet dataset;
-	dataset = D_ABALONE;
-//	dataset = D_GAUSSIAN;
+//	dataset = D_ABALONE;
+	dataset = D_GAUSSIAN;
+	dataset = D_IRIS;
 	std::string file = "";
 	switch (dataset) {
 	case D_ABALONE: {
 		file = "../../data/abalone3.data";
 		// obtained # of clusters by $(cat ../../data/abalone3.data | cut -f11 -d',' | sort -n | uniq | wc -l)
 		predefined_clusters = 28;
-	}
+
+		file = "../../data/abalone4.data";
+		// obtained # of clusters by $(cat ../../data/abalone4.data | cut -f11 -d',' | sort -n | uniq | wc -l)
+		predefined_clusters = 3;
+}
 	break;
 	case D_GAUSSIAN: default: {
 		file = "../../data/gaussian3d1.data";
 		predefined_clusters = 3;
 //		file = "../../data/gaussian1.data";
 //		predefined_clusters = 2;
+	}
+	break;
+	case D_IRIS: {
+		file = "../../data/iris2.data";
+		predefined_clusters = 3;
 	}
 	break;
 	}
@@ -118,7 +128,7 @@ void ClusterModuleExt::Tick() {
 
 //		expmax.test();
 
-		int T = 30; // time span
+		int T = 60; // time span
 		std::cout << "We will run for " << T << " time steps (progress shown by dots)" << std::endl;
 		for (int t = 0; t < T; ++t) {
 			expmax.tick();
