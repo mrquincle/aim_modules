@@ -57,9 +57,17 @@ public:
 		std::vector<size_t> r_data;
 	};
 
-	KMeans(int K, int D) {
-		srand(time(NULL));
+	unsigned long long rdtsc(){
+	    unsigned int lo,hi;
+	    __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+	    return ((unsigned long long)hi << 32) | lo;
+	}
 
+	KMeans(int K, int D) {
+		long int seed = rdtsc();
+		// seed = 58564383378988; gives 0.8737
+		std::cout << "Use seed " << seed << std::endl;
+		srand(seed);
 		clusters.resize(K);
 		for (int k = 0; k < K; ++k) {
 			init(k, D);

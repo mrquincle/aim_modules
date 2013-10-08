@@ -35,9 +35,9 @@ enum DataSet { D_ABALONE, D_GAUSSIAN, D_IRIS, NUMBER_OF_DATASETS };
 void ClusterModuleExt::Init(std::string& name) {
 	std::ifstream f;
 	DataSet dataset;
-//	dataset = D_ABALONE;
-	dataset = D_GAUSSIAN;
-	dataset = D_IRIS;
+	dataset = D_ABALONE;
+//	dataset = D_GAUSSIAN;
+	//	dataset = D_IRIS;
 	std::string file = "";
 	switch (dataset) {
 	case D_ABALONE: {
@@ -46,15 +46,16 @@ void ClusterModuleExt::Init(std::string& name) {
 		predefined_clusters = 28;
 
 		file = "../../data/abalone4.data";
-		// obtained # of clusters by $(cat ../../data/abalone4.data | cut -f11 -d',' | sort -n | uniq | wc -l)
+//		 obtained # of clusters by $(cat ../../data/abalone4.data | cut -f11 -d',' | sort -n | uniq | wc -l)
 		predefined_clusters = 3;
-}
+	}
 	break;
 	case D_GAUSSIAN: default: {
 		file = "../../data/gaussian3d1.data";
 		predefined_clusters = 3;
-//		file = "../../data/gaussian1.data";
-//		predefined_clusters = 2;
+
+		file = "../../data/gaussian1.data";
+		predefined_clusters = 2;
 	}
 	break;
 	case D_IRIS: {
@@ -71,13 +72,14 @@ void ClusterModuleExt::Init(std::string& name) {
 		std::cerr << "File " << file << " does not exist " << std::endl;
 	}
 
-//	d.test();
+	//	d.test();
 
 	index = 0;
 
 	stop = false;
 
-	cluster_method = C_EM_GMM;
+	//	cluster_method = C_EM_GMM;
+	cluster_method = C_KMEANS;
 }
 
 //! Replace with your own functionality
@@ -126,23 +128,23 @@ void ClusterModuleExt::Tick() {
 			item = d.pop();
 		}
 
-//		expmax.test();
+		expmax.init();
 
-		int T = 60; // time span
+		int T = 20; // time span
 		std::cout << "We will run for " << T << " time steps (progress shown by dots)" << std::endl;
 		for (int t = 0; t < T; ++t) {
 			expmax.tick();
-//			if (!(t%10)) {
-//				std::cout << std::endl;
-				expmax.evaluate();
-//			}
-//			std::cout << '.'; flush(std::cout);
+			//			if (!(t%10)) {
+			//				std::cout << std::endl;
+			//				expmax.evaluate();
+			//			}
+			//			std::cout << '.'; flush(std::cout);
 		}
 		std::cout << std::endl;
 
 		expmax.evaluate();
 
-		expmax.print();
+		//		expmax.print();
 
 	}
 	break;

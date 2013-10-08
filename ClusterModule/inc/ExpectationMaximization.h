@@ -64,8 +64,17 @@ public:
 		std::vector<size_t> r_data;
 	};
 
+	unsigned long long rdtsc(){
+	    unsigned int lo,hi;
+	    __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+	    return ((unsigned long long)hi << 32) | lo;
+	}
+
 	ExpectationMaximization(int K, int D) {
-		srand(time(NULL));
+		long int seed = rdtsc();
+
+		std::cout << "Use seed " << seed << std::endl;
+		srand(seed);
 
 		mixture_model.resize(K);
 		for (int k = 0; k < K; ++k) {
@@ -89,8 +98,11 @@ public:
 		labels.push_back(Pair(label));
 	}
 
-	void initAfterAllSamples() {
-		if (initialized) return;
+	void init() {
+		if (initialized) {
+			std::cerr << "Already initialized. Not doing it again." << std::endl;
+			return;
+		}
 		size_t S = data_set.size();
 		probabilities.clear();
 		probabilities.resize(S);
@@ -104,7 +116,10 @@ public:
 	void tick() {
 		assert (mixture_model.size());
 
-		initAfterAllSamples();
+		if (!initialized) {
+			std::cerr << "Not yet initialized, skip clustering step." << std::endl;
+			return;
+		}
 
 		calculate_probabilities();
 		for (int k = 0; k < mixture_model.size(); ++k) {
