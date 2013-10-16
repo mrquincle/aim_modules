@@ -76,7 +76,10 @@ struct Point2D: Point {
 	}
 };
 
-struct ISize: Point2D { };
+struct ISize: Point2D {
+	ISize(int width, int height): Point2D(width,height) {};
+	ISize() {};
+};
 
 /**
  * The definition of a segment is a bit filthy. It does only except templates which are subsequently used in the form

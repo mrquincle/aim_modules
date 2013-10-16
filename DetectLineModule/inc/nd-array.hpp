@@ -25,7 +25,8 @@
 
 #include <vector>
 #include <sstream>
-#include <cassert>
+
+#include <dim1algebra.hpp>
 
 // error messages
 #include <iostream>
@@ -92,7 +93,7 @@ public:
 			if ((new_size / dimensions[i]) != tsize) {
 				std::cerr << "Size " << size() << " exceeds maximum size (" << std::numeric_limits<T>::max()
 						<< ") of the container, adjust template parameter T" << std::endl;
-				assert((new_size / dimensions[i]) == tsize);
+				ASSERT_EQ((new_size / dimensions[i]), tsize);
 			}
 			tsize = new_size;
 		}
@@ -176,7 +177,7 @@ public:
 	void set(linear_index index0, linear_index index1, value_type value) {
 		assert (dimensions.size() == 2);
 		assert (index0 < dimensions[0]);
-		assert (index1 < dimensions[1]);
+		ASSERT_LT (index1, dimensions[1]);
 		linear_index i = index0 + index1 * dimensions[0];
 		values[i] = value;
 	}
@@ -185,7 +186,7 @@ public:
 	void add(linear_index index0, linear_index index1, value_type amount) {
 		assert (dimensions.size() == 2);
 		assert (index0 < dimensions[0]);
-		assert (index1 < dimensions[1]);
+		ASSERT_LT (index1, dimensions[1]);
 		linear_index i = index0 + index1 * dimensions[0];
 		values[i] += amount;
 	}
@@ -194,7 +195,7 @@ public:
 	void set(linear_index index0, linear_index index1, linear_index index2, value_type value) {
 		assert (dimensions.size() == 3);
 		assert (index0 < dimensions[0]);
-		assert (index1 < dimensions[1]);
+		ASSERT_LT (index1, dimensions[1]);
 		assert (index2 < dimensions[2]);
 		linear_index i = index0 + index1 * dimensions[0] + index2 * dimensions[0] * dimensions[1];
 		values[i] = value;
@@ -256,7 +257,7 @@ public:
 	value_type & get(linear_index index0, linear_index index1) {
 		assert (dimensions.size() == 2);
 		assert (index0 < dimensions[0]);
-		assert (index1 < dimensions[1]);
+		ASSERT_LT (index1, dimensions[1]);
 		linear_index i = index0 + index1 * dimensions[0];
 		return values[i];
 	}

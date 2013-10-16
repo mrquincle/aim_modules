@@ -32,7 +32,6 @@
 #include <Accumulator.h>
 #include <HoughDefs.h>
 #include <Random.h>
-#include <Containers.hpp>
 
 namespace dobots {
 
@@ -47,26 +46,39 @@ public:
 	typedef nd_array < std::vector<P*>,short > pointcloud;
 
 	//! Default constructor expects image points in size of 640x480 and uses a Hough space of size 100x100
-	Hough(): type(RANDOMIZED_HOUGH) {
-		std::cout << "Use standard constructor for Hough transform" << std::endl;
-		clear();
-		ASize size;
-		size.x = ACCUMULATOR_SIZE_X; // ACCUMULATOR_DATA_TYPE
-		size.y = ACCUMULATOR_SIZE_Y;
-		input_size.x = 640;
-		input_size.y = 480;
-		max_distance = std::sqrt(input_size.x*input_size.x + input_size.y*input_size.y);
-		accumulator = new Accumulator<P>(size);
-		use_cells = true;
-		use_random_patch_picker = false;
-	}
+//	Hough(): type(RANDOMIZED_HOUGH) {
+//		std::cout << "Use standard constructor for Hough transform" << std::endl;
+//		clear();
+//		ASize size;
+//		size.x = ACCUMULATOR_SIZE_X; // ACCUMULATOR_DATA_TYPE
+//		size.y = ACCUMULATOR_SIZE_Y;
+//		input_size.x = 640;
+//		input_size.y = 480;
+//		max_distance = std::sqrt(input_size.x*input_size.x + input_size.y*input_size.y);
+//		accumulator = new Accumulator<P>(size);
+//		use_cells = true;
+//		use_random_patch_picker = false;
+//	}
 
 	//! Constructor with non-standard size for the Hough space
-	Hough(ISize input_size, ASize hough_space_size): type(RANDOMIZED_HOUGH) {
+	Hough(const ISize input_size, const ASize hough_space_size): type(RANDOMIZED_HOUGH) {
 		clear();
 		this->input_size = input_size;
 		max_distance = std::sqrt(input_size.x*input_size.x + input_size.y*input_size.y);
 		accumulator = new Accumulator<P>(hough_space_size);
+		use_cells = true;
+		use_random_patch_picker = false;
+	}
+
+	//! Constructor with standard size for the Hough space
+	Hough(const ISize input_size): type(RANDOMIZED_HOUGH) {
+		clear();
+		ASize size;
+		size.x = ACCUMULATOR_SIZE_X; // ACCUMULATOR_DATA_TYPE
+		size.y = ACCUMULATOR_SIZE_Y;
+		this->input_size = input_size;
+		max_distance = std::sqrt(input_size.x*input_size.x + input_size.y*input_size.y);
+		accumulator = new Accumulator<P>(size);
 		use_cells = true;
 		use_random_patch_picker = false;
 	}

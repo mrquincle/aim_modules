@@ -73,6 +73,8 @@ static const std::string SegmentationDescription[] = { "all points", "longest li
  */
 class DetectLineModuleExt: public DetectLineModule {
 public:
+	enum DataItem { DI_LINE, DI_SQUARE, DI_PENTAGON, DI_BOOKS, NUMBER_OF_DATA_ITEMS };
+
 	//! Use the nd-array also for the point cloud
 	typedef nd_array < std::vector<DecPoint*>,short > pointcloud;
 
@@ -115,7 +117,7 @@ public:
 	//! Plot the segments using values in the accumulator
 	void plotSegments();
 private:
-	dobots::Hough<DecPoint> hough;
+	dobots::Hough<DecPoint> *hough;
 
 	//! Flag stops program
 	bool stop;
@@ -132,6 +134,9 @@ private:
 	//! Final set of segments, segments store their points by reference
 	std::vector<Segment2D<DecPoint> > segments;
 
+	DataItem data_item;
+
+	Patch default_patch;
 };
 
 }

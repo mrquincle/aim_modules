@@ -38,7 +38,7 @@ namespace {
 class HoughTest : public ::testing::Test {
   protected:
 
-    HoughTest() {
+    HoughTest(): hough(ISize(640,480)) {
         // Class setup
     }
 

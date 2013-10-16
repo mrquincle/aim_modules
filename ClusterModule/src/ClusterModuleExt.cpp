@@ -45,9 +45,9 @@ void ClusterModuleExt::Init(std::string& name) {
 		// obtained # of clusters by $(cat ../../data/abalone3.data | cut -f11 -d',' | sort -n | uniq | wc -l)
 		predefined_clusters = 28;
 
-		file = "../../data/abalone4.data";
+//		file = "../../data/abalone4.data";
 //		 obtained # of clusters by $(cat ../../data/abalone4.data | cut -f11 -d',' | sort -n | uniq | wc -l)
-		predefined_clusters = 3;
+//		predefined_clusters = 3;
 	}
 	break;
 	case D_GAUSSIAN: default: {
@@ -93,12 +93,20 @@ void ClusterModuleExt::Tick() {
 
 		int K = predefined_clusters;
 		KMeans kmeans(K, D);
+
+//		kmeans.test();
+//		stop = true;
+//		return;
+
 		int S = d.size(); // # samples
 		std::cout << "Load all " << S << " samples" << std::endl;
 		for (int s = 0; s < S; ++s) {
 			kmeans.addSample(item, item[D], D);
 			item = d.pop();
 		}
+
+		kmeans.init();
+
 		int T = 400; // time span
 		for (int t = 0; t < T; ++t) {
 			if (!(t%10)) std::cout << '.'; flush(std::cout);

@@ -27,6 +27,10 @@
 #ifndef ASSERT_HPP_
 #define ASSERT_HPP_
 
+#define ENABLE_ASSERTS 1
+
+#if ENABLE_ASSERTS == 1
+
 //! Helper function for printing asserts
 #define ASSERT(condition) { \
 	if(!(condition)){ \
@@ -86,6 +90,18 @@
 		assert(x >= y); \
 	}
 
+#else
+
+#define ASSERT(condition)
+#define ASSERT_EQ(x,y)
+#define ASSERT_ALMOST_EQ(x,y,margin)
+#define ASSERT_NEQ(x,y)
+#define ASSERT_LT(x,y)
+#define ASSERT_LEQ(x,y)
+#define ASSERT_GT(x,y)
+#define ASSERT_GEQ(x,y)
+
+#endif
 
 
 #endif /* ASSERT_HPP_ */

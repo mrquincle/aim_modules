@@ -32,20 +32,14 @@
 using namespace rur;
 using namespace dobots;
 
-const int IMG_WIDTH = 640;
-const int IMG_HEIGHT = 480;
-
 //! Adjust these figures, make sure patch width times number of patches unequivocally matches the entire width
-const int NR_PATCHES_WIDTH = 10;
-const int NR_PATCHES_HEIGHT = 10;
-
-const int PATCH_WIDTH = IMG_WIDTH/NR_PATCHES_WIDTH;
-const int PATCH_HEIGHT = IMG_HEIGHT/NR_PATCHES_HEIGHT;
+const int NR_PATCHES_WIDTH = 16;
+const int NR_PATCHES_HEIGHT = 16;
 
 const int TOTAL_TICK_COUNT = 10000;
 
 // threshold is now at at least 1 percent of the total number of points
-const int HIT_THRESHOLD = TOTAL_TICK_COUNT / 100;
+const int HIT_THRESHOLD = TOTAL_TICK_COUNT / 1000;
 
 const float SKEW_THRESHOLD = 0.9; // requires at least 10 points
 const int MATCH_NEIGHBOURHOOD_DEVIATION = 15;
@@ -53,20 +47,28 @@ const int MATCH_NEIGHBOURHOOD_DEVIATION = 15;
 //static int DEBUG_DECPOINT_INDEX = 0;
 
 DecPoint::DecPoint(): Point2D(), skew(0), match(NULL) {
-//	index = ++DEBUG_DECPOINT_INDEX;
-//	if (index > 800)
-//		std::cout << "Create point " << index << std::endl;
+	//	index = ++DEBUG_DECPOINT_INDEX;
+	//	if (index > 800)
+	//		std::cout << "Create point " << index << std::endl;
 }
 
 DecPoint::DecPoint(int x, int y): Point2D(x,y), skew(0), match(NULL) {
-//	index = ++DEBUG_DECPOINT_INDEX;
-//	if (index > 800)
-//		std::cout << "Create point " << index << std::endl;
+	//	index = ++DEBUG_DECPOINT_INDEX;
+	//	if (index > 800)
+	//		std::cout << "Create point " << index << std::endl;
 }
 
 DetectLineModuleExt::DetectLineModuleExt(): DetectLineModule(), tick(0), stop(false), image(NULL),
-		segmentation(GLUE_POINTS) {
+		segmentation(), data_item(), hough(NULL) {
 
+	data_item = DI_PENTAGON;
+//	data_item = DI_SQUARE;
+//	data_item = DI_BOOKS;
+
+
+	segmentation = GLUE_POINTS;
+	segmentation = ALL_POINTS;
+//	segmentation = LONGEST_LINE;
 }
 
 DetectLineModuleExt::~DetectLineModuleExt() {
@@ -79,17 +81,21 @@ DetectLineModuleExt::~DetectLineModuleExt() {
  * other's proximity.
  */
 void DetectLineModuleExt::loadImage(std::string file, std::vector<Point2D> & points) {
-	image = new CRawImage(IMG_WIDTH,IMG_HEIGHT,1);
+	image = new CRawImage(640,480,1);
 	if (!image->loadBmp(file.c_str())) {
 		std::cerr << "Failed to open file " << file << std::endl;
 		return;
+	}
+	if (!image->isMonochrome()) {
+		std::cout << "Make monochrome" << std::endl;
+		image->makeMonochrome();
 	}
 	image->saveBmp("test.bmp");
 
 	// add all points to linear array of points, skipping the margins which are most often just artifacts
 	int margin = 2;
-	for (int i = margin; i < (IMG_WIDTH - margin); ++i) {
-		for (int j = margin; j < (IMG_HEIGHT - margin); ++j) {
+	for (int i = margin; i < (image->getwidth() - margin); ++i) {
+		for (int j = margin; j < (image->getheight() - margin); ++j) {
 			if (image->getValue(i,j) > 0) {
 				points.push_back(Point2D(i,j));
 			}
@@ -104,33 +110,37 @@ void DetectLineModuleExt::loadImage(std::string file, std::vector<Point2D> & poi
  * physical 3D location.
  */
 void DetectLineModuleExt::loadImage(std::string file, pointcloud & spatial_points) {
-	image = new CRawImage(IMG_WIDTH,IMG_HEIGHT,1);
+	image = new CRawImage(640,480,1);
 	if (!image->loadBmp(file.c_str())) {
 		std::cerr << "Failed to open file " << file << std::endl;
 		return;
 	}
-	image->saveBmp("test.bmp");
+	if (!image->isMonochrome()) {
+		std::cout << "Make monochrome" << std::endl;
+		image->makeMonochrome();
+	}
+	image->saveBmp("copyofimage.bmp");
 
 	assert (spatial_points.get_dimensions() == 2);
 
-	Patch patch;
-	patch.width = IMG_WIDTH / spatial_points.get_dimension(0);
-	patch.height = IMG_HEIGHT / spatial_points.get_dimension(1);
-	std::cout << "Patch size is " << patch.width << "x" << patch.height << std::endl;
+	default_patch.width = image->getwidth() / spatial_points.get_dimension(0);
+	default_patch.height = image->getheight() / spatial_points.get_dimension(1);
+	std::cout << "Patch size is " << default_patch.width << "x" << default_patch.height << std::endl;
 
-	assert(patch.width == PATCH_WIDTH);
-	assert(patch.height == PATCH_HEIGHT);
+	std::cout << "Make sure the image can be neatly divided into patches, or adjust NR_PATCHES_*" << std::endl;
+	assert(default_patch.width * spatial_points.get_dimension(0) == image->getwidth());
+	assert(default_patch.height * spatial_points.get_dimension(1) == image->getheight());
 
 	// loop over all patches
 	for (int x = 0; x != NR_PATCHES_WIDTH; ++x) {
 		for (int y = 0; y != NR_PATCHES_HEIGHT; ++y) {
-			//			std::cout << "Get patch at " << x << "x" << y << std::endl;
+//			std::cout << "Get patch at " << x << "x" << y << std::endl;
 			std::vector<DecPoint*> & v = spatial_points.get(x,y);
 			v.clear();
-			for (int i = 0; i < PATCH_WIDTH; ++i) {
-				int xi = x * PATCH_WIDTH + i;
-				for (int j = 0; j < PATCH_HEIGHT; ++j) {
-					int yj = y * PATCH_HEIGHT + j;
+			for (int i = 0; i < default_patch.width; ++i) {
+				int xi = x * default_patch.width + i;
+				for (int j = 0; j < default_patch.height; ++j) {
+					int yj = y * default_patch.height + j;
 					//					std::cout << "Get value at " << xi << "x" << yj << std::endl;
 					if (image->getValue(xi,yj) > 0) {
 						v.push_back(new DecPoint(xi,yj));
@@ -164,15 +174,30 @@ void DetectLineModuleExt::Init(std::string & name) {
 	dimensions.push_back(NR_PATCHES_WIDTH);
 	dimensions.push_back(NR_PATCHES_HEIGHT);
 	pointcloud cloud(dimensions);
-	loadImage("../data/square.bmp", cloud);
-	hough.addPoints(cloud);
+	switch (data_item) {
+	case DI_SQUARE: default:
+		loadImage("../data/square.bmp", cloud);
+		break;
+	case DI_PENTAGON:
+//		loadImage("../data/pentagon.bmp", cloud);
+		loadImage("../data/lena.bmp", cloud);
+		break;
+	case DI_BOOKS:
+		loadImage("../data/books.bmp", cloud);
+		break;
+	}
+	ISize input_size (image->getwidth(), image->getheight());
+	hough = new Hough<DecPoint>(input_size);
+
+	hough->addPoints(cloud);
 
 	tick = 0;
 	std::cout << "Loaded all points (normally from image processing module)" << std::endl;
 }
 
 void DetectLineModuleExt::Tick() {
-	hough.doTransform();
+//	std::cout << "Hough transform tick" << std::endl;
+	hough->doTransform();
 
 	if (++tick == TOTAL_TICK_COUNT) {
 
@@ -274,7 +299,7 @@ void DetectLineModuleExt::addSegments(Cell<DecPoint> & c, std::vector<Segment2D<
  * threshold w.r.t. number of hits.
  */
 void DetectLineModuleExt::getSegments() {
-	Accumulator<DecPoint> & acc = *hough.getAccumulator();
+	Accumulator<DecPoint> & acc = *hough->getAccumulator();
 	ASize asize = acc.getSize();
 
 	// loop over the accumulator
@@ -296,7 +321,7 @@ void DetectLineModuleExt::calculateSkew(Cell<DecPoint> * c) {
 	for (int i = 0; i < c->points.size(); ++i) {
 		float midway = (float) c->points.size() / 2;
 		c->points[i]->skew = std::fabs(i - midway) / midway;
-//		std::cout << "Calculated skew for point " << i << " is " << c->points[i]->skew << std::endl;
+		//		std::cout << "Calculated skew for point " << i << " is " << c->points[i]->skew << std::endl;
 	}
 	sort(c->points.begin(), c->points.end(), skewref_decreasing());
 }
@@ -306,15 +331,15 @@ void DetectLineModuleExt::findMatches(Cell<DecPoint> * self, Cell<DecPoint> * ot
 
 	for (int i = 0; i < self->points.size(); ++i) {
 		if (self->points[i]->skew < SKEW_THRESHOLD) break; // break, because ordered on skew
-//		std::cout << "Skew first point is above threshold: " << self->points[i]->skew << std::endl;
+		//		std::cout << "Skew first point is above threshold: " << self->points[i]->skew << std::endl;
 		for (int j = 0; j < other->points.size(); ++j) {
 			if (other->hits <= HIT_THRESHOLD) continue;
 			if (other->points[j]->skew < SKEW_THRESHOLD) break; // break, because ordered on skew
-//			std::cout << "Found potential match!" << std::endl;
+			//			std::cout << "Found potential match!" << std::endl;
 			if ((std::abs(self->points[i]->x - other->points[j]->x) < MATCH_NEIGHBOURHOOD_DEVIATION) &&
 					(std::abs(self->points[i]->y - other->points[j]->y) < MATCH_NEIGHBOURHOOD_DEVIATION)) {
-//				std::cout << "Found match " <<
-//						self->points[i]->x << "," << self->points[i]->y << std::endl;
+				//				std::cout << "Found match " <<
+				//						self->points[i]->x << "," << self->points[i]->y << std::endl;
 				self->points[i]->match = other->points[j];
 				other->points[i]->match = self->points[j];
 			}
@@ -326,7 +351,7 @@ void DetectLineModuleExt::findMatches(Cell<DecPoint> * self, Cell<DecPoint> * ot
 void DetectLineModuleExt::prepareSegments() {
 	if (segmentation != GLUE_POINTS) return;
 
-	Accumulator<DecPoint> & acc = *hough.getAccumulator();
+	Accumulator<DecPoint> & acc = *hough->getAccumulator();
 
 	std::vector<Cell<DecPoint> * >temp;
 	temp.resize(acc.size());
@@ -341,7 +366,7 @@ void DetectLineModuleExt::prepareSegments() {
 
 //! Plot the accumulator values as an image
 void DetectLineModuleExt::plotAccumulator() {
-	Accumulator<DecPoint> & acc = *hough.getAccumulator();
+	Accumulator<DecPoint> & acc = *hough->getAccumulator();
 	ASize asize = acc.getSize();
 	std::cout << "Create image for accumulator of size " << asize.x << 'x' << asize.y << std::endl;
 	CRawImage *a_img = new CRawImage(asize.x, asize.y, 1);
@@ -354,40 +379,44 @@ void DetectLineModuleExt::plotAccumulator() {
 			}
 		}
 	}
-	a_img->saveBmp("acc_img.bmp");
+	a_img->saveBmp("accumulator.bmp");
 	delete a_img;
 }
 
 //! Plot the segments using values in the accumulator
 void DetectLineModuleExt::plotSegments() {
-	Accumulator<DecPoint> & acc = *hough.getAccumulator();
+	Accumulator<DecPoint> & acc = *hough->getAccumulator();
 	ASize asize = acc.getSize();
 
-	CRawImage *l_img = new CRawImage(IMG_WIDTH, IMG_HEIGHT, 1);
+	int height = image->getheight();
+	int width = image->getwidth();
+	CRawImage *l_img = new CRawImage(width, height, 1);
 
 	// first print raster, this explains some artifacts which are out there
-	for (int i = 0; i < IMG_WIDTH; ++i) {
-		for (int j = 0; j < IMG_HEIGHT; ++j) {
-			if ((i % PATCH_WIDTH) == 0) l_img->setValue(i,j,20);
-			if ((j % PATCH_HEIGHT) == 0) l_img->setValue(i,j,20);
+	for (int i = 0; i < width; ++i) {
+		for (int j = 0; j < height; ++j) {
+			if ((i % default_patch.width) == 0) l_img->setValue(i,j,20);
+			if ((j % default_patch.height) == 0) l_img->setValue(i,j,20);
 		}
 	}
 
 	// print segments
 	for (int l = 0; l < segments.size(); l++) {
+//		std::cout << "Plot line " << segments[l].src->x << "," << segments[l].src->y << " to " <<
+//				segments[l].dest->x << "," << segments[l].dest->y << std::endl;
 		l_img->plotLine(segments[l].src->x, segments[l].src->y, segments[l].dest->x, segments[l].dest->y);
 	}
 
-//	std::vector<DecPoint*> & pnts = hough.getPoints();
-//	std::cout << "Number of points: " << pnts.size() << std::endl;
-//	for (int l = 0; l < pnts.size(); l++) {
-//		if (pnts[l]->match != NULL) {
-//			std::cout << "Match at " << pnts[l]->x << "," << pnts[l]->y << std::endl;
-//			l_img->plotCross(pnts[l]->x, pnts[l]->y, 3);
-//		}
-//	}
+	//	std::vector<DecPoint*> & pnts = hough.getPoints();
+	//	std::cout << "Number of points: " << pnts.size() << std::endl;
+	//	for (int l = 0; l < pnts.size(); l++) {
+	//		if (pnts[l]->match != NULL) {
+	//			std::cout << "Match at " << pnts[l]->x << "," << pnts[l]->y << std::endl;
+	//			l_img->plotCross(pnts[l]->x, pnts[l]->y, 3);
+	//		}
+	//	}
 
-	l_img->saveBmp("line_img.bmp");
+	l_img->saveBmp("reconstructed.bmp");
 	delete l_img;
 }
 

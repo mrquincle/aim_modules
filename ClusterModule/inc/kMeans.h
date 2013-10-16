@@ -28,10 +28,19 @@
 #define KMEANS_H_
 
 #include <Eigen/LU>
+#include <Eigen/Core>
+#include <Eigen/Dense>
 #include <vector>
 #include <set>
 #include <cmath>
 #include <cstddef>
+#include <assert.hpp>
+
+template<typename _Tp>
+struct sqr : public std::unary_function<_Tp, _Tp> {
+	_Tp operator()(const _Tp& __x) const
+	{ return __x * __x; }
+};
 
 /**
  * The k-means algorithm, also called Lloyd's algorithm. A generalization is the Linde-Buzo-Gray algorithm for vector
@@ -41,6 +50,10 @@ class KMeans {
 public:
 	typedef float value_t;
 	typedef Eigen::Matrix<value_t,1,Eigen::Dynamic> vector_t; // row_vector
+	typedef Eigen::Matrix<value_t,Eigen::Dynamic,Eigen::Dynamic> matrix_t; // matrix
+	typedef Eigen::Matrix<value_t,Eigen::Dynamic,1> column_vector_t;
+
+	typedef Eigen::Matrix<size_t,1,Eigen::Dynamic> index_vector_t; // row
 
 	struct Pair {
 		Pair(size_t ground_truth) {
@@ -55,12 +68,66 @@ public:
 	struct Cluster {
 		vector_t mean;
 		std::vector<size_t> r_data;
+//		index_vector_t r_data;
 	};
 
+	void test() {
+		// in Eigen broadcasting can be used, see
+		// http://stackoverflow.com/questions/18403478/how-can-i-apply-bsxfun-like-functionality-at-eigen
+		// however, a pairwise distance between elements in two matrices, as in
+		// http://www.mathworks.nl/help/stats/pdist2.html I cannot find
+
+		matrix_t data(2,4);
+		matrix_t means(2,2);
+
+		// data points
+		data <<	1, 23, 6, 9,
+				3, 11, 7, 2;
+
+		// means
+		means << 2, 20,
+				 3, 10;
+
+		std::cout << "Data: " << std::endl;
+		std::cout << data.replicate(2,1) << std::endl;
+
+		column_vector_t temp1(4);
+		temp1 = Eigen::Map<column_vector_t>(means.data(),4);
+
+		std::cout << "Means: " << std::endl;
+		std::cout << temp1.replicate(1,4) << std::endl;
+
+		matrix_t temp2(4,4);
+		temp2 = (data.replicate(2,1) - temp1.replicate(1,4));
+		std::cout << "Differences: " << std::endl;
+		std::cout << temp2 << std::endl; // .minCoeff(&index);
+
+		matrix_t temp3(2,8);
+		temp3 = Eigen::Map<matrix_t>(temp2.data(),2,8);
+		std::cout << "Remap to 2xF: " << std::endl;
+		std::cout << temp3 << std::endl;
+
+		matrix_t temp4(1,8);
+		temp4 = temp3.colwise().squaredNorm();
+		std::cout << "Squared norm: " << std::endl;
+		std::cout << temp4 << std::endl;//.minCoeff(&index);
+
+		matrix_t temp5(2,4);
+		temp5 = Eigen::Map<matrix_t>(temp4.data(),2,4);
+		std::cout << "Squared norm result: " << std::endl;
+		std::cout << temp5.transpose() << std::endl;
+
+//		matrix_t::Index x, y;
+		std::cout << "Result: " << std::endl;
+		std::cout << temp5.transpose().colwise().minCoeff() << std::endl;
+
+
+	}
+
 	unsigned long long rdtsc(){
-	    unsigned int lo,hi;
-	    __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
-	    return ((unsigned long long)hi << 32) | lo;
+		unsigned int lo,hi;
+		__asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+		return ((unsigned long long)hi << 32) | lo;
 	}
 
 	KMeans(int K, int D) {
@@ -69,6 +136,7 @@ public:
 		std::cout << "Use seed " << seed << std::endl;
 		srand(seed);
 		clusters.resize(K);
+		distances.resize(K);
 		for (int k = 0; k < K; ++k) {
 			init(k, D);
 		}
@@ -94,11 +162,15 @@ public:
 	 */
 	void addSample(std::vector<value_t> & x, size_t label, size_t size = 0) {
 		if (!size) size = x.size();
-		assert (size <= x.size());
+		ASSERT_LEQ (size, x.size());
 		vector_t v(size); v.setZero();
 		v = vector_t::Map(x.data(), 1, size); // create row-vector
 		data_set.push_back(v);
 		labels.push_back(Pair(label));
+	}
+
+	void init() {
+		size_t D = data_set.size();
 	}
 
 	std::vector<Pair> & result() {
@@ -109,7 +181,7 @@ public:
 		for (int k = 0; k < clusters.size(); ++k) {
 			for (int i = 0; i < clusters[k].r_data.size(); ++i) {
 				labels[clusters[k].r_data[i]].prediction = k;
-//				std::cout << "Cluster " << k << ", data item " << clusters[k].r_data[i] << std::endl;
+				//				std::cout << "Cluster " << k << ", data item " << clusters[k].r_data[i] << std::endl;
 			}
 		}
 
@@ -173,7 +245,11 @@ protected:
 	}
 
 	void assign(int i) {
-		assert (clusters.size());
+		ASSERT (clusters.size());
+
+//#define CALCULATE_MIN_IN_LOOP
+
+#ifdef CALCULATE_MIN_IN_LOOP
 		struct NearestCluster {
 			value_t dist;
 			size_t k;
@@ -192,8 +268,16 @@ protected:
 			next.k = k;
 			if (next.dist < nearest.dist) next.swap(nearest);
 		}
-		assert ((nearest.k >= 0) && (nearest.k < clusters.size()));
+		ASSERT ((nearest.k >= 0) && (nearest.k < clusters.size()));
 		clusters[nearest.k].r_data.push_back(i);
+#else // is shorter, but actually slower
+		for (int k = 0; k < clusters.size(); ++k) {
+			distances[k] = (data_set[i] - clusters[k].mean).squaredNorm();
+		}
+		int nearest_k = std::min_element(distances.begin(), distances.end()) - distances.begin();
+		ASSERT ((nearest_k >= 0) && (nearest_k < clusters.size()));
+		clusters[nearest_k].r_data.push_back(i);
+#endif
 	}
 
 	/**
@@ -201,12 +285,11 @@ protected:
 	 * to this cluster. The division over the number of clusters is at the end.
 	 */
 	void update(int k) {
-		assert ((k >= 0) && (k < clusters.size()));
+		ASSERT ((k >= 0) && (k < clusters.size()));
 		if (clusters[k].r_data.size() == 0) return;
 		clusters[k].mean.setZero(); // set to 0 for all values
 		for (int i = 0; i < clusters[k].r_data.size(); ++i) {
-			vector_t t = data_set[clusters[k].r_data[i]];
-			clusters[k].mean += t;
+			clusters[k].mean += data_set[clusters[k].r_data[i]];
 		}
 		clusters[k].mean /= clusters[k].r_data.size();
 	}
@@ -219,6 +302,8 @@ private:
 	std::vector<Cluster> clusters;
 
 	std::vector<vector_t> data_set;
+
+	std::vector<value_t> distances;
 
 	std::vector<Pair> labels;
 };

@@ -57,6 +57,11 @@ CRawImage::CRawImage(int wi, int he, int bpp): width(wi), height(he), bpp(bpp)
 	updateHeader();
 }
 
+CRawImage::CRawImage(const char *name) {
+	data = (VALUE_TYPE*)calloc(PALETTE_SIZE,sizeof(VALUE_TYPE));
+	loadBmp(name);
+}
+
 CRawImage::CRawImage(const CRawImage & other): width(other.width), height(other.height),
 	  size(other.size), bpp(other.bpp) {
 	  data = (VALUE_TYPE*)calloc(size,sizeof(VALUE_TYPE));
@@ -161,6 +166,18 @@ void CRawImage::refresh() {
 	data = (VALUE_TYPE*)calloc(size,sizeof(VALUE_TYPE));
 	std::cout << "Set size to " << width << '*' << height << '*' << bpp << std::endl;
 	updateHeader();
+}
+
+void CRawImage::readHeader(VALUE_TYPE *hdr) {
+	std::cout << "Magic header is " << (int)hdr[0] << ' ' << (int)hdr[1] << std::endl;
+	std::cout << "Header size " << (int)hdr[2] << std::endl;
+	std::cout << "Offset to bitmap " << (int)hdr[10] << std::endl;
+	std::cout << "DIB " << (int)hdr[14] << std::endl;
+	width = hdr[18] + (hdr[19] << 8);
+	height = hdr[22] + (hdr[23] << 8);
+	int bits_per_pixel = hdr[28];
+	bpp = bits_per_pixel >> 3;
+	std::cout << "Dimensions: " << width << '*' << height << " and bits per pixel: " << bits_per_pixel << std::endl;
 }
 
 void CRawImage::updateHeader() {
@@ -304,7 +321,11 @@ void CRawImage::saveBmp(const char* inName)
 	}
 //	std::cout << __func__ << ": save2" << std::endl;
 	swap();
-	fwrite(header,54,1,file);
+//	if (bpp == 1)
+//		fwrite(bw_header,RGB_HEADER_SIZE,1,file);
+//	else
+	fwrite(header,RGB_HEADER_SIZE,1,file);
+//#ifdef READ_WRITE_PALLETTE
 	if (bpp == 1) {
 		VALUE_TYPE *temp_palette = (VALUE_TYPE*)calloc(PALETTE_SIZE, sizeof(VALUE_TYPE));
 		// you'll need a color palette for grayscale images.
@@ -315,6 +336,7 @@ void CRawImage::saveBmp(const char* inName)
 		fwrite(temp_palette, PALETTE_SIZE, 1, file);
 		if (temp_palette != NULL) free(temp_palette);
 	}
+//#endif
 	fwrite(data,size,1,file);
 	swap();
 	fclose(file);
@@ -329,7 +351,11 @@ void CRawImage::saveNumberedBmp(const char *name, bool increment)
 	saveBmp(nameext);
 }
 
-
+/**
+ * Todo: Actually, rewrite this entire class. Make sure images created by convert etc. can be created correctly.
+ * Observe that the data array is first used for the header, and then overwritten by the data. So, header information
+ * is only stored in the form of fields in this class.
+ */
 bool CRawImage::loadBmp(const char* inName)
 {
 	printf("Open file %s\n", inName);
@@ -341,12 +367,18 @@ bool CRawImage::loadBmp(const char* inName)
 	FILE* file = fopen(inName,"rb");
 	if (file!=NULL)
 	{
-		size_t n = fread(data,54,1,file);
+		size_t n = fread(data,RGB_HEADER_SIZE,1,file);
 		if (n == 0) return false;
+		readHeader(data);
+		// can safely be called, because header is not preserved afterwards
+		refresh();
+
+//#ifdef READ_WRITE_PALLETTE
 		if (bpp == 1) { // there is a "color" palette if the image is grayscale
 			n = fread(data,PALETTE_SIZE,1,file);
 			if (n == 0) return false;
 		}
+//#endif
 		n = fread(data,size,1,file);
 		if (n == 0) return false;
 		fclose(file);

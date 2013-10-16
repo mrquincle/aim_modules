@@ -55,6 +55,8 @@ public:
 	//! one or three.
 	CRawImage(int wi, int he, int bpp);
 
+	CRawImage(const char *name);
+
 	//! Default destructor, will free internal "data" if not null.
 	~CRawImage();
 
@@ -105,6 +107,8 @@ public:
 
 	//! Swap the R and B channel if the image contains RGB values
 	void swap();
+
+	void readHeader(VALUE_TYPE *hdr);
 
 	//! Set the right BMP header, depends on dimensions, bpp, etc.
 	void updateHeader();
