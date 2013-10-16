@@ -35,8 +35,11 @@ The ModelSelectionModule performs model selection: it picks a model from a set o
 The equations might not be fun to everone, but for completeness sake, they're here:
 
 ![equation](http://latex.codecogs.com/gif.latex?AIC%3D2*k-2*ln%28L%29)
+
 ![equation](http://latex.codecogs.com/gif.latex?AICc%3D2*k-2*ln%28L%29%2B%5Cfrac%7B2*k*%28k%2B1%29%7D%7Bn-k-1%7D) 
+
 ![equation](http://latex.codecogs.com/gif.latex?BIC%3D-2*ln%28L%29%2Bk*ln%28n%29)
+
 ![equation](http://latex.codecogs.com/gif.latex?L_%7Bmax%7D%3D%5Cunderset%7B%5Ctheta%7D%7B%5Coperatorname%7Bmax%7D%7D%5C%7Bp%28x%7C%5Ctheta%2CM%29%5C%7D)
 
 ## How fast is it?
