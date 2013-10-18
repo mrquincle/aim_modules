@@ -74,8 +74,7 @@ Follow the instructions on [AIM website](http://dobots.github.com/aim-bzr/).
 ## Copyrights
 The copyrights of this module (2013) belong to:
 
-- Author: Anne van Rossum
-- [Distributed Organisms B.V.](http://www.dobots.nl), [Almende B.V.](http://www.almende.com)
-- Westerstraat 50, Rotterdam
-- License: LGPLv3
+- Author: Your Name
+- Your company or institute
+- Your address
 
