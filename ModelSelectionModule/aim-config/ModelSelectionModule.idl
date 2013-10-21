@@ -1,17 +1,16 @@
 /**
  * IDL description of the ModelSelectionModule
  *
- * This file is automatically parsed by the rurbuilder backends for the omniidl 
- * compiler. The names of the functions will become port identifiers. The names 
- * of the function variables are not used. For now, if the function variable 
- * ends with a number, like "void Sensor(in long input2);" there will be two
- * portnames created.
+ * This file is automatically parsed by the rurbuilder backends for the omniidl compiler. The names of the functions
+ * will become port identifiers. The names of the function variables are not used. 
+ *
+ * The syntax of the IDL file also allows for "inout", but not all middlewares will accept this yet.
  */
 
-#pragma author You
-#pragma copyright Your Company
-#pragma date 21 Jun. 2013
-#pragma license LGPLv3
+#pragma author               Anne C. van Rossum
+#pragma copyright            Distributed Organisms B.V.
+#pragma date                 Oct 18, 2013
+#pragma license              GNU General Lesser Public
 
 // Recommended namespace "rur"
 module rur {
@@ -30,14 +29,17 @@ typedef sequence<long> long_seq;
 // The public interface of ModelSelectionModule
 interface ModelSelectionModule {
 
-  // Input from microphone in the form of an array
-  void Audio(in long_seq input);
+  // Expect an array of residuals 
+  void Residuals(in long_seq input);
 
-  // Input from infrared sensor
-  void Infrared(in long sensor_l);
+  // Expect the number of parameters required to specify the model under investigation
+  void ModelParameterCount(in long k);
 
-  // A command to one of the wheels
-  void LeftWheel(out long output);
+  // Set the method (AIC, BIC)
+  void Method(in long method);
+
+  // Return the AIC, BIC value, or any other type of criterion
+  void ModelQuality(out float output);
 
 };
 

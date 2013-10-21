@@ -1,24 +1,18 @@
 /**
  * @file ModelSelectionModuleMain.cpp
- * @brief ...
+ * @brief Entry function for ModelSelectionModule
  *
- * This file is created at Almende B.V. It is open-source software and part of the Common 
- * Hybrid Agent Platform (CHAP). A toolbox with a lot of open-source tools, ranging from 
- * thread pools and TCP/IP components to control architectures and learning algorithms. 
- * This software is published under the GNU Lesser General Public license (LGPL).
+ * This file is created at "Distributed Organisms B.V.". It is open-source software and part of "Robotic Suite". 
+ * This software is published under the GNU General Lesser Public license (LGPLv3).
  *
- * It is not possible to add usage restrictions to an open-source license. Nevertheless,
- * we personally strongly object against this software being used by the military, in the
- * bio-industry, for animal experimentation, or anything that violates the Universal
- * Declaration of Human Rights.
+ * Copyright © 2013 Anne C. van Rossum <anne@dobots.nl>
  *
- * Copyright © 2012 Your Name <your@email.address>
- *
- * @author  ...
- * @date    ...
- * @company Almende B.V. (or your university, institute or company)
- * @case    Artificial Intelligence Module
+ * @author                   Anne C. van Rossum
+ * @date                     Oct 18, 2013
+ * @organisation             Distributed Organisms B.V.
+ * @project                  Robotic Suite
  */
+ 
 #include <ModelSelectionModuleExt.h>
 
 #include <stdlib.h>

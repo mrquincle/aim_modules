@@ -9,10 +9,10 @@
  * bio-industry, for animal experimentation, or anything that violates the Universal
  * Declaration of Human Rights.
  *
- * @author You
- * @copyright Your Company
- * @date 21 Jun. 2013
- * @license LGPLv3
+ * @author               Anne C. van Rossum
+ * @copyright            Distributed Organisms B.V.
+ * @date                 Oct 18, 2013
+ * @license              GNU General Lesser Public
  */
 
 #include "ModelSelectionModule.h"
@@ -22,10 +22,11 @@ namespace rur {
 ModelSelectionModule::ModelSelectionModule():
   cliParam(0)
 {
-  const char* const channel[3] = {"readAudio", "readInfrared", "writeLeftWheel"};
+  const char* const channel[4] = {"readResiduals", "readModelParameterCount", "readMethod", "writeModelQuality"};
   cliParam = new Param();
-  dummyAudio = long_seq(0);
-  dummyInfrared = int(0);
+  dummyResiduals = long_seq(0);
+  dummyModelParameterCount = int(0);
+  dummyMethod = int(0);
 }
 
 ModelSelectionModule::~ModelSelectionModule() {
@@ -37,15 +38,19 @@ void ModelSelectionModule::Init(std::string & name) {
   
 }
 
-long_seq* ModelSelectionModule::readAudio(bool blocking) {
-  return &dummyAudio;
+long_seq* ModelSelectionModule::readResiduals(bool blocking) {
+  return &dummyResiduals;
 }
 
-int* ModelSelectionModule::readInfrared(bool blocking) {
-  return &dummyInfrared;
+int* ModelSelectionModule::readModelParameterCount(bool blocking) {
+  return &dummyModelParameterCount;
 }
 
-bool ModelSelectionModule::writeLeftWheel(const int output) {
+int* ModelSelectionModule::readMethod(bool blocking) {
+  return &dummyMethod;
+}
+
+bool ModelSelectionModule::writeModelQuality(const float output) {
   return true;
 }
 
