@@ -1,0 +1,3 @@
+# Use format xxx=xxx for configuration options
+version=0.2
+build_folder=builds

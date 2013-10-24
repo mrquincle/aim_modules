@@ -1,0 +1,43 @@
+/**
+ * IDL description of the DirichletModule
+ *
+ * This file is automatically parsed by the rurbuilder backends for the omniidl compiler. The names of the functions
+ * will become port identifiers. The names of the function variables are not used. 
+ *
+ * The syntax of the IDL file also allows for "inout", but not all middlewares will accept this yet.
+ */
+
+#pragma author               Anne C. van Rossum
+#pragma copyright            Distributed Organisms B.V.
+#pragma date                 Oct 22, 2013
+#pragma license              GNU General Lesser Public
+
+// Recommended namespace "rur"
+module rur {
+
+// The command-line parameter (this struct is required)
+struct Param {
+  // multiple modules can be addressed in parallel, killed, etc. using "module_id"
+  string module_id;
+  // a certain parameter over the command-line (long becomes int) 
+  long parameter;
+};
+
+// Typedef for array of integers
+typedef sequence<long> long_seq;
+
+// The public interface of DirichletModule
+interface DirichletModule {
+
+  // Input from microphone in the form of an array (just an example)
+  void Audio(in long_seq input);
+
+  // Input from infrared sensor (just an example)
+  void Infrared(in long input);
+
+  // A command to one of the wheels (just an example)
+  void LeftWheel(out long output);
+
+};
+
+};
