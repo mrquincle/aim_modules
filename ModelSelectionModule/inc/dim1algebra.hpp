@@ -1731,12 +1731,57 @@ template<typename InputIterator, typename T>
 size_t exceeds(InputIterator first, InputIterator last, T threshold) {
 	size_t result = size_t(0);
 	while (first != last) {
-		result += std::greater<T>(first, threshold);
+		result += std::greater<T>(*first, threshold);
 		first++;
 		result++;
 	}
 	return result;
 }
+
+/**
+ * Returns the first index of the element that exceeds (is strict greater than) a certain threshold.
+ * @param first              start of container
+ * @param last               end of container
+ * @threshold                threshold to compare each element with
+ * @return                   first item above threshold
+ */
+template<typename ForwardIterator, typename T>
+ForwardIterator exceeds_element(ForwardIterator first, ForwardIterator last, T threshold) {
+	while (first != last) {
+		if ( *first > threshold ) break;
+		first++;
+	}
+	return first;
+}
+
+/**
+ * Expects a sorted container. The values are considered indices for the result container.
+ */
+template<typename InputIterator, typename OutputIterator>
+OutputIterator
+count(InputIterator first, InputIterator last, OutputIterator result) {
+	typedef typename std::iterator_traits<InputIterator>::value_type ValueType1;
+	typedef typename std::iterator_traits<OutputIterator>::value_type ValueType2;
+
+	// empty input, do nothing
+	if (first == last) return result;
+
+	ValueType2 cnt = 0;
+	size_t result_index = 0;
+	while (first != last) {
+		while ((*first - result_index) > 0) {
+			result_index++;
+			*result = cnt;
+			result++;
+			cnt = 0;
+		}
+		cnt++;
+		first++;
+	}
+	*result = cnt;
+	result++;
+}
+
 
 /***********************************************************************************************************************
  * Random
