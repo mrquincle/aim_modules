@@ -1,0 +1,1 @@
+RurInt16[] data

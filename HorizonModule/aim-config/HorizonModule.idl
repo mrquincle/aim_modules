@@ -1,0 +1,40 @@
+/**
+ * IDL description of the HorizonModule
+ *
+ * This file is automatically parsed by the rurbuilder backends for the omniidl compiler. The names of the functions
+ * will become port identifiers. The names of the function variables are not used. 
+ *
+ * The syntax of the IDL file also allows for "inout", but not all middlewares will accept this yet.
+ */
+
+#pragma author               Anne C. van Rossum
+#pragma copyright            Distributed Organisms B.V.
+#pragma date                 Oct 28, 2013
+#pragma license              GNU General Lesser Public
+
+// Recommended namespace "rur"
+module rur {
+
+// The command-line parameter (this struct is required)
+struct Param {
+  // multiple modules can be addressed in parallel, killed, etc. using "module_id"
+  string module_id;
+  // a certain parameter over the command-line (long becomes int) 
+  long parameter;
+};
+
+// Typedef for array of integers
+typedef sequence<long> long_seq;
+
+// The public interface of HorizonModule
+interface HorizonModule {
+
+  // Set channel
+  void Channel(in long channel);
+
+  // Set command
+  void Command(in string command);
+
+};
+
+};
