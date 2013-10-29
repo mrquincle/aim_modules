@@ -1,0 +1,42 @@
+/**
+ * IDL description of the ILVQModule
+ *
+ * This file is automatically parsed by the rurbuilder backends for the omniidl compiler. The names of the functions
+ * will become port identifiers. The names of the function variables are not used. 
+ *
+ * The syntax of the IDL file also allows for "inout", but not all middlewares will accept this yet.
+ */
+
+#pragma author               Anne C. van Rossum
+#pragma copyright            Distributed Organisms B.V.
+#pragma date                 Oct 29, 2013
+#pragma license              GNU General Lesser Public
+
+// Recommended namespace "rur"
+module rur {
+
+// The command-line parameter (this struct is required)
+struct Param {
+  // multiple modules can be addressed in parallel, killed, etc. using "module_id"
+  string module_id;
+  // a certain parameter over the command-line (long becomes int) 
+  long parameter;
+};
+
+// Typedef for array of integers
+typedef sequence<long> long_seq;
+
+// The public interface of ILVQModule
+interface ILVQModule {
+
+  // Input samples for training
+  void Training(in long_seq input);
+
+  // Input samples for testing
+  void Testing(in long_seq input);
+
+  // Output values in case there has been testing input
+  void Result(out long value);
+};
+
+};
