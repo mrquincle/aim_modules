@@ -9,10 +9,10 @@
  * bio-industry, for animal experimentation, or anything that violates the Universal
  * Declaration of Human Rights.
  *
- * @author You
- * @copyright Your Company
- * @date 21 Jun. 2013
- * @license LGPLv3
+ * @author               Anne C. van Rossum
+ * @copyright            Distributed Organisms B.V.
+ * @date                 Nov 18, 2013
+ * @license              GNU General Lesser Public
  */
 
 #include "ClusterModule.h"
@@ -22,10 +22,10 @@ namespace rur {
 ClusterModule::ClusterModule():
   cliParam(0)
 {
-  const char* const channel[3] = {"readAudio", "readInfrared", "writeLeftWheel"};
+  const char* const channel[3] = {"readTrain", "readTest", "writeClass"};
   cliParam = new Param();
-  dummyAudio = long_seq(0);
-  dummyInfrared = int(0);
+  dummyTrain = long_seq(0);
+  dummyTest = long_seq(0);
 }
 
 ClusterModule::~ClusterModule() {
@@ -37,15 +37,15 @@ void ClusterModule::Init(std::string & name) {
   
 }
 
-long_seq* ClusterModule::readAudio(bool blocking) {
-  return &dummyAudio;
+long_seq* ClusterModule::readTrain(bool blocking) {
+  return &dummyTrain;
 }
 
-int* ClusterModule::readInfrared(bool blocking) {
-  return &dummyInfrared;
+long_seq* ClusterModule::readTest(bool blocking) {
+  return &dummyTest;
 }
 
-bool ClusterModule::writeLeftWheel(const int output) {
+bool ClusterModule::writeClass(const int output) {
   return true;
 }
 

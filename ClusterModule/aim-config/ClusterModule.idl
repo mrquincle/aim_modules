@@ -1,17 +1,16 @@
 /**
  * IDL description of the ClusterModule
  *
- * This file is automatically parsed by the rurbuilder backends for the omniidl 
- * compiler. The names of the functions will become port identifiers. The names 
- * of the function variables are not used. For now, if the function variable 
- * ends with a number, like "void Sensor(in long input2);" there will be two
- * portnames created.
+ * This file is automatically parsed by the rurbuilder backends for the omniidl compiler. The names of the functions
+ * will become port identifiers. The names of the function variables are not used. 
+ *
+ * The syntax of the IDL file also allows for "inout", but not all middlewares will accept this yet.
  */
 
-#pragma author You
-#pragma copyright Your Company
-#pragma date 21 Jun. 2013
-#pragma license LGPLv3
+#pragma author               Anne C. van Rossum
+#pragma copyright            Distributed Organisms B.V.
+#pragma date                 Nov 18, 2013
+#pragma license              GNU General Lesser Public
 
 // Recommended namespace "rur"
 module rur {
@@ -30,14 +29,14 @@ typedef sequence<long> long_seq;
 // The public interface of ClusterModule
 interface ClusterModule {
 
-  // Input from microphone in the form of an array
-  void Audio(in long_seq input);
+  // Training input
+  void Train(in long_seq input);
 
-  // Input from infrared sensor
-  void Infrared(in long sensor_l);
+  // Test input
+  void Test(in long_seq input);
 
-  // A command to one of the wheels
-  void LeftWheel(out long output);
+  // Class of last test 
+  void Class(out long output);
 
 };
 

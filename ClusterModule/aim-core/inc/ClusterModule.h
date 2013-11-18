@@ -9,10 +9,10 @@
  * bio-industry, for animal experimentation, or anything that violates the Universal
  * Declaration of Human Rights.
  *
- * @author You
- * @copyright Your Company
- * @date 21 Jun. 2013
- * @license LGPLv3
+ * @author               Anne C. van Rossum
+ * @copyright            Distributed Organisms B.V.
+ * @date                 Nov 18, 2013
+ * @license              GNU General Lesser Public
  */
 
 #ifndef CLUSTERMODULE_H_
@@ -36,8 +36,8 @@ class ClusterModule {
 private:
   Param *cliParam;
   
-  long_seq dummyAudio;
-  int dummyInfrared;
+  long_seq dummyTrain;
+  long_seq dummyTest;
 protected:
   static const int channel_count = 3;
   const char* channel[3];
@@ -62,14 +62,14 @@ public:
   
   // Read from this function and assume it means something
   // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readAudio(bool blocking=false);
+  long_seq *readTrain(bool blocking=false);
   
   // Read from this function and assume it means something
-  // Remark: check if result is not NULL
-  int *readInfrared(bool blocking=false);
+  // Remark: caller is responsible for evoking vector->clear()
+  long_seq *readTest(bool blocking=false);
   
   // Write to this function and assume it ends up at some receiving module
-  bool writeLeftWheel(const int output);
+  bool writeClass(const int output);
   
 };
 } // End of namespace
