@@ -1,0 +1,30 @@
+{
+	"name":"DirichletModule",
+	"type":"background",
+	"description":"Unsupervised clustering with Dirichlet process as prior",
+	"enable":"false",
+	"android": {
+		"package":"com.dobots.dirichletmodule",
+		"url":"https://play.google.com/store/apps/details?id=com.dobots.dirichletmodule"
+	},
+	"ports": [
+		{
+			"name":"audio",
+			"dir":"in",
+			"type":"intarray",
+			"middleware":"standard"
+		},
+		{
+			"name":"infrared",
+			"dir":"in",
+			"type":"int",
+			"middleware":"standard"
+		},
+		{
+			"name":"leftwheel",
+			"dir":"out",
+			"type":"int",
+			"middleware":"standard"
+		}
+	]
+}
