@@ -1,3 +1,11 @@
 # Use format xxx=xxx for configuration options
 version=0.2
 build_folder=builds
+# Brief description for e.g. on the website
+description='Performs amazing functions'
+enable='false'
+# The application types that are possible: UI, background
+application_type=background
+# For deployment as Android package
+android_package='com.dobots.dirichletmodule'
+android_url='https://play.google.com/store/apps/details?id=com.dobots.dirichletmodule'

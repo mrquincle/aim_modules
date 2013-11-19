@@ -22,6 +22,10 @@
 #include <vector>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <yarp/os/BufferedPort.h>
+#include <yarp/os/Network.h>
+#include <yarp/os/Bottle.h>
 
 namespace rur {
 
@@ -36,12 +40,32 @@ class ModelSelectionModule {
 private:
   Param *cliParam;
   
-  long_seq dummyResiduals;
-  int dummyModelParameterCount;
-  int dummyMethod;
+  yarp::os::Network yarp;
+  long_seq portResidualsBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portResiduals;
+  int portModelParameterCountBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portModelParameterCount;
+  int portMethodBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portMethod;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portModelQuality;
 protected:
   static const int channel_count = 4;
   const char* channel[4];
+  // Read from this function and assume it means something
+  // Remark: caller is responsible for evoking vector->clear()
+  long_seq *readResiduals(bool blocking=false);
+  
+  // Read from this function and assume it means something
+  // Remark: check if result is not NULL
+  int *readModelParameterCount(bool blocking=false);
+  
+  // Read from this function and assume it means something
+  // Remark: check if result is not NULL
+  int *readMethod(bool blocking=false);
+  
+  // Write to this function and assume it ends up at some receiving module
+  bool writeModelQuality(const float output);
+  
 public:
   // Default constructor
   ModelSelectionModule();
@@ -60,21 +84,6 @@ public:
   
   // Overwrite this function with your own code
   bool Stop() { return false; }
-  
-  // Read from this function and assume it means something
-  // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readResiduals(bool blocking=false);
-  
-  // Read from this function and assume it means something
-  // Remark: check if result is not NULL
-  int *readModelParameterCount(bool blocking=false);
-  
-  // Read from this function and assume it means something
-  // Remark: check if result is not NULL
-  int *readMethod(bool blocking=false);
-  
-  // Write to this function and assume it ends up at some receiving module
-  bool writeModelQuality(const float output);
   
 };
 } // End of namespace

@@ -20,7 +20,7 @@
 using namespace rur;
 
 //! Replace with your own code
-DirichletModuleExt::DirichletModuleExt(): alpha(0.2) {
+DirichletModuleExt::DirichletModuleExt(): alpha(1.2) {
 /*
 	int param_dim = 2;
 	prior_mean.resize(1,param_dim);
@@ -35,7 +35,9 @@ DirichletModuleExt::DirichletModuleExt(): alpha(0.2) {
 
 	prior_dist = new Eigen::EigenMultivariateNormal<value_t>(prior_mean,prior_covar);
 */
-
+	long int seed = time(NULL);
+	std::cout << "Use seed: " << seed << std::endl;
+	srand(seed);
 	stopping_flag = false;
 }
 
@@ -70,6 +72,8 @@ void DirichletModuleExt::Tick() {
  * \theta_i | \theta_{-i} ~ 1/(i-1+\alpa) \sum_{j=1}^{i-1} \delta(\theta_j) + \alpha / (i-1+\alpha) G_0
  *
  * Here \theta_{-i} means all \theta, but "not i", ~ means "from distribution".
+ *
+ * Wrong interpretation. To
  */
 void DirichletModuleExt::SampleFromPrior() {
 	matrix_t theta = prior_dist->samples(parameters.cols());
@@ -79,7 +83,8 @@ void DirichletModuleExt::SampleFromPrior() {
 }
 
 /**
- * Create table assignments following the Chinese Restaurant Process. The first table is table with index "0".
+ * Create table assignments following the Chinese Restaurant Process. The first table is table with index "0". If you
+ * use a Dirichlet process for data points, you can in a batch process, generated all the seat assignments at once.
  */
 void DirichletModuleExt::CreateAssignments(int count, std::vector<value_t> & assignments) {
 	int last_table;
@@ -90,12 +95,39 @@ void DirichletModuleExt::CreateAssignments(int count, std::vector<value_t> & ass
 		last_table = *std::max_element(assignments.begin(), assignments.end());
 	}
 	for (int i = 0; i < count; ++i) {
-		if (drand48() < (alpha / (1 + alpha))) {
-			last_table++;
-			assignments.push_back(last_table);
-		} else {
-			assignments.push_back(assignments[rand() %  assignments.size()]);
-		}
+		assignments.push_back(NextAssignment(assignments, last_table));
+	}
+}
+
+DirichletModuleExt::value_t DirichletModuleExt::NextAssignment(std::vector<value_t> & assignments, int & last_table) {
+	int i = assignments.size();
+	if (drand48() < (alpha / (i + alpha))) {
+		last_table++;
+		return last_table;
+	} else {
+		return assignments[rand() %  i];
+	}
+}
+
+/**
+ * We can also sample over a distribution. This is more flexible, because it is possible not to just enter the
+ * distribution, but assign different weights corresponding to e.g. a likelihood function to each table.
+ */
+DirichletModuleExt::value_t DirichletModuleExt::NextTable(std::vector<value_t> & weighted_distribution, int & last_table) {
+	size_t len = weighted_distribution.size();
+	assert (len != 0);
+	std::vector<value_t> part_sum;
+	part_sum.resize(len, 0);
+	std::partial_sum(weighted_distribution.begin(), weighted_distribution.end(), part_sum.begin());
+	double total_sum = part_sum[len - 1];
+	if (drand48() < (alpha / (total_sum + alpha))) {
+		last_table++;
+		return last_table;
+	} else {
+		std::transform(part_sum.begin(), part_sum.end(), part_sum.begin(), std::bind1st(std::divides<double>(),total_sum));
+		size_t index = dobots::exceeds_element(part_sum.begin(), part_sum.end(), (float)drand48()) - part_sum.begin();
+		assert (index < weighted_distribution.size());
+		return weighted_distribution[index];
 	}
 }
 

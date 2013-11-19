@@ -22,6 +22,10 @@
 #include <vector>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <yarp/os/BufferedPort.h>
+#include <yarp/os/Network.h>
+#include <yarp/os/Bottle.h>
 
 namespace rur {
 
@@ -36,11 +40,26 @@ class DirichletModule {
 private:
   Param *cliParam;
   
-  long_seq dummyAudio;
-  int dummyInfrared;
+  yarp::os::Network yarp;
+  long_seq portAudioBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portAudio;
+  int portInfraredBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portInfrared;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portLeftWheel;
 protected:
   static const int channel_count = 3;
   const char* channel[3];
+  // Read from this function and assume it means something
+  // Remark: caller is responsible for evoking vector->clear()
+  long_seq *readAudio(bool blocking=false);
+  
+  // Read from this function and assume it means something
+  // Remark: check if result is not NULL
+  int *readInfrared(bool blocking=false);
+  
+  // Write to this function and assume it ends up at some receiving module
+  bool writeLeftWheel(const int output);
+  
 public:
   // Default constructor
   DirichletModule();
@@ -59,17 +78,6 @@ public:
   
   // Overwrite this function with your own code
   bool Stop() { return false; }
-  
-  // Read from this function and assume it means something
-  // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readAudio(bool blocking=false);
-  
-  // Read from this function and assume it means something
-  // Remark: check if result is not NULL
-  int *readInfrared(bool blocking=false);
-  
-  // Write to this function and assume it ends up at some receiving module
-  bool writeLeftWheel(const int output);
   
 };
 } // End of namespace

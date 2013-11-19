@@ -758,34 +758,37 @@ T mean(InputIterator first, InputIterator last, Norm norm) {
  * It will use std::minus (normal -sign) to judge the distance over all elements of the container
  * and adjust them in the same fashion by the multiplication factor mu.
  * If "mu" is 1, it will set the "tomove" container equal to the "reference" container.
- * @param tomove			the container to-be-moved
- * @param reference			the reference container towards the movements happens, the "attractor"
- * @param mu				the step size (0 < mu <= 1)
+ * @param first1             beginning of the container to-be-moved
+ * @param last1              end of the container to-be-moved
+ * @param first2             the reference container that functions as a "attractor"
+ * @param mu                 the step size (0 < mu <= 1)
+ * @return                   void
  */
 template<typename T, typename InputIterator1, typename InputIterator2>
-void increaseDistance(InputIterator1 tomove_first, InputIterator1 tomove_last, InputIterator2 reference_first, T mu) {
+void increaseDistance(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, T mu) {
 	__glibcxx_function_requires(_InputIteratorConcept<InputIterator1>);
 	__glibcxx_function_requires(_InputIteratorConcept<InputIterator2>);
 	__glibcxx_requires_valid_range(first1, last1);
 	assert (mu > T(0)); assert (mu <= T(1));
-	std::transform(tomove_first, tomove_last, reference_first, tomove_first, op_adjust<T>(mu));
+	std::transform(first1, last1, first2, first1, op_adjust<T>(mu));
 }
 
 /**
  * Incremental adjustment of a container back from a reference container.
  *   d = d - mu ( ref - d)
- * @param tomove			the container to-be-moved
- * @param reference			the reference container that functions as a "repeller"
- * @param mu				the step size (0 < mu <= 1)
- * @return				void
+ * @param first1             beginning of the container to-be-moved
+ * @param last1              end of the container to-be-moved
+ * @param first2             the reference container that functions as a "repeller"
+ * @param mu                 the step size (0 < mu <= 1)
+ * @return                   void
  */
 template<typename T, typename InputIterator1, typename InputIterator2>
-void decreaseDistance(InputIterator1 tomove_first, InputIterator1 tomove_last, InputIterator2 reference_first, T mu) {
+void decreaseDistance(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, T mu) {
 	__glibcxx_function_requires(_InputIteratorConcept<InputIterator1>);
 	__glibcxx_function_requires(_InputIteratorConcept<InputIterator2>);
 	__glibcxx_requires_valid_range(first1, last1);
 	assert (mu > T(0)); assert (mu <= T(1));
-	std::transform(tomove_first, tomove_last, reference_first, tomove_first, op_adjust<T>(-mu));
+	std::transform(first1, last1, first2, first1, op_adjust<T>(-mu));
 }
 
 /**
@@ -843,6 +846,44 @@ T distance(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, I
 		return T(-1);
 	}
 }
+
+/**
+ * Functionality of extract_copy is like remove_copy for the vector container. However, in this case the item is still
+ * important, so it will be returned in the parameter value. This is a slow implementation, but it might be nice to do
+ * your first implementation of Gibbs sampling using this function. The leave-one-out methods are abundant in science.
+ * It is for example also called a "cavity". And it resurfaces again in belief propagation. A good implementation would
+ * perhaps use a specific cavity_iterator.
+ *
+ * @param first              begin of container
+ * @param last               end of container
+ * @param position           position of element to be removed / extracted
+ * @param result             begin of container items that are not removed are copied to
+ * @param value              item that will be removed / extracted item
+ * @return                   container with results
+ */
+template<typename InputIterator, typename OutputIterator, typename Tp>
+OutputIterator
+extract_copy(InputIterator first, InputIterator last, InputIterator position,
+		OutputIterator result, Tp& value) {
+	// concept requirements
+	__glibcxx_function_requires(_InputIteratorConcept<InputIterator>);
+	__glibcxx_function_requires(_OutputIteratorConcept<OutputIterator,
+			typename iterator_traits<_InputIterator>::value_type>);
+	__glibcxx_function_requires(_EqualOpConcept<
+			typename iterator_traits<_InputIterator>::value_type, Tp>);
+	__glibcxx_requires_valid_range(first, last);
+
+	for (; first != last; ++first) {
+		if (!(first == position)) {
+			value = *first;
+		} else {
+			*result = *first;
+			++result;
+		}
+	}
+	return result;
+}
+
 
 /***********************************************************************************************************************
  * Expected value, average, and other simple statistic functions
@@ -1731,11 +1772,27 @@ template<typename InputIterator, typename T>
 size_t exceeds(InputIterator first, InputIterator last, T threshold) {
 	size_t result = size_t(0);
 	while (first != last) {
-		result += std::greater<T>(first, threshold);
+		result += std::greater<T>(*first, threshold);
 		first++;
 		result++;
 	}
 	return result;
+}
+
+/**
+ * Returns the first index of the element that exceeds (is strict greater than) a certain threshold.
+ * @param first              start of container
+ * @param last               end of container
+ * @threshold                threshold to compare each element with
+ * @return                   first item above threshold
+ */
+template<typename ForwardIterator, typename T>
+ForwardIterator exceeds_element(ForwardIterator first, ForwardIterator last, T threshold) {
+	while (first != last) {
+		if ( *first > threshold ) break;
+		first++;
+	}
+	return first;
 }
 
 /**
@@ -1821,9 +1878,9 @@ random_subset(ForwardIterator first, ForwardIterator last, int elements, OutputI
  **********************************************************************************************************************/
 
 /**
- * Subsample a standard container with given factor. It it the callee's responsibility to reserve an output container
- * which is large enough. More or less "(last - first) / factor", but different if the container size is not an exact
- * multiple of the factor. For convenience sake, see subsample_size function below, which does simple run the same
+ * Subsample a standard container with given factor. It it the callee's responsibility to resize() an output container
+ * so that it is large enough. More or less "(last - first) / factor", but different if the container size is not an
+ * exact multiple of the factor. For convenience sake, see subsample_size function below, which does simple run the same
  * loop (instead of calculating it at once).
  */
 template<typename InputIterator, typename OutputIterator>

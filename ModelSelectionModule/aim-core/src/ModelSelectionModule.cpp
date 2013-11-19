@@ -18,39 +18,83 @@
 #include "ModelSelectionModule.h"
 
 namespace rur {
+using namespace yarp::os;
 
 ModelSelectionModule::ModelSelectionModule():
   cliParam(0)
 {
   const char* const channel[4] = {"readResiduals", "readModelParameterCount", "readMethod", "writeModelQuality"};
   cliParam = new Param();
-  dummyResiduals = long_seq(0);
-  dummyModelParameterCount = int(0);
-  dummyMethod = int(0);
+  portResiduals = new BufferedPort<Bottle>();
+  portModelParameterCount = new BufferedPort<Bottle>();
+  portMethod = new BufferedPort<Bottle>();
+  portModelQuality = new BufferedPort<Bottle>();
 }
 
 ModelSelectionModule::~ModelSelectionModule() {
   delete cliParam;
+  delete portResiduals;
+  delete portModelParameterCount;
+  delete portMethod;
+  delete portModelQuality;
 }
 
 void ModelSelectionModule::Init(std::string & name) {
   cliParam->module_id = name;
   
+  std::stringstream yarpPortName;
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/modelselectionmodule" << name << "/residuals";
+  portResiduals->open(yarpPortName.str().c_str());
+  
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/modelselectionmodule" << name << "/modelparametercount";
+  portModelParameterCount->open(yarpPortName.str().c_str());
+  
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/modelselectionmodule" << name << "/method";
+  portMethod->open(yarpPortName.str().c_str());
+  
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/modelselectionmodule" << name << "/modelquality";
+  portModelQuality->open(yarpPortName.str().c_str());
+  
 }
 
 long_seq* ModelSelectionModule::readResiduals(bool blocking) {
-  return &dummyResiduals;
+  Bottle *b = portResiduals->read(blocking);
+  if (b != NULL) {
+    for (int i = 0; i < b->size(); ++i) {
+      portResidualsBuf.push_back(b->get(i).asInt());
+    }
+  }
+  return &portResidualsBuf;
 }
 
 int* ModelSelectionModule::readModelParameterCount(bool blocking) {
-  return &dummyModelParameterCount;
+  Bottle *b = portModelParameterCount->read(blocking);
+  if (b != NULL) { 
+    portModelParameterCountBuf = b->get(0).asInt();
+    return &portModelParameterCountBuf;
+  }
+  return NULL;
 }
 
 int* ModelSelectionModule::readMethod(bool blocking) {
-  return &dummyMethod;
+  Bottle *b = portMethod->read(blocking);
+  if (b != NULL) { 
+    portMethodBuf = b->get(0).asInt();
+    return &portMethodBuf;
+  }
+  return NULL;
 }
 
 bool ModelSelectionModule::writeModelQuality(const float output) {
+  Bottle &outputPrepare = portModelQuality->prepare();
+  outputPrepare.clear();
+  outputPrepare.addDouble(output);
+  bool forceStrict = true; // wait till previous sends are complete
+  portModelQuality->write(forceStrict);
   return true;
 }
 
