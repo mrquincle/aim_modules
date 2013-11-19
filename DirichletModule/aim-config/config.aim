@@ -2,7 +2,7 @@
 version=0.2
 build_folder=builds
 # Brief description for e.g. on the website
-description='Performs amazing functions'
+description='Unsupervised clustering with Dirichlet process as prior'
 enable='false'
 # The application types that are possible: UI, background
 application_type=background
