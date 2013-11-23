@@ -44,9 +44,11 @@ public:
 		}
 		std::reverse(digits.begin(), digits.end());
 	}
+	
+	void SetController(std::string address);
 private:
 	//! Remote controller for box
-	horizonremote::RemoteController controller;
+	horizonremote::RemoteController *controller;
 };
 
 }

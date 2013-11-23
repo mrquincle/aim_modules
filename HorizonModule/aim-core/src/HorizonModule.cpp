@@ -23,16 +23,18 @@ using namespace yarp::os;
 HorizonModule::HorizonModule():
   cliParam(0)
 {
-  const char* const channel[2] = {"readChannel", "readCommand"};
+  const char* const channel[3] = {"readChannel", "readCommand", "readAddress"};
   cliParam = new Param();
   portChannel = new BufferedPort<Bottle>();
   portCommand = new BufferedPort<Bottle>();
+  portAddress = new BufferedPort<Bottle>();
 }
 
 HorizonModule::~HorizonModule() {
   delete cliParam;
   delete portChannel;
   delete portCommand;
+  delete portAddress;
 }
 
 void HorizonModule::Init(std::string & name) {
@@ -46,6 +48,10 @@ void HorizonModule::Init(std::string & name) {
   yarpPortName.str(""); yarpPortName.clear();
   yarpPortName << "/horizonmodule" << name << "/command";
   portCommand->open(yarpPortName.str().c_str());
+  
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/horizonmodule" << name << "/address";
+  portAddress->open(yarpPortName.str().c_str());
   
 }
 
@@ -63,6 +69,15 @@ std::string* HorizonModule::readCommand(bool blocking) {
   if (b != NULL) { 
     portCommandBuf = b->get(0).asString();
     return &portCommandBuf;
+  }
+  return NULL;
+}
+
+std::string* HorizonModule::readAddress(bool blocking) {
+  Bottle *b = portAddress->read(blocking);
+  if (b != NULL) { 
+    portAddressBuf = b->get(0).asString();
+    return &portAddressBuf;
   }
   return NULL;
 }

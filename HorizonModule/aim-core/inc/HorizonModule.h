@@ -45,9 +45,11 @@ private:
   yarp::os::BufferedPort<yarp::os::Bottle> *portChannel;
   std::string portCommandBuf;
   yarp::os::BufferedPort<yarp::os::Bottle> *portCommand;
+  std::string portAddressBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portAddress;
 protected:
-  static const int channel_count = 2;
-  const char* channel[2];
+  static const int channel_count = 3;
+  const char* channel[3];
   // Read from this function and assume it means something
   // Remark: check if result is not NULL
   int *readChannel(bool blocking=false);
@@ -55,6 +57,10 @@ protected:
   // Read from this function and assume it means something
   // Remark: check if result is not NULL
   std::string *readCommand(bool blocking=false);
+  
+  // Read from this function and assume it means something
+  // Remark: check if result is not NULL
+  std::string *readAddress(bool blocking=false);
   
 public:
   // Default constructor

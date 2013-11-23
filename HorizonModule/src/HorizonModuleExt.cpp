@@ -19,21 +19,37 @@
 using namespace rur;
 
 //! Replace with your own code
-HorizonModuleExt::HorizonModuleExt(): controller(horizonremote::RemoteController("192.168.192.33")) {
-	controller.connect();
-	std::cout << "State: " << (int)controller.state() << std::endl;
-	controller.toggle_key(0xe007);
-	//controller.toggle_key(0xe301);
-
+HorizonModuleExt::HorizonModuleExt(): controller(NULL) {
 }
 
 //! Replace with your own code
 HorizonModuleExt::~HorizonModuleExt() {
-	controller.disconnect();
+	if (controller != NULL) {
+		controller->disconnect();		
+	}
+}
+
+//! Set controller to the same IP address
+void HorizonModuleExt::SetController(std::string address) {
+	if (controller != NULL) {
+		controller->disconnect();		
+	}
+	controller = new horizonremote::RemoteController(address.c_str());
+	controller->connect();
+	std::cout << "State: " << (int)controller->state() << std::endl;
+	controller->toggle_key(0xe007);
+	//controller->toggle_key(0xe301);
 }
 
 //! Replace with your own code
 void HorizonModuleExt::Tick() {
+	std::string* ip_address = readAddress(false);
+	if (ip_address) {
+		SetController(*ip_address);
+	}
+
+	if (controller == NULL) return;
+
 	int* channel = readChannel(false);
 	if (channel) {
 		std::vector<int> digits;
@@ -41,14 +57,14 @@ void HorizonModuleExt::Tick() {
 		for (int i = 0; i < digits.size(); ++i) {
 			unsigned short key = 0xe300+digits[i];
 			std::cout << "Send key 0x" << std::hex << key << std::endl;
-			controller.toggle_key(key);
+			controller->toggle_key(key);
 		}
 	}
 
 	std::string *cmd = readCommand(false);
 	if (cmd) {
 		std::string scmd = *cmd;
-		controller.toggle_key(getKey(scmd));
+		controller->toggle_key(getKey(scmd));
 	}
 }
 

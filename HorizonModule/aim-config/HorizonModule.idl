@@ -35,6 +35,8 @@ interface HorizonModule {
   // Set command
   void Command(in string command);
 
+  // Set ip address
+  void Address(in string address);
 };
 
 };
