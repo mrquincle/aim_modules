@@ -2,6 +2,9 @@
 	"name":"HorizonModule",
 	"type":"background",
 	"description":"Switch channels on the UPC Horizon box",
+	"long_description":"Remote control your UPC Horizon box from other modules. Try to find the IP address first (it is in one of the Menus). For more information see https://github.com/mrquincle/aim_modules/tree/master/HorizonModule.",
+	"category":"Home Automation",
+	"img_url":"https://raw.github.com/mrquincle/aim_modules/master/HorizonModule/aim-config/assets/icon.jpg",
 	"enable":"true",
 	"android": {
 		"package":"com.dobots.examplemodule",
