@@ -32,7 +32,7 @@ For best user experience, it is wise to follow the instructions on the [AIM webs
 * yarp server # start first the server
 * aimrun 0 # and run now the module
 
-Because we use YARP, we can use the browser to send data to this module; browse to http://localhost:10000. You can also navigate directly to the individual ports. In my case the server runs on http://172.17.42.1:
+Because we use YARP, we can use the browser to send data to this module; browse to http://127.0.0.1:10000. You can also navigate directly to the individual ports. In my case the server runs on http://172.17.42.1:
 
     yarp: Port /horizonmodule0/channel active at tcp://172.17.42.1:10002
     yarp: Port /horizonmodule0/command active at tcp://172.17.42.1:10003
@@ -55,7 +55,7 @@ If you do not see these, you can use the settings on the Horizon box itself to f
     5900/tcp  open  vnc        VNC (protocol 3.8)
     49153/tcp open  unknown
 
-This is the correct device, supporting VNC over the default 5900 port. Now, we can fill in this address by sending data to the "/horizonmodule0/address" port.
+This is the correct device, supporting VNC over the default 5900 port. Now, we can fill in this address by sending data to the "/horizonmodule0/address" port (see http://127.0.0.1:10000/data=list again).
 
 ![picture](https://raw.github.com/mrquincle/aim_modules/master/HorizonModule/doc/yarp_address.png)
 
