@@ -26,13 +26,15 @@ HorizonModuleExt::HorizonModuleExt(): controller(NULL) {
 HorizonModuleExt::~HorizonModuleExt() {
 	if (controller != NULL) {
 		controller->disconnect();		
+		delete controller;
 	}
 }
 
 //! Set controller to the same IP address
 void HorizonModuleExt::SetController(std::string address) {
 	if (controller != NULL) {
-		controller->disconnect();		
+		controller->disconnect();
+		delete controller;	
 	}
 	controller = new horizonremote::RemoteController(address.c_str());
 	controller->connect();
@@ -41,10 +43,10 @@ void HorizonModuleExt::SetController(std::string address) {
 	//controller->toggle_key(0xe301);
 }
 
-//! Replace with your own code
 void HorizonModuleExt::Tick() {
 	std::string* ip_address = readAddress(false);
 	if (ip_address) {
+		std::cout << "Set ip address to " << *ip_address << std::endl;
 		SetController(*ip_address);
 	}
 
@@ -68,7 +70,6 @@ void HorizonModuleExt::Tick() {
 	}
 }
 
-//! Replace with your own code
 bool HorizonModuleExt::Stop() {
 	return false;
 }
