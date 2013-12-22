@@ -32,11 +32,11 @@ For best user experience, it is wise to follow the instructions on the [AIM webs
 * yarp server # start first the server
 * aimrun 0 # and run now the module
 
-Because we use YARP, we can use the browser to send data to this module; browse to http://127.0.0.1:10000. You can also navigate directly to the individual ports. In my case the server runs on http://172.17.42.1:
+Because we use YARP, we can use the browser to send data to this module; browse to http://127.0.0.1:10000 (or wherever your YARP server is running). The output of aimrun 0 is in my case:
 
-    yarp: Port /horizonmodule0/channel active at tcp://172.17.42.1:10002
-    yarp: Port /horizonmodule0/command active at tcp://172.17.42.1:10003
-    yarp: Port /horizonmodule0/address active at tcp://172.17.42.1:10004
+    yarp: Port /horizonmodule0/channel active at tcp://127.0.0.1:10002
+    yarp: Port /horizonmodule0/command active at tcp://127.0.0.1:10003
+    yarp: Port /horizonmodule0/address active at tcp://127.0.0.1:10004
 
 Make sure you can see the Horizon box (assuming you are wireless and have assigned yourself an IP address in the 192.168.192.xxx range):
 
