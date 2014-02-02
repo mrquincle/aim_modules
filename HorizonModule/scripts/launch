@@ -1,0 +1,6 @@
+#!/bin/bash
+
+killall yarpserver
+yarpserver &
+sleep 5
+cd .. && aimrun 0

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+yarp write /write verbatim /horizonmodule0/address
+echo 192.168.192.52
