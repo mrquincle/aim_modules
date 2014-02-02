@@ -24,6 +24,7 @@ series of values. Each of these values correspond to a variable. During training
 average and sample variance for each label.
 
 The conditional probability p(f0|c) is given by a Gaussian function: 
+
     p(f0|c)=1/sqrt(2*M_PI*c_s) exp( -1 (f0 - c_m)(f - c_m)) / 2*c_s*c_s)
 
 Considering conditional independence given a label, the test will be:
