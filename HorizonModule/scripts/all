@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# ./launch
+
+./init
+sleep 5
+./channel 1
+sleep 5
+./command PAUSE
+

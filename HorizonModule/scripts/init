@@ -1,4 +1,10 @@
 #!/bin/bash
 
-yarp write /write verbatim /horizonmodule0/address
-echo 192.168.192.52
+port=$(yarp name list | grep address | cut -f7 -d' ')
+
+url="http://127.0.0.1:$port/form"
+
+echo curl -X POST -d "data=192.168.192.52" $url
+curl -X POST -d "data=192.168.192.52" $url
+
+#yarp write /write verbatim /horizonmodule0/address <<< "192.168.192.52"

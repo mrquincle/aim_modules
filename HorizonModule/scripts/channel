@@ -1,0 +1,16 @@
+#!/bin/bash
+
+channel=${1:? "$0 requires command as argument"}
+
+echo "Check following file for commands"
+echo cat ../inc/keys.hpp
+
+name=channel
+port=$(yarp name list | grep $name | cut -f7 -d' ')
+
+url="http://127.0.0.1:$port/form"
+
+curl -X POST -d "data=$channel" $url
+
+#yarp write /write verbatim /horizonmodule0/command 
+#echo 0xe400 

@@ -66,7 +66,11 @@ void HorizonModuleExt::Tick() {
 	std::string *cmd = readCommand(false);
 	if (cmd) {
 		std::string scmd = *cmd;
-		controller->toggle_key(getKey(scmd));
+		std::cout << "Send command " << scmd << std::endl;
+		std::cout << " Pause command is e.g.: " << STR_PAUSE << std::endl;
+		unsigned short key = getKey(scmd);
+		std::cout << "Send key 0x" << std::hex << key << std::endl;
+		controller->toggle_key(key);
 	}
 }
 

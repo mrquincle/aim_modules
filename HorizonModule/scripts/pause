@@ -1,4 +1,0 @@
-#!/bin/bash
-
-yarp write /write verbatim /horizonmodule0/command 
-echo 0xe400 
