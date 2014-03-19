@@ -29,11 +29,31 @@ The conditional probability p(f0|c) is given by a Gaussian function:
 
 Considering conditional independence given a label, the test will be:
 
-    p(f0|c)*p(f1|c)
+    p(f0|c)*p(f1|c)*...
+
+Here `f0` is feature 0, `f1` is feature 1 etc. 
+
+Currently a uniform prior is used, the posterior is hence:
+
+    p(c=c0|f0,...,fk) = p(c0) * p(f0|c) * ... * p(fk|c)
+
+And `p(c0)` is just one divided by the number of possible class labels and not empirically estimated.
 
 ## How fast is it?
 
-The NaiveBayesModule ...
+The NaiveBayesModule is not meant to be extremely fast. In the code there are comments sprinkled that allow faster
+implementations. Especially when the data dimension becomes large, the multiplication for the posterior can better
+be done by a summation in log-space.
+
+Other things are already relative efficiently. For example, the mean and variance are calculated online according to 
+one of the Knuth algorithms.
+
+## How good is this tested?
+
+This module does work perfectly with the example at 
+[Wikipedia](https://en.wikipedia.org/wiki/Naive_Bayes_classifier#Document_Classification). That example is encapsulated
+in a specific DatasetModule that you can find at this 
+[github repository](https://github.com/mrquincle/aim_modules/tree/master/DatasetModule) as well.
 
 ## How to install?
 
