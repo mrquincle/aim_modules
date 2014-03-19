@@ -22,6 +22,10 @@
 #include <vector>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <yarp/os/BufferedPort.h>
+#include <yarp/os/Network.h>
+#include <yarp/os/Bottle.h>
 
 namespace rur {
 
@@ -36,11 +40,30 @@ class NaiveBayesModule {
 private:
   Param *cliParam;
   
-  long_seq dummyTrain;
-  long_seq dummyTest;
+  yarp::os::Network yarp;
+  long_seq portTrainBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portTrain;
+  long_seq portTestBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portTest;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portClass;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portTestResult;
 protected:
   static const int channel_count = 4;
   const char* channel[4];
+  // Read from this function and assume it means something
+  // Remark: caller is responsible for evoking vector->clear()
+  long_seq *readTrain(bool blocking=false);
+  
+  // Read from this function and assume it means something
+  // Remark: caller is responsible for evoking vector->clear()
+  long_seq *readTest(bool blocking=false);
+  
+  // Write to this function and assume it ends up at some receiving module
+  bool writeClass(const int output);
+  
+  // Write to this function and assume it ends up at some receiving module
+  bool writeTestResult(const long_seq &output);
+  
 public:
   // Default constructor
   NaiveBayesModule();
@@ -59,20 +82,6 @@ public:
   
   // Overwrite this function with your own code
   bool Stop() { return false; }
-  
-  // Read from this function and assume it means something
-  // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readTrain(bool blocking=false);
-  
-  // Read from this function and assume it means something
-  // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readTest(bool blocking=false);
-  
-  // Write to this function and assume it ends up at some receiving module
-  bool writeClass(const int output);
-  
-  // Write to this function and assume it ends up at some receiving module
-  bool writeTestResult(const long_seq &output);
   
 };
 } // End of namespace

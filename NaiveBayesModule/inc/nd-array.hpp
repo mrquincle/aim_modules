@@ -377,7 +377,7 @@ private:
 		// setup arrays for dimensions and counters
 		dimension_type reset[dimsize+1];
 		dimension_type dimcnt[dimsize];
-		for (dimension_type i = dimsize-1; i >= 0; --i) {
+		for (dimension_type i = dimsize-1; i > 0; --i) {
 			dimcnt[i] = 0; reset[i] = 1;
 			for (dimension_type j = 0; j <= i; ++j) {
 				reset[i+1] *= table.dimensions[j];
@@ -386,7 +386,7 @@ private:
 
 		// output matrix
 		for (dimension_type i = 0; i < table.size(); ++i) {
-			for (dimension_type d = dimsize-1; d >= 0; --d) {
+			for (dimension_type d = dimsize-1; d > 0; --d) {
 				os << ' ' << dimcnt[d];
 				if (!((i+1) % reset[d])) ++dimcnt[d];
 				if (!((i+1) % reset[d+1])) dimcnt[d] = 0;

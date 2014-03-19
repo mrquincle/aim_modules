@@ -32,7 +32,7 @@ interface NaiveBayesModule {
   // Supervised input, we accept samples in the form of a vector of nd-arrays [0 2 0 1 X data] 
   void Train(in long_seq input);
 
-  // Input for testing, so only the training data, not the label, we accept the form [0 1 X data]
+  // Input for testing, so only the training data, not the label, we accept the form [0 1 0 X data]
   void Test(in long_seq input);
 
   // Every time a test value is send, a class label is spit out over this channel
