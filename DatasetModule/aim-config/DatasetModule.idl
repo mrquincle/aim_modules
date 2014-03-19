@@ -1,0 +1,43 @@
+/**
+ * IDL description of the DatasetModule
+ *
+ * This file is automatically parsed by the rurbuilder backends for the omniidl compiler. The names of the functions
+ * will become port identifiers. The names of the function variables are not used. 
+ *
+ * The syntax of the IDL file also allows for "inout", but not all middlewares will accept this yet.
+ */
+
+#pragma author               Anne C. van Rossum
+#pragma copyright            Distributed Organisms B.V.
+#pragma date                 Mar 19, 2014
+#pragma license              GNU General Lesser Public
+
+// Recommended namespace "rur"
+module rur {
+
+// The command-line parameter (this struct is required)
+struct Param {
+  // multiple modules can be addressed in parallel, killed, etc. using "module_id"
+  string module_id;
+  // a certain parameter over the command-line (long becomes int) 
+  long parameter;
+};
+
+// Typedef for array of integers
+typedef sequence<long> long_seq;
+
+// The public interface of DatasetModule
+interface DatasetModule {
+
+  // Test examples for sex classification
+  void TestSexClassification(out long_seq test_output);
+
+  // Training example for sex classification
+  void TrainSexClassification(out long_seq train_output);
+
+  // Expected class
+  void ExpectedPosterior(in long class);
+
+};
+
+};

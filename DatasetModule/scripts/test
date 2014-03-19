@@ -1,0 +1,26 @@
+#!/bin/sh
+
+MODULE_NAME=DatasetModule
+
+cd .. && make
+
+echo "Kill previous processes named $MODULE_NAME"
+killall $MODULE_NAME
+
+echo "Start $MODULE_NAME"
+cd ./builds/yarp && ./$MODULE_NAME 0 &
+
+MODULE_THIS=datasetmodule0
+MODULE_TO_TEST=naivebayesmodule0
+
+echo "Wait a bit before connecting so we know $MODULE_NAME has opened its ports"
+sleep 3
+
+echo "Connect the YARP ports"
+yarp connect /$MODULE_THIS/trainsexclassification /$MODULE_TO_TEST/train
+
+yarp connect /$MODULE_THIS/testsexclassification /$MODULE_TO_TEST/test
+
+yarp connect /$MODULE_TO_TEST/class /$MODULE_THIS/expectedposterior
+
+
