@@ -1,0 +1,28 @@
+# Use format xxx=xxx for configuration options
+version=0.2
+build_folder=builds
+
+# Brief description for e.g. on the website
+description='Performs amazing functions'
+category='general'
+
+# Wether the website should add this module
+enable='false'
+
+# The application types that are possible: UI, background
+application_type=background
+
+# For deployment as Android package
+android_package='org.dobots.ldamodule'
+android_url='https://play.google.com/store/apps/details?id=org.dobots.ldamodule'
+
+# Supported middlewarez
+middleware_support_android='false'
+middleware_support_yarp='true'
+middleware_support_zeromq='true'
+middleware_support_ros='true'
+
+# Supported devices
+device_support_android='false'
+device_support_raspberrypi='true'
+device_support_ubuntu='true'

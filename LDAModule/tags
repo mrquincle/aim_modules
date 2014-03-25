@@ -1,0 +1,950 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AIMRun	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	private class AIMRun extends AsyncTask<Integer, Void, Boolean> {$/;"	c	class:LDAModuleService
+AIM_PROTOCOL_VERSION	inc/LDAModuleExt.h	23;"	d
+AIM_TYPE_MATRIX	inc/LDAModuleExt.h	28;"	d
+AIM_TYPE_SCALAR	inc/LDAModuleExt.h	26;"	d
+AIM_TYPE_VECTOR	inc/LDAModuleExt.h	27;"	d
+APP_CPPFLAGS	aim-config/android/jni/Application.mk	/^APP_CPPFLAGS := -frtti -fexceptions$/;"	m
+APP_STL	aim-config/android/jni/Application.mk	/^APP_STL := gnustl_static$/;"	m
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	299;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	302;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	305;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	308;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	311;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	314;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	317;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	321;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	286;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	289;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	292;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	295;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	298;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	301;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	304;"	d	file:
+ARCHITECTURE_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	308;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	299;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	302;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	305;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	308;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	311;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	314;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	317;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	321;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	286;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	289;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	292;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	295;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	298;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	301;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	304;"	d	file:
+ARCHITECTURE_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	308;"	d	file:
+ASSERT	inc/dim1algebra.hpp	91;"	d
+ASSERT_EQ	inc/dim1algebra.hpp	101;"	d
+ASSERT_GEQ	inc/dim1algebra.hpp	146;"	d
+ASSERT_GT	inc/dim1algebra.hpp	137;"	d
+ASSERT_LEQ	inc/dim1algebra.hpp	128;"	d
+ASSERT_LT	inc/dim1algebra.hpp	119;"	d
+ASSERT_NEQ	inc/dim1algebra.hpp	110;"	d
+AimProtocol	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^public final class AimProtocol {$/;"	c
+BUILDING_NODE_EXTENSION	aim-config/nodejs/LDAModuleNode.cc	1;"	d	file:
+CMAKE_BINARY_DIR	builds/standard/Makefile	/^CMAKE_BINARY_DIR = \/home\/anne\/myworkspace\/aim\/mrquincle\/LDAModule\/builds\/standard$/;"	m
+CMAKE_BINARY_DIR	builds/standard/aim-core/Makefile	/^CMAKE_BINARY_DIR = \/home\/anne\/myworkspace\/aim\/mrquincle\/LDAModule\/builds\/standard$/;"	m
+CMAKE_BINARY_DIR	builds/yarp/Makefile	/^CMAKE_BINARY_DIR = \/home\/anne\/myworkspace\/aim\/mrquincle\/LDAModule\/builds\/yarp$/;"	m
+CMAKE_BINARY_DIR	builds/yarp/aim-core/Makefile	/^CMAKE_BINARY_DIR = \/home\/anne\/myworkspace\/aim\/mrquincle\/LDAModule\/builds\/yarp$/;"	m
+CMAKE_COMMAND	builds/standard/Makefile	/^CMAKE_COMMAND = \/usr\/bin\/cmake$/;"	m
+CMAKE_COMMAND	builds/standard/aim-core/Makefile	/^CMAKE_COMMAND = \/usr\/bin\/cmake$/;"	m
+CMAKE_COMMAND	builds/yarp/Makefile	/^CMAKE_COMMAND = \/usr\/bin\/cmake$/;"	m
+CMAKE_COMMAND	builds/yarp/aim-core/Makefile	/^CMAKE_COMMAND = \/usr\/bin\/cmake$/;"	m
+CMAKE_EDIT_COMMAND	builds/standard/Makefile	/^CMAKE_EDIT_COMMAND = \/usr\/bin\/cmake-gui$/;"	m
+CMAKE_EDIT_COMMAND	builds/standard/aim-core/Makefile	/^CMAKE_EDIT_COMMAND = \/usr\/bin\/cmake-gui$/;"	m
+CMAKE_EDIT_COMMAND	builds/yarp/Makefile	/^CMAKE_EDIT_COMMAND = \/usr\/bin\/cmake-gui$/;"	m
+CMAKE_EDIT_COMMAND	builds/yarp/aim-core/Makefile	/^CMAKE_EDIT_COMMAND = \/usr\/bin\/cmake-gui$/;"	m
+CMAKE_SOURCE_DIR	builds/standard/Makefile	/^CMAKE_SOURCE_DIR = \/home\/anne\/myworkspace\/aim\/mrquincle\/LDAModule$/;"	m
+CMAKE_SOURCE_DIR	builds/standard/aim-core/Makefile	/^CMAKE_SOURCE_DIR = \/home\/anne\/myworkspace\/aim\/mrquincle\/LDAModule$/;"	m
+CMAKE_SOURCE_DIR	builds/yarp/Makefile	/^CMAKE_SOURCE_DIR = \/home\/anne\/myworkspace\/aim\/mrquincle\/LDAModule$/;"	m
+CMAKE_SOURCE_DIR	builds/yarp/aim-core/Makefile	/^CMAKE_SOURCE_DIR = \/home\/anne\/myworkspace\/aim\/mrquincle\/LDAModule$/;"	m
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	107;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	112;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	119;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	122;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	125;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	133;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	13;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	152;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	160;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	171;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	178;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	195;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	198;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	201;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	24;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	32;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	38;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	44;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	50;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	56;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	70;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	77;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	85;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	88;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	90;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	99;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	104;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	112;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	117;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	124;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	127;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	12;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	135;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	154;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	162;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	165;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	182;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	185;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	188;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	18;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	29;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	37;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	43;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	49;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	55;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	61;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	75;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	82;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	90;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	93;"	d	file:
+COMPILER_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	95;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	107;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	112;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	119;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	122;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	125;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	133;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	13;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	152;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	160;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	171;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	178;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	195;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	198;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	201;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	24;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	32;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	38;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	44;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	50;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	56;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	70;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	77;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	85;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	88;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	90;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	99;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	104;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	112;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	117;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	124;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	127;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	12;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	135;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	154;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	162;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	165;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	182;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	185;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	188;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	18;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	29;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	37;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	43;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	49;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	55;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	61;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	75;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	82;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	90;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	93;"	d	file:
+COMPILER_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	95;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	100;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	108;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	114;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	126;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	135;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	154;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	15;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	173;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	181;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	186;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	25;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	33;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	39;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	46;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	52;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	59;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	64;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	72;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	79;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	93;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	105;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	113;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	119;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	128;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	137;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	14;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	156;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	168;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	173;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	20;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	30;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	38;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	44;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	51;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	57;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	64;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	69;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	77;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	84;"	d	file:
+COMPILER_VERSION_MAJOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	98;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	100;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	108;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	114;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	126;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	135;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	154;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	15;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	173;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	181;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	186;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	25;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	33;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	39;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	46;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	52;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	59;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	64;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	72;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	79;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	93;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	105;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	113;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	119;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	128;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	137;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	14;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	156;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	168;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	173;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	20;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	30;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	38;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	44;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	51;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	57;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	64;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	69;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	77;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	84;"	d	file:
+COMPILER_VERSION_MAJOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	98;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	101;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	109;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	115;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	127;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	136;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	155;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	16;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	174;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	182;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	187;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	26;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	34;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	40;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	47;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	53;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	60;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	65;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	73;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	80;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	94;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	106;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	114;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	120;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	129;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	138;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	157;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	15;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	169;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	174;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	21;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	31;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	39;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	45;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	52;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	58;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	65;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	70;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	78;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	85;"	d	file:
+COMPILER_VERSION_MINOR	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	99;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	101;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	109;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	115;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	127;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	136;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	155;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	16;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	174;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	182;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	187;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	26;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	34;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	40;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	47;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	53;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	60;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	65;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	73;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	80;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	94;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	106;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	114;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	120;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	129;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	138;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	157;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	15;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	169;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	174;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	21;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	31;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	39;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	45;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	52;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	58;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	65;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	70;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	78;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	85;"	d	file:
+COMPILER_VERSION_MINOR	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	99;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	103;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	116;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	129;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	140;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	143;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	156;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	175;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	17;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	183;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	188;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	28;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	35;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	41;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	61;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	66;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	74;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	81;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	95;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	100;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	108;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	121;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	131;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	142;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	145;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	158;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	170;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	175;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	22;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	33;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	40;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	46;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	66;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	71;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	79;"	d	file:
+COMPILER_VERSION_PATCH	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	86;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	103;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	116;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	129;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	140;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	143;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	156;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	175;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	17;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	183;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	188;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	28;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	35;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	41;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	61;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	66;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	74;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	81;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	95;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	100;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	108;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	121;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	131;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	142;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	145;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	158;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	170;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	175;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	22;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	33;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	40;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	46;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	66;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	71;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	79;"	d	file:
+COMPILER_VERSION_PATCH	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	86;"	d	file:
+COMPILER_VERSION_TWEAK	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	147;"	d	file:
+COMPILER_VERSION_TWEAK	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	20;"	d	file:
+COMPILER_VERSION_TWEAK	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	149;"	d	file:
+COMPILER_VERSION_TWEAK	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	25;"	d	file:
+COMPILER_VERSION_TWEAK	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	147;"	d	file:
+COMPILER_VERSION_TWEAK	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	20;"	d	file:
+COMPILER_VERSION_TWEAK	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	149;"	d	file:
+COMPILER_VERSION_TWEAK	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	25;"	d	file:
+CheckServiceTimerTask	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^	private class CheckServiceTimerTask extends TimerTask {$/;"	c	class:MainActivity
+Count	inc/LDAModuleExt.h	/^	void Count(long_seq & sample);$/;"	p	class:rur::LDAModuleExt
+Count	src/LDAModuleExt.cpp	/^void LDAModuleExt::Count(long_seq & sample) {$/;"	f	class:LDAModuleExt
+DATATYPE_BINARY	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int DATATYPE_BINARY = 7;$/;"	f	class:AimProtocol
+DATATYPE_BINARY	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int DATATYPE_BINARY = 5;$/;"	f	class:LDAModuleService
+DATATYPE_FLOAT	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int DATATYPE_FLOAT = 1;$/;"	f	class:AimProtocol
+DATATYPE_FLOAT	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int DATATYPE_FLOAT = 1;$/;"	f	class:LDAModuleService
+DATATYPE_FLOAT_ARRAY	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int DATATYPE_FLOAT_ARRAY = 2;$/;"	f	class:AimProtocol
+DATATYPE_FLOAT_ARRAY	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int DATATYPE_FLOAT_ARRAY = 2;$/;"	f	class:LDAModuleService
+DATATYPE_IMAGE	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int DATATYPE_IMAGE = 6;$/;"	f	class:AimProtocol
+DATATYPE_IMAGE	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int DATATYPE_IMAGE = 4;$/;"	f	class:LDAModuleService
+DATATYPE_INT	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int DATATYPE_INT = 3;$/;"	f	class:AimProtocol
+DATATYPE_INT_ARRAY	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int DATATYPE_INT_ARRAY = 4;$/;"	f	class:AimProtocol
+DATATYPE_STRING	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int DATATYPE_STRING = 5;$/;"	f	class:AimProtocol
+DATATYPE_STRING	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int DATATYPE_STRING = 3;$/;"	f	class:LDAModuleService
+DEC	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	325;"	d	file:
+DEC	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	312;"	d	file:
+DEC	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	325;"	d	file:
+DEC	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	312;"	d	file:
+DIM1ALGEBRA_HPP_	inc/dim1algebra.hpp	28;"	d
+DM_BHATTACHARYYA	inc/dim1algebra.hpp	/^	DM_BHATTACHARYYA,$/;"	e	enum:dobots::DistanceMetric
+DM_BHATTACHARYYA_COEFFICIENT	inc/dim1algebra.hpp	/^	DM_BHATTACHARYYA_COEFFICIENT,$/;"	e	enum:dobots::DistanceMetric
+DM_CHEBYSHEV	inc/dim1algebra.hpp	/^	DM_CHEBYSHEV,$/;"	e	enum:dobots::DistanceMetric
+DM_DOTPRODUCT	inc/dim1algebra.hpp	/^	DM_DOTPRODUCT,$/;"	e	enum:dobots::DistanceMetric
+DM_EUCLIDEAN	inc/dim1algebra.hpp	/^	DM_EUCLIDEAN,$/;"	e	enum:dobots::DistanceMetric
+DM_HELLINGER	inc/dim1algebra.hpp	/^	DM_HELLINGER,$/;"	e	enum:dobots::DistanceMetric
+DM_MANHATTAN	inc/dim1algebra.hpp	/^	DM_MANHATTAN,$/;"	e	enum:dobots::DistanceMetric
+DM_SQUARED_HELLINGER	inc/dim1algebra.hpp	/^	DM_SQUARED_HELLINGER,$/;"	e	enum:dobots::DistanceMetric
+DM_TYPES	inc/dim1algebra.hpp	/^	DM_TYPES$/;"	e	enum:dobots::DistanceMetric
+DistanceMetric	inc/dim1algebra.hpp	/^enum DistanceMetric {$/;"	g	namespace:dobots
+EQUALS	builds/standard/Makefile	/^EQUALS = =$/;"	m
+EQUALS	builds/standard/aim-core/Makefile	/^EQUALS = =$/;"	m
+EQUALS	builds/yarp/Makefile	/^EQUALS = =$/;"	m
+EQUALS	builds/yarp/aim-core/Makefile	/^EQUALS = =$/;"	m
+GetParam	aim-core/inc/LDAModule.h	/^  inline Param *GetParam() { return cliParam; }$/;"	f	class:rur::LDAModule
+Gibbs	inc/LDAModuleExt.h	/^	void Gibbs();$/;"	p	class:rur::LDAModuleExt
+Gibbs	src/LDAModuleExt.cpp	/^void LDAModuleExt::Gibbs() {$/;"	f	class:LDAModuleExt
+HEX	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	336;"	d	file:
+HEX	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	323;"	d	file:
+HEX	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	336;"	d	file:
+HEX	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	323;"	d	file:
+ID_VOID_MAIN	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	9;"	d	file:
+ID_VOID_MAIN	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	9;"	d	file:
+IncomingMsgHandler	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	class IncomingMsgHandler extends Handler {$/;"	c	class:LDAModuleService
+Init	aim-core/inc/LDAModule.h	/^  void Init(std::string& name);$/;"	p	class:rur::LDAModule
+Init	aim-core/src/LDAModule.cpp	/^void LDAModule::Init(std::string & name) {$/;"	f	class:rur::LDAModule
+K	inc/LDAModuleExt.h	/^	int K;$/;"	m	class:rur::LDAModuleExt
+LDAMODULE_H_	aim-core/inc/LDAModule.h	19;"	d
+LDAModule	aim-core/inc/LDAModule.h	/^  LDAModule();$/;"	p	class:rur::LDAModule
+LDAModule	aim-core/inc/LDAModule.h	/^class LDAModule {$/;"	c	namespace:rur
+LDAModule	aim-core/src/LDAModule.cpp	/^LDAModule::LDAModule():$/;"	f	class:rur::LDAModule
+LDAModuleExt	inc/LDAModuleExt.h	/^	LDAModuleExt();$/;"	p	class:rur::LDAModuleExt
+LDAModuleExt	inc/LDAModuleExt.h	/^class LDAModuleExt: public LDAModule {$/;"	c	namespace:rur
+LDAModuleExt	src/LDAModuleExt.cpp	/^LDAModuleExt::LDAModuleExt(): K(12) {$/;"	f	class:LDAModuleExt
+LDAModuleService	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^public class LDAModuleService extends Service {$/;"	c
+LOCAL_CFLAGS	aim-config/android/jni/Android.mk	/^LOCAL_CFLAGS    := -frtti$/;"	m
+LOCAL_C_INCLUDES	aim-config/android/jni/Android.mk	/^LOCAL_C_INCLUDES := $(LOCAL_PATH)\/..\/..\/..\/inc $(LOCAL_PATH)\/..\/..\/..\/aim-core\/inc$/;"	m
+LOCAL_MODULE	aim-config/android/jni/Android.mk	/^LOCAL_MODULE    := LDAModule$/;"	m
+LOCAL_PATH	aim-config/android/jni/Android.mk	/^LOCAL_PATH := $(call my-dir)$/;"	m
+LOCAL_SRC_FILES	aim-config/android/jni/Android.mk	/^LOCAL_SRC_FILES := LDAModule_wrap.cpp ..\/..\/..\/src\/LDAModuleExt.cpp ..\/..\/..\/aim-core\/src\/LDAModule.cpp$/;"	m
+MODULE_NAME	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^private static final String MODULE_NAME = "LDAModule";$/;"	f	class:MainActivity	file:
+MODULE_NAME	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	private static final String MODULE_NAME = "LDAModule";$/;"	f	class:LDAModuleService	file:
+MSG_ADD_PORT	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_ADD_PORT = 8;$/;"	f	class:AimProtocol
+MSG_ADD_PORT	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_ADD_PORT = 8;$/;"	f	class:LDAModuleService
+MSG_GET_MESSENGER	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_GET_MESSENGER = 14;$/;"	f	class:AimProtocol
+MSG_GET_MESSENGER	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_GET_MESSENGER = 14;$/;"	f	class:LDAModuleService
+MSG_NOT_INSTALLED	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_NOT_INSTALLED = 15;$/;"	f	class:AimProtocol
+MSG_PORT_DATA	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_PORT_DATA = 12;$/;"	f	class:AimProtocol
+MSG_PORT_DATA	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_PORT_DATA = 12;$/;"	f	class:LDAModuleService
+MSG_REGISTER	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_REGISTER = 1;$/;"	f	class:AimProtocol
+MSG_REGISTER	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_REGISTER = 1;$/;"	f	class:LDAModuleService
+MSG_REM_PORT	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_REM_PORT = 9;$/;"	f	class:AimProtocol
+MSG_REM_PORT	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_REM_PORT = 9;$/;"	f	class:LDAModuleService
+MSG_SEND	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_SEND = 6;$/;"	f	class:AimProtocol
+MSG_SEND	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_SEND = 6;$/;"	f	class:LDAModuleService
+MSG_SET_MESSENGER	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_SET_MESSENGER = 3;$/;"	f	class:AimProtocol
+MSG_SET_MESSENGER	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_SET_MESSENGER = 3;$/;"	f	class:LDAModuleService
+MSG_START	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_START = 4;$/;"	f	class:AimProtocol
+MSG_START	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_START = 4;$/;"	f	class:LDAModuleService
+MSG_STOP	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_STOP = 5;$/;"	f	class:AimProtocol
+MSG_STOP	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_STOP = 5;$/;"	f	class:LDAModuleService
+MSG_UNREGISTER	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_UNREGISTER = 2;$/;"	f	class:AimProtocol
+MSG_UNREGISTER	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_UNREGISTER = 2;$/;"	f	class:LDAModuleService
+MSG_USER_LOGIN	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_USER_LOGIN = 13;$/;"	f	class:AimProtocol
+MSG_USER_LOGIN	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_USER_LOGIN = 13;$/;"	f	class:LDAModuleService
+MSG_XMPP_DISCONNECTED	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_XMPP_DISCONNECTED = 11;$/;"	f	class:AimProtocol
+MSG_XMPP_DISCONNECTED	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_XMPP_DISCONNECTED = 11;$/;"	f	class:LDAModuleService
+MSG_XMPP_LOGGED_IN	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_XMPP_LOGGED_IN = 10;$/;"	f	class:AimProtocol
+MSG_XMPP_LOGGED_IN	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_XMPP_LOGGED_IN = 10;$/;"	f	class:LDAModuleService
+MSG_XMPP_LOGIN	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_XMPP_LOGIN = 7;$/;"	f	class:AimProtocol
+MSG_XMPP_LOGIN	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public static final int MSG_XMPP_LOGIN = 7;$/;"	f	class:LDAModuleService
+MSG_XMPP_MSG	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static final int MSG_XMPP_MSG = 16;$/;"	f	class:AimProtocol
+M_ARITHMETIC	inc/dim1algebra.hpp	/^	M_ARITHMETIC,$/;"	e	enum:dobots::Mean
+M_GEOMETRIC	inc/dim1algebra.hpp	/^	M_GEOMETRIC,$/;"	e	enum:dobots::Mean
+M_HARMONIC	inc/dim1algebra.hpp	/^	M_HARMONIC,$/;"	e	enum:dobots::Mean
+M_QUADRATIC	inc/dim1algebra.hpp	/^	M_QUADRATIC,$/;"	e	enum:dobots::Mean
+M_TYPES	inc/dim1algebra.hpp	/^	M_TYPES$/;"	e	enum:dobots::Mean
+MainActivity	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^public class MainActivity extends Activity {$/;"	c
+Mean	inc/dim1algebra.hpp	/^enum Mean {$/;"	g	namespace:dobots
+ND_ARRAY_H_	inc/nd-array.hpp	24;"	d
+N_EUCLIDEAN	inc/dim1algebra.hpp	/^	N_EUCLIDEAN,$/;"	e	enum:dobots::Norm
+N_MAXIMUM	inc/dim1algebra.hpp	/^	N_MAXIMUM,$/;"	e	enum:dobots::Norm
+N_TAXICAB	inc/dim1algebra.hpp	/^	N_TAXICAB,$/;"	e	enum:dobots::Norm
+N_TYPES	inc/dim1algebra.hpp	/^	N_TYPES$/;"	e	enum:dobots::Norm
+Norm	inc/dim1algebra.hpp	/^enum Norm {$/;"	g	namespace:dobots
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	213;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	216;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	219;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	222;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	225;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	228;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	231;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	234;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	237;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	240;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	243;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	246;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	249;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	252;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	255;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	258;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	261;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	264;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	267;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	270;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	273;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	276;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	279;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	282;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	285;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	288;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	200;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	203;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	206;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	209;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	212;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	215;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	218;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	221;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	224;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	227;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	230;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	233;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	236;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	239;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	242;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	245;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	248;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	251;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	254;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	257;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	260;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	263;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	266;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	269;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	272;"	d	file:
+PLATFORM_ID	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	275;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	213;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	216;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	219;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	222;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	225;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	228;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	231;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	234;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	237;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	240;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	243;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	246;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	249;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	252;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	255;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	258;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	261;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	264;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	267;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	270;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	273;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	276;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	279;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	282;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	285;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	288;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	200;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	203;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	206;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	209;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	212;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	215;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	218;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	221;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	224;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	227;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	230;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	233;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	236;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	239;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	242;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	245;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	248;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	251;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	254;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	257;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	260;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	263;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	266;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	269;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	272;"	d	file:
+PLATFORM_ID	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	275;"	d	file:
+PN_SUM_OF_SQUARES	inc/dim1algebra.hpp	/^	PN_SUM_OF_SQUARES,$/;"	e	enum:dobots::PseudoNorm
+PN_TYPES	inc/dim1algebra.hpp	/^	PN_TYPES$/;"	e	enum:dobots::PseudoNorm
+Param	aim-core/inc/LDAModule.h	/^struct Param {$/;"	s	namespace:rur
+PortInMsgHandler	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	class PortInMsgHandler extends Handler {$/;"	c	class:LDAModuleService
+PseudoNorm	inc/dim1algebra.hpp	/^enum PseudoNorm {$/;"	g	namespace:dobots
+RANDOM_H_	inc/Random.h	23;"	d
+RD_LEFT	inc/dim1algebra.hpp	/^	RD_LEFT,$/;"	e	enum:dobots::RotateDirection
+RD_RIGHT	inc/dim1algebra.hpp	/^	RD_RIGHT,$/;"	e	enum:dobots::RotateDirection
+RM	builds/standard/Makefile	/^RM = \/usr\/bin\/cmake -E remove -f$/;"	m
+RM	builds/standard/aim-core/Makefile	/^RM = \/usr\/bin\/cmake -E remove -f$/;"	m
+RM	builds/yarp/Makefile	/^RM = \/usr\/bin\/cmake -E remove -f$/;"	m
+RM	builds/yarp/aim-core/Makefile	/^RM = \/usr\/bin\/cmake -E remove -f$/;"	m
+RegisterModule	aim-config/nodejs/LDAModuleNode.cc	/^void RegisterModule(Handle<Object> exports) {$/;"	f
+RotateDirection	inc/dim1algebra.hpp	/^enum RotateDirection {$/;"	g	namespace:dobots
+SDM_HAUSDORFF	inc/dim1algebra.hpp	/^	SDM_HAUSDORFF,$/;"	e	enum:dobots::SetDistanceMetric
+SDM_INFIMIM	inc/dim1algebra.hpp	/^	SDM_INFIMIM,$/;"	e	enum:dobots::SetDistanceMetric
+SDM_SUPINF	inc/dim1algebra.hpp	/^	SDM_SUPINF,$/;"	e	enum:dobots::SetDistanceMetric
+SDM_SUPREMUM	inc/dim1algebra.hpp	/^	SDM_SUPREMUM,$/;"	e	enum:dobots::SetDistanceMetric
+SDM_TYPES	inc/dim1algebra.hpp	/^	SDM_TYPES$/;"	e	enum:dobots::SetDistanceMetric
+SHELL	builds/standard/Makefile	/^SHELL = \/bin\/sh$/;"	m
+SHELL	builds/standard/aim-core/Makefile	/^SHELL = \/bin\/sh$/;"	m
+SHELL	builds/yarp/Makefile	/^SHELL = \/bin\/sh$/;"	m
+SHELL	builds/yarp/aim-core/Makefile	/^SHELL = \/bin\/sh$/;"	m
+SUFFIXES	builds/standard/Makefile	/^SUFFIXES =$/;"	m
+SUFFIXES	builds/standard/aim-core/Makefile	/^SUFFIXES =$/;"	m
+SUFFIXES	builds/yarp/Makefile	/^SUFFIXES =$/;"	m
+SUFFIXES	builds/yarp/aim-core/Makefile	/^SUFFIXES =$/;"	m
+SetDistanceMetric	inc/dim1algebra.hpp	/^enum SetDistanceMetric {$/;"	g	namespace:dobots
+Stop	aim-core/inc/LDAModule.h	/^  bool Stop() { return false; }$/;"	f	class:rur::LDAModule
+Stop	inc/LDAModuleExt.h	/^	bool Stop();$/;"	p	class:rur::LDAModuleExt
+Stop	src/LDAModuleExt.cpp	/^bool LDAModuleExt::Stop() {$/;"	f	class:LDAModuleExt
+TAG	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^private static final String TAG = "MainActivity";$/;"	f	class:MainActivity	file:
+TAG	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	private static final String TAG = "LDAModuleService";$/;"	f	class:LDAModuleService	file:
+Tick	aim-core/inc/LDAModule.h	/^  virtual void Tick() = 0;$/;"	p	class:rur::LDAModule
+Tick	inc/LDAModuleExt.h	/^	void Tick();$/;"	p	class:rur::LDAModuleExt
+Tick	src/LDAModuleExt.cpp	/^void LDAModuleExt::Tick() {$/;"	f	class:LDAModuleExt
+W	inc/LDAModuleExt.h	/^	int W;$/;"	m	class:rur::LDAModuleExt
+_GLIBCXX_CONCEPT_CHECKS	inc/Random.h	26;"	d
+_GLIBCXX_CONCEPT_CHECKS	inc/dim1algebra.hpp	30;"	d
+a	inc/dim1algebra.hpp	/^	T a;$/;"	m	class:dobots::fixed_power
+a	inc/dim1algebra.hpp	/^	T a;$/;"	m	class:dobots::mixed_exponent
+a	inc/dim1algebra.hpp	/^	T a;$/;"	m	class:dobots::op_adjust
+absolute	inc/dim1algebra.hpp	/^T absolute(T x) { return std::abs(x); }$/;"	f	namespace:dobots
+accumulate	inc/dim1algebra.hpp	/^inline T accumulate(InputIterator first, InputIterator last, T init,$/;"	f	namespace:dobots
+add	inc/nd-array.hpp	/^	void add(linear_index index0, linear_index index1, linear_index index2, value_type amount) {$/;"	f	class:nd_array
+add	inc/nd-array.hpp	/^	void add(linear_index index0, linear_index index1, value_type amount) {$/;"	f	class:nd_array
+add	inc/nd-array.hpp	/^	void add(linear_index index0, value_type amount) {$/;"	f	class:nd_array
+argmin	inc/dim1algebra.hpp	/^argmin(ForwardIterator first, ForwardIterator last, UnaryOperation unary_op) {$/;"	f	namespace:dobots
+average	inc/dim1algebra.hpp	/^T average(InputIterator first, InputIterator last, T init) {$/;"	f	namespace:dobots
+battacharyya	inc/dim1algebra.hpp	/^T battacharyya(T x, T y) {$/;"	f	namespace:dobots
+begin	inc/nd-array.hpp	/^	typename value_container::const_iterator begin() const { return values.begin(); }$/;"	f	class:nd_array
+begin	inc/nd-array.hpp	/^	typename value_container::iterator begin() { return values.begin(); }$/;"	f	class:nd_array
+bindToMsgService	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	void bindToMsgService() {$/;"	m	class:LDAModuleService
+cap_range	inc/dim1algebra.hpp	/^void cap_range(InputIterator first, InputIterator last, T min, T max) {$/;"	f	namespace:dobots
+cap_range	inc/dim1algebra.hpp	/^void cap_range(T & x, T min, T max) {$/;"	f	namespace:dobots
+cap_range_function	inc/dim1algebra.hpp	/^	cap_range_function(T min, T max): min(min), max(max) {}$/;"	f	class:dobots::cap_range_function
+cap_range_function	inc/dim1algebra.hpp	/^class cap_range_function: std::unary_function<T,T> {$/;"	c	namespace:dobots
+cap_scale	inc/dim1algebra.hpp	/^void cap_scale(T & x, T & y, T max) {$/;"	f	namespace:dobots
+cap_scale	inc/dim1algebra.hpp	/^void cap_scale(T & x, T & y, T min, T max) {$/;"	f	namespace:dobots
+cauchy_product	inc/dim1algebra.hpp	/^cauchy_product(InputIterator1 first1, InputIterator1 last1, InputIterator2 last2,$/;"	f	namespace:dobots
+channel	aim-core/inc/LDAModule.h	/^  const char* channel[5];$/;"	m	class:rur::LDAModule
+channel_count	aim-core/inc/LDAModule.h	/^  static const int channel_count = 5;$/;"	m	class:rur::LDAModule
+checkServiceRunning	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^    private boolean checkServiceRunning() {$/;"	m	class:MainActivity	file:
+circular_convolution	inc/dim1algebra.hpp	/^circular_convolution(ForwardIterator1 first1, ForwardIterator1 last1, ForwardIterator2 first2,$/;"	f	namespace:dobots
+clean	inc/dim1algebra.hpp	/^void clean(InputIterator1 first1, InputIterator1 last1) {$/;"	f	namespace:dobots
+clear	inc/nd-array.hpp	/^	void clear() {$/;"	f	class:nd_array
+cliParam	aim-core/inc/LDAModule.h	/^  Param *cliParam;$/;"	m	class:rur::LDAModule
+collision_entropy	inc/dim1algebra.hpp	/^T collision_entropy(InputIterator first, InputIterator last) {$/;"	f	namespace:dobots
+combine_pairwise	inc/dim1algebra.hpp	/^void combine_pairwise(Iter first, Iter last, Func func) {$/;"	f	namespace:dobots
+comp_point_distance	inc/dim1algebra.hpp	/^	comp_point_distance(DistanceMetric point_metric, PointIterator first_ref, PointIterator last_ref):$/;"	f	struct:dobots::comp_point_distance
+comp_point_distance	inc/dim1algebra.hpp	/^struct comp_point_distance: public std::binary_function<Point, Point, bool> {$/;"	s	namespace:dobots
+comp_point_set_distance	inc/dim1algebra.hpp	/^	comp_point_set_distance(SetDistanceMetric set_metric, DistanceMetric point_metric, SetIterator first_set,$/;"	f	struct:dobots::comp_point_set_distance
+comp_point_set_distance	inc/dim1algebra.hpp	/^struct comp_point_set_distance: public std::binary_function<Point, Point, bool> {$/;"	s	namespace:dobots
+compress	inc/dim1algebra.hpp	/^compress(InputIterator first, InputIterator last, OutputIterator result, T init, int factor) {$/;"	f	namespace:dobots
+compress_nan	inc/dim1algebra.hpp	/^compress_nan(InputIterator first, InputIterator last, OutputIterator result, T init, int factor) {$/;"	f	namespace:dobots
+content	inc/tuple-array.hpp	/^	tuple_vector content;$/;"	m	class:tuple_array
+count	inc/dim1algebra.hpp	/^count(InputIterator first, InputIterator last, OutputIterator result) {$/;"	f	namespace:dobots
+count	inc/tuple-array.hpp	/^	int count(T item0, T item1) {$/;"	f	class:tuple_array
+count	inc/tuple-array.hpp	/^	int count(tuple<T> & t) {$/;"	f	class:tuple_array
+countFirst	inc/tuple-array.hpp	/^	int countFirst(T item0) {$/;"	f	class:tuple_array
+countSecond	inc/tuple-array.hpp	/^	int countSecond(T item1) {$/;"	f	class:tuple_array
+coupled_entropy	inc/dim1algebra.hpp	/^T coupled_entropy(InputIterator first, InputIterator last, T q) {$/;"	f	namespace:dobots
+cross_entropy	inc/dim1algebra.hpp	/^T cross_entropy(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2){$/;"	f	namespace:dobots
+decreaseDistance	inc/dim1algebra.hpp	/^void decreaseDistance(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, T mu) {$/;"	f	namespace:dobots
+delimiter	inc/dim1algebra.hpp	/^	std::string delimiter;$/;"	m	class:dobots::print_function
+deref	inc/dim1algebra.hpp	/^OutputIterator deref(InputIterator first, InputIterator last, OutputIterator result) {$/;"	f	namespace:dobots
+dimension_container	inc/nd-array.hpp	/^	typedef std::vector<dimension_type> dimension_container;$/;"	t	class:nd_array
+dimension_type	inc/nd-array.hpp	/^	typedef T dimension_type;$/;"	t	class:nd_array
+dimensions	inc/nd-array.hpp	/^	dimension_container dimensions;$/;"	m	class:nd_array
+discrete	inc/dim1algebra.hpp	/^T discrete(T x, T y) {$/;"	f	namespace:dobots
+distance	inc/dim1algebra.hpp	/^T distance(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, DistanceMetric metric) {$/;"	f	namespace:dobots
+distance_impl	inc/dim1algebra.hpp	/^T distance_impl(Point point1, Point point2, DistanceMetric metric) {$/;"	f	namespace:dobots
+distance_impl	inc/dim1algebra.hpp	/^T distance_impl(SetContainer set, Point point, SetDistanceMetric set_metric, DistanceMetric point_metric) {$/;"	f	namespace:dobots
+distance_to_point	inc/dim1algebra.hpp	/^T distance_to_point(SetIterator first_set, SetIterator last_set, PointIterator first_point, PointIterator last_point,$/;"	f	namespace:dobots
+distance_to_set	inc/dim1algebra.hpp	/^T distance_to_set(SetIterator first1, SetIterator last1, SetIterator first2, SetIterator last2,$/;"	f	namespace:dobots
+doInBackground	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^		protected Boolean doInBackground(Integer... id) {$/;"	m	class:LDAModuleService.AIMRun
+dobots	inc/dim1algebra.hpp	/^namespace dobots {$/;"	n
+doc_topic_table	inc/LDAModuleExt.h	/^	tuple_array<int> term_topic_table, doc_topic_table;$/;"	m	class:rur::LDAModuleExt
+elem0	inc/tuple-array.hpp	/^	T elem0, elem1;	$/;"	m	struct:tuple
+elem1	inc/tuple-array.hpp	/^	T elem0, elem1;	$/;"	m	struct:tuple
+end	inc/nd-array.hpp	/^	typename value_container::const_iterator end() const { return values.end(); }$/;"	f	class:nd_array
+end	inc/nd-array.hpp	/^	typename value_container::iterator end() { return values.end(); }$/;"	f	class:nd_array
+euclidean	inc/dim1algebra.hpp	/^T euclidean(T x, T y) {$/;"	f	namespace:dobots
+exceeds	inc/dim1algebra.hpp	/^size_t exceeds(InputIterator first, InputIterator last, T threshold) {$/;"	f	namespace:dobots
+exceeds_element	inc/dim1algebra.hpp	/^ForwardIterator exceeds_element(ForwardIterator first, ForwardIterator last, T threshold) {$/;"	f	namespace:dobots
+expectation	inc/dim1algebra.hpp	/^T expectation(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2){$/;"	f	namespace:dobots
+extract_copy	inc/dim1algebra.hpp	/^extract_copy(InputIterator first, InputIterator last, InputIterator position,$/;"	f	namespace:dobots
+first_ref	inc/dim1algebra.hpp	/^	PointIterator first_ref;$/;"	m	struct:dobots::comp_point_distance
+first_set	inc/dim1algebra.hpp	/^	SetIterator first_set;$/;"	m	struct:dobots::comp_point_set_distance
+fixed_power	inc/dim1algebra.hpp	/^	fixed_power(T a): a(a) {}$/;"	f	class:dobots::fixed_power
+fixed_power	inc/dim1algebra.hpp	/^class fixed_power: std::unary_function<T,T> {$/;"	c	namespace:dobots
+get	inc/nd-array.hpp	/^	const value_type & get(linear_index index0) const {$/;"	f	class:nd_array
+get	inc/nd-array.hpp	/^	const value_type & get(linear_index index0, linear_index index1) const {$/;"	f	class:nd_array
+get	inc/nd-array.hpp	/^	const value_type & get(linear_index index0, linear_index index1, linear_index index2) const {$/;"	f	class:nd_array
+get	inc/nd-array.hpp	/^	value_container * get(const tabular_index & index, dimension_type summarize) {$/;"	f	class:nd_array
+get	inc/nd-array.hpp	/^	value_type & get(linear_index index0) {$/;"	f	class:nd_array
+get	inc/nd-array.hpp	/^	value_type & get(linear_index index0, linear_index index1) {$/;"	f	class:nd_array
+get	inc/nd-array.hpp	/^	value_type & get(linear_index index0, linear_index index1, linear_index index2) {$/;"	f	class:nd_array
+get	inc/nd-array.hpp	/^	value_type const get(tabular_index index) const {$/;"	f	class:nd_array
+getDataType	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static String getDataType(int t) {$/;"	m	class:AimProtocol
+getDataType	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^	public static int getDataType(String s) {$/;"	m	class:AimProtocol
+get_dimension	inc/nd-array.hpp	/^	dimension_type get_dimension(size_t index) const {$/;"	f	class:nd_array
+get_dimensions	inc/nd-array.hpp	/^	size_t get_dimensions() const {$/;"	f	class:nd_array
+get_linear_index	inc/nd-array.hpp	/^	inline linear_index get_linear_index(tabular_index index) {$/;"	f	class:nd_array
+get_tabular_index	inc/nd-array.hpp	/^	inline tabular_index get_tabular_index(linear_index index) {$/;"	f	class:nd_array
+getf	inc/nd-array.hpp	/^	inline value_type const getf(linear_index index) const {$/;"	f	class:nd_array
+getf	inc/nd-array.hpp	/^	value_type & getf(linear_index index) {$/;"	f	class:nd_array
+gini_index	inc/dim1algebra.hpp	/^T gini_index(InputIterator first, InputIterator last, T q) {$/;"	f	namespace:dobots
+handleMessage	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^		public void handleMessage(Message msg) {$/;"	m	class:LDAModuleService.IncomingMsgHandler
+handleMessage	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^		public void handleMessage(Message msg) {$/;"	m	class:LDAModuleService.PortInMsgHandler
+hartley_entropy	inc/dim1algebra.hpp	/^T hartley_entropy(InputIterator first, InputIterator last) {$/;"	f	namespace:dobots
+hellinger	inc/dim1algebra.hpp	/^T hellinger(T x, T y) {$/;"	f	namespace:dobots
+hyperbolic	inc/dim1algebra.hpp	/^T hyperbolic(const T & x, const T & y) {$/;"	f	namespace:dobots
+increaseDistance	inc/dim1algebra.hpp	/^void increaseDistance(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, T mu) {$/;"	f	namespace:dobots
+info_arch	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
+info_arch	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
+info_arch	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
+info_arch	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
+info_compiler	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_compiler = "INFO" ":" "compiler[" COMPILER_ID "]";$/;"	v
+info_compiler	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_compiler = "INFO" ":" "compiler[" COMPILER_ID "]";$/;"	v
+info_compiler	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_compiler = "INFO" ":" "compiler[" COMPILER_ID "]";$/;"	v
+info_compiler	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_compiler = "INFO" ":" "compiler[" COMPILER_ID "]";$/;"	v
+info_platform	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_platform = "INFO" ":" "platform[" PLATFORM_ID "]";$/;"	v
+info_platform	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_platform = "INFO" ":" "platform[" PLATFORM_ID "]";$/;"	v
+info_platform	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_platform = "INFO" ":" "platform[" PLATFORM_ID "]";$/;"	v
+info_platform	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_platform = "INFO" ":" "platform[" PLATFORM_ID "]";$/;"	v
+info_version	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^char const info_version[] = {$/;"	v
+info_version	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const info_version[] = {$/;"	v
+info_version	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^char const info_version[] = {$/;"	v
+info_version	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const info_version[] = {$/;"	v
+init	inc/nd-array.hpp	/^	void init(dimension_container & dimensions) {$/;"	f	class:nd_array
+inner_product	inc/dim1algebra.hpp	/^inner_product(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryOperation binary_op)$/;"	f	namespace:dobots
+integral	inc/dim1algebra.hpp	/^integral(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2,$/;"	f	namespace:dobots
+inverse	inc/dim1algebra.hpp	/^T inverse(T x) { return T(1)\/x; }$/;"	f	namespace:dobots
+jensen_shannon_divergence	inc/dim1algebra.hpp	/^T jensen_shannon_divergence(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2){$/;"	f	namespace:dobots
+kullback_leibler_divergence	inc/dim1algebra.hpp	/^T kullback_leibler_divergence(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2){$/;"	f	namespace:dobots
+last_ref	inc/dim1algebra.hpp	/^	PointIterator last_ref;$/;"	m	struct:dobots::comp_point_distance
+last_set	inc/dim1algebra.hpp	/^	SetIterator last_set;$/;"	m	struct:dobots::comp_point_set_distance
+linear_index	inc/nd-array.hpp	/^	typedef T linear_index;$/;"	t	class:nd_array
+long_seq	aim-core/inc/LDAModule.h	/^typedef std::vector<int> long_seq;$/;"	t	namespace:rur
+mAIMRun	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	AIMRun mAIMRun;$/;"	f	class:LDAModuleService
+mButtonStartStop	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^Button mButtonStartStop;$/;"	f	class:MainActivity
+mCallbackText	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^TextView mCallbackText;$/;"	f	class:MainActivity
+mCheckServiceTimer	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^Timer mCheckServiceTimer;$/;"	f	class:MainActivity
+mCheckServiceTimerTask	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^CheckServiceTimerTask mCheckServiceTimerTask;$/;"	f	class:MainActivity
+mFromMsgService	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	final Messenger mFromMsgService = new Messenger(new IncomingMsgHandler());$/;"	f	class:LDAModuleService
+mMsgServiceConnection	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	private ServiceConnection mMsgServiceConnection = new ServiceConnection() {$/;"	f	class:LDAModuleService	file:
+mMsgServiceIsBound	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	boolean mMsgServiceIsBound;$/;"	f	class:LDAModuleService
+mServiceIsRunning	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^boolean mServiceIsRunning;$/;"	f	class:MainActivity
+mToMsgService	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	Messenger mToMsgService = null;$/;"	f	class:LDAModuleService
+main	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^int main(int argc, char* argv[])$/;"	f
+main	builds/standard/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^void main() {}$/;"	f
+main	builds/standard/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^int main(int argc, char* argv[])$/;"	f
+main	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^int main(int argc, char* argv[])$/;"	f
+main	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdC/CMakeCCompilerId.c	/^void main() {}$/;"	f
+main	builds/yarp/CMakeFiles/2.8.11.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^int main(int argc, char* argv[])$/;"	f
+main	runc.cmd.cpp	/^int main(int argc, char *argv[]) {$/;"	f
+main	src/LDAModuleMain.cpp	/^int main(int argc, char *argv[])  {$/;"	f
+matrix	inc/tuple-array.hpp	/^	void matrix(nd_array<T> & matrix) {$/;"	f	class:tuple_array
+max	inc/dim1algebra.hpp	/^	T max;$/;"	m	class:dobots::cap_range_function
+max	inc/dim1algebra.hpp	/^struct max : public std::binary_function<_Tp, _Tp, _Tp> {$/;"	s	namespace:dobots
+max	inc/tuple-array.hpp	/^	tuple<T> & max() {$/;"	f	class:tuple_array
+max_element	inc/dim1algebra.hpp	/^max_element(ForwardIterator first, ForwardIterator last, UnaryOperation unary_op)$/;"	f	namespace:dobots
+mean	inc/dim1algebra.hpp	/^T mean(InputIterator first, InputIterator last, Norm norm) {$/;"	f	namespace:dobots
+mem_fun_bind2_t	inc/dim1algebra.hpp	/^	explicit mem_fun_bind2_t ( C& rC,$/;"	f	struct:dobots::mem_fun_bind2_t
+mem_fun_bind2_t	inc/dim1algebra.hpp	/^struct mem_fun_bind2_t : public std::binary_function<Arg1, Arg2, Result> {$/;"	s	namespace:dobots
+middleware_build	Makefile	/^middleware_build=$(build_folder)\/$(middleware)$/;"	m
+min	inc/dim1algebra.hpp	/^	T min;$/;"	m	class:dobots::cap_range_function
+mixed_exponent	inc/dim1algebra.hpp	/^	mixed_exponent(T a): a(a) {}$/;"	f	class:dobots::mixed_exponent
+mixed_exponent	inc/dim1algebra.hpp	/^class mixed_exponent: std::binary_function<T,T,T> {$/;"	c	namespace:dobots
+module_id	aim-core/inc/LDAModule.h	/^  std::string module_id;$/;"	m	struct:rur::Param
+msgSend	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	protected void msgSend(Message msg) {$/;"	m	class:LDAModuleService
+msgSend	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	protected void msgSend(Messenger messenger, Message msg) {$/;"	m	class:LDAModuleService
+nd_array	inc/nd-array.hpp	/^	nd_array() {$/;"	f	class:nd_array
+nd_array	inc/nd-array.hpp	/^	nd_array(const nd_array & other) {$/;"	f	class:nd_array
+nd_array	inc/nd-array.hpp	/^	nd_array(dimension_container & dimensions) {$/;"	f	class:nd_array
+nd_array	inc/nd-array.hpp	/^class nd_array {$/;"	c
+norm	inc/dim1algebra.hpp	/^T norm(InputIterator first, InputIterator last, Norm norm) {$/;"	f	namespace:dobots
+onBind	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public IBinder onBind(final Intent intent) {$/;"	m	class:LDAModuleService
+onCancelled	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^		protected void onCancelled() {$/;"	m	class:LDAModuleService.AIMRun
+onCreate	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^protected void onCreate(Bundle savedInstanceState) {$/;"	m	class:MainActivity
+onCreate	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public void onCreate() {$/;"	m	class:LDAModuleService
+onCreateOptionsMenu	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^	public boolean onCreateOptionsMenu(Menu menu) {$/;"	m	class:MainActivity
+onDestroy	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^	protected void onDestroy() {$/;"	m	class:MainActivity
+onDestroy	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public void onDestroy() {$/;"	m	class:LDAModuleService
+onPause	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^	public void onPause() {$/;"	m	class:MainActivity
+onResume	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^	public void onResume() {$/;"	m	class:MainActivity
+onStart	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^	public void onStart() {$/;"	m	class:MainActivity
+onStart	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public void onStart(Intent intent, int startId) {$/;"	m	class:LDAModuleService
+onStartCommand	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public int onStartCommand(Intent intent, int flags, int startId) {$/;"	m	class:LDAModuleService
+onStop	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^	public void onStop() {$/;"	m	class:MainActivity
+onUnbind	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	public boolean onUnbind(final Intent intent) {$/;"	m	class:LDAModuleService
+op_adjust	inc/dim1algebra.hpp	/^	op_adjust(T a): a(a) {}$/;"	f	class:dobots::op_adjust
+op_adjust	inc/dim1algebra.hpp	/^class op_adjust: std::binary_function<T,T,T> {$/;"	c	namespace:dobots
+operator ()	inc/dim1algebra.hpp	/^	Result operator () ( Arg1 a1, Arg2 a2 ) {$/;"	f	struct:dobots::mem_fun_bind2_t
+operator ()	inc/dim1algebra.hpp	/^	T operator()(T x) const {$/;"	f	class:dobots::cap_range_function
+operator ()	inc/dim1algebra.hpp	/^	T operator()(T x) const {$/;"	f	class:dobots::fixed_power
+operator ()	inc/dim1algebra.hpp	/^	T operator()(T x, T y) const {$/;"	f	class:dobots::mixed_exponent
+operator ()	inc/dim1algebra.hpp	/^	T operator()(T x, T y) const {$/;"	f	class:dobots::op_adjust
+operator ()	inc/dim1algebra.hpp	/^	_Tp operator()(const _Tp& __x) const$/;"	f	struct:dobots::sqr
+operator ()	inc/dim1algebra.hpp	/^	_Tp operator()(const _Tp& __x, const _Tp& __y) const$/;"	f	struct:dobots::max
+operator ()	inc/dim1algebra.hpp	/^	bool operator()(Point x, Point y) {$/;"	f	struct:dobots::comp_point_distance
+operator ()	inc/dim1algebra.hpp	/^	bool operator()(const Point & x, const Point & y) const {$/;"	f	struct:dobots::comp_point_set_distance
+operator ()	inc/dim1algebra.hpp	/^	void operator()(T x) const {$/;"	f	class:dobots::print_function
+operator <<	inc/nd-array.hpp	/^	friend std::ostream& operator<<(std::ostream & os, const nd_array & table) {$/;"	f	class:nd_array
+operator ==	inc/tuple-array.hpp	/^	bool operator ==(const tuple &other) {$/;"	f	struct:tuple
+operator []	inc/tuple-array.hpp	/^	tuple<T> &operator[] (size_t index) {$/;"	f	class:tuple_array
+org.dobots.ldamodule	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^package org.dobots.ldamodule;$/;"	p
+org.dobots.ldamodule.aim	aim-config/android/src/org/dobots/ldamodule/aim/AimProtocol.java	/^package org.dobots.ldamodule.aim;$/;"	p
+org.dobots.ldamodule.aim	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^package org.dobots.ldamodule.aim;$/;"	p
+parameter	aim-core/inc/LDAModule.h	/^  int parameter;$/;"	m	struct:rur::Param
+pmf_	inc/dim1algebra.hpp	/^	Result (C::*pmf_ )( Arg1, Arg2 ) ;$/;"	m	struct:dobots::mem_fun_bind2_t
+point_metric	inc/dim1algebra.hpp	/^	DistanceMetric point_metric;$/;"	m	struct:dobots::comp_point_distance
+point_metric	inc/dim1algebra.hpp	/^	DistanceMetric point_metric;$/;"	m	struct:dobots::comp_point_set_distance
+portConvergence	aim-core/inc/LDAModule.h	/^  yarp::os::BufferedPort<yarp::os::Bottle> *portConvergence;$/;"	m	class:rur::LDAModule
+portConvergenceBuf	aim-core/inc/LDAModule.h	/^  double portConvergenceBuf;$/;"	m	class:rur::LDAModule
+portLag	aim-core/inc/LDAModule.h	/^  yarp::os::BufferedPort<yarp::os::Bottle> *portLag;$/;"	m	class:rur::LDAModule
+portLagBuf	aim-core/inc/LDAModule.h	/^  int portLagBuf;$/;"	m	class:rur::LDAModule
+portLeftWheel	aim-core/inc/LDAModule.h	/^  yarp::os::BufferedPort<yarp::os::Bottle> *portLeftWheel;$/;"	m	class:rur::LDAModule
+portMode	aim-core/inc/LDAModule.h	/^  yarp::os::BufferedPort<yarp::os::Bottle> *portMode;$/;"	m	class:rur::LDAModule
+portModeBuf	aim-core/inc/LDAModule.h	/^  int portModeBuf;$/;"	m	class:rur::LDAModule
+portSample	aim-core/inc/LDAModule.h	/^  yarp::os::BufferedPort<yarp::os::Bottle> *portSample;$/;"	m	class:rur::LDAModule
+portSampleBuf	aim-core/inc/LDAModule.h	/^  long_seq portSampleBuf;$/;"	m	class:rur::LDAModule
+print	inc/dim1algebra.hpp	/^void print(InputIterator first, InputIterator last, std::string delim=", ", std::string empty="{}", bool endl=true) {$/;"	f	namespace:dobots
+print	inc/dim1algebra.hpp	/^void print(InputIterator first, InputIterator last, std::string delimiter) {$/;"	f	namespace:dobots
+print_function	inc/dim1algebra.hpp	/^	print_function(std::string delimiter): delimiter(delimiter) {}$/;"	f	class:dobots::print_function
+print_function	inc/dim1algebra.hpp	/^class print_function: std::unary_function<T,T> {$/;"	c	namespace:dobots
+pseudo_norm	inc/dim1algebra.hpp	/^T pseudo_norm(InputIterator first, InputIterator last, PseudoNorm pseudo_norm) {$/;"	f	namespace:dobots
+push	inc/tuple-array.hpp	/^	void push(T item0, T item1) {$/;"	f	class:tuple_array
+push	inc/tuple-array.hpp	/^	void push(tuple<T> & t) {$/;"	f	class:tuple_array
+pushpop	inc/dim1algebra.hpp	/^void pushpop(InputIterator first, InputIterator last, T item, RotateDirection direction = RD_RIGHT) {$/;"	f	namespace:dobots
+rC_	inc/dim1algebra.hpp	/^	C& rC_ ;$/;"	m	struct:dobots::mem_fun_bind2_t
+random_element	inc/Random.h	/^Iter inline random_element(Iter start, Iter end) {$/;"	f
+random_element	inc/Random.h	/^Iter inline random_element(Iter start, Iter end, RandomGenerator& g) {$/;"	f
+random_n	inc/Random.h	/^OutputIterator inline random_n(InputIterator first, InputIterator last, OutputIterator result, size_t number) {$/;"	f
+random_subset	inc/dim1algebra.hpp	/^random_subset(ForwardIterator first, ForwardIterator last, int elements, OutputIterator result)$/;"	f	namespace:dobots
+random_value	inc/Random.h	/^int inline random_value(int start, int end) {$/;"	f
+readConvergence	aim-core/inc/LDAModule.h	/^  double *readConvergence(bool blocking=false);$/;"	p	class:rur::LDAModule
+readConvergence	aim-core/src/LDAModule.cpp	/^double* LDAModule::readConvergence(bool blocking) {$/;"	f	class:rur::LDAModule
+readLag	aim-core/inc/LDAModule.h	/^  int *readLag(bool blocking=false);$/;"	p	class:rur::LDAModule
+readLag	aim-core/src/LDAModule.cpp	/^int* LDAModule::readLag(bool blocking) {$/;"	f	class:rur::LDAModule
+readMode	aim-core/inc/LDAModule.h	/^  int *readMode(bool blocking=false);$/;"	p	class:rur::LDAModule
+readMode	aim-core/src/LDAModule.cpp	/^int* LDAModule::readMode(bool blocking) {$/;"	f	class:rur::LDAModule
+readSample	aim-core/inc/LDAModule.h	/^  long_seq *readSample(bool blocking=false);$/;"	p	class:rur::LDAModule
+readSample	aim-core/src/LDAModule.cpp	/^long_seq* LDAModule::readSample(bool blocking) {$/;"	f	class:rur::LDAModule
+ref	inc/dim1algebra.hpp	/^OutputIterator ref(InputIterator first, InputIterator last, OutputIterator result) {$/;"	f	namespace:dobots
+renyi_divergence	inc/dim1algebra.hpp	/^T renyi_divergence(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, T a){$/;"	f	namespace:dobots
+renyi_entropy	inc/dim1algebra.hpp	/^T renyi_entropy(InputIterator first, InputIterator last, T q) {$/;"	f	namespace:dobots
+reverse_inner_product	inc/dim1algebra.hpp	/^reverse_inner_product(InputIterator1 first1, InputIterator1 last1,$/;"	f	namespace:dobots
+rotate	inc/dim1algebra.hpp	/^void rotate(InputIterator first, InputIterator last, RotateDirection direction = RD_RIGHT) {$/;"	f	namespace:dobots
+rotate_n	inc/dim1algebra.hpp	/^void rotate_n(InputIterator first, InputIterator last, size_t N, RotateDirection direction = RD_RIGHT) {$/;"	f	namespace:dobots
+run	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^		public void run() {$/;"	m	class:MainActivity.CheckServiceTimerTask
+rur	aim-core/inc/LDAModule.h	/^namespace rur {$/;"	n
+rur	aim-core/src/LDAModule.cpp	/^namespace rur {$/;"	n	file:
+rur	inc/LDAModuleExt.h	/^namespace rur {$/;"	n
+sample_topics	inc/LDAModuleExt.h	/^	std::vector<int> sample_topics;$/;"	m	class:rur::LDAModuleExt
+scale	inc/dim1algebra.hpp	/^U scale(const T x, const T size_before, const U size_after, bool rounding = false) {$/;"	f	namespace:dobots
+set	inc/nd-array.hpp	/^	void set(linear_index index0, linear_index index1, linear_index index2, value_type value) {$/;"	f	class:nd_array
+set	inc/nd-array.hpp	/^	void set(linear_index index0, linear_index index1, value_type value) {$/;"	f	class:nd_array
+set	inc/nd-array.hpp	/^	void set(linear_index index0, value_type value) {$/;"	f	class:nd_array
+set	inc/nd-array.hpp	/^	void set(tabular_index table_index, value_type value) {$/;"	f	class:nd_array
+set_metric	inc/dim1algebra.hpp	/^	SetDistanceMetric set_metric;$/;"	m	struct:dobots::comp_point_set_distance
+set_nan	inc/dim1algebra.hpp	/^set_nan(InputIterator first, InputIterator last, T value) {$/;"	f	namespace:dobots
+setf	inc/nd-array.hpp	/^	inline void setf(linear_index index, value_type value) {$/;"	f	class:nd_array
+shannon_entropy	inc/dim1algebra.hpp	/^T shannon_entropy(InputIterator first, InputIterator last) {$/;"	f	namespace:dobots
+shiftadd	inc/dim1algebra.hpp	/^shiftadd(InputIterator first, InputIterator last, OutputIterator result, RotateDirection direction = RD_RIGHT) {$/;"	f	namespace:dobots
+shrink	inc/dim1algebra.hpp	/^T shrink(InputIterator first, InputIterator last, const T gamma, const U alpha) {$/;"	f	namespace:dobots
+size	inc/nd-array.hpp	/^	long long int size() const {$/;"	f	class:nd_array
+size	inc/tuple-array.hpp	/^	inline size_t size() {$/;"	f	class:tuple_array
+sqr	inc/dim1algebra.hpp	/^struct sqr : public std::unary_function<_Tp, _Tp> {$/;"	s	namespace:dobots
+square	inc/dim1algebra.hpp	/^T square(T x) { return x * x; }$/;"	f	namespace:dobots
+startService	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^	private void startService() {$/;"	m	class:MainActivity	file:
+stopService	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^    private void stopService() {$/;"	m	class:MainActivity	file:
+strides	inc/nd-array.hpp	/^	dimension_container strides;$/;"	m	class:nd_array
+subsample	inc/dim1algebra.hpp	/^subsample(InputIterator first, InputIterator last, OutputIterator result, int factor) {$/;"	f	namespace:dobots
+subsample_size	inc/dim1algebra.hpp	/^size_t subsample_size(InputIterator first, InputIterator last, int factor) {$/;"	f	namespace:dobots
+tabular_index	inc/nd-array.hpp	/^	typedef std::vector<T> tabular_index;$/;"	t	class:nd_array
+taxicab	inc/dim1algebra.hpp	/^T taxicab(const T & x, const T & y) {$/;"	f	namespace:dobots
+term_count_per_doc	inc/LDAModuleExt.h	/^	std::vector<int> term_count_per_topic, term_count_per_doc;$/;"	m	class:rur::LDAModuleExt
+term_count_per_topic	inc/LDAModuleExt.h	/^	std::vector<int> term_count_per_topic, term_count_per_doc;$/;"	m	class:rur::LDAModuleExt
+term_doc_table	inc/LDAModuleExt.h	/^	tuple_array<int> term_doc_table;$/;"	m	class:rur::LDAModuleExt
+term_topic_table	inc/LDAModuleExt.h	/^	tuple_array<int> term_topic_table, doc_topic_table;$/;"	m	class:rur::LDAModuleExt
+timedCheck	aim-config/android/src/org/dobots/ldamodule/MainActivity.java	/^	private void timedCheck() {$/;"	m	class:MainActivity	file:
+total_variation_distance	inc/dim1algebra.hpp	/^T total_variation_distance(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2){$/;"	f	namespace:dobots
+tsallis_entropy	inc/dim1algebra.hpp	/^T tsallis_entropy(InputIterator first, InputIterator last, T q) {$/;"	f	namespace:dobots
+tuple	inc/tuple-array.hpp	/^	tuple(T item0, T item1): elem0(item0), elem1(item1) {}$/;"	f	struct:tuple
+tuple	inc/tuple-array.hpp	/^	tuple(T other): elem0(other.elem0), elem1(other.elem1) {}$/;"	f	struct:tuple
+tuple	inc/tuple-array.hpp	/^struct tuple {$/;"	s
+tuple_array	inc/tuple-array.hpp	/^	tuple_array() {$/;"	f	class:tuple_array
+tuple_array	inc/tuple-array.hpp	/^class tuple_array {$/;"	c
+tuple_vector	inc/tuple-array.hpp	/^	typedef std::vector<tuple<T> > tuple_vector;$/;"	t	class:tuple_array
+tuple_vector_iterator	inc/tuple-array.hpp	/^	typedef typename tuple_vector::iterator tuple_vector_iterator;$/;"	t	class:tuple_array
+unbindFromMsgService	aim-config/android/src/org/dobots/ldamodule/aim/LDAModuleService.java	/^	void unbindFromMsgService() {$/;"	m	class:LDAModuleService
+value_container	inc/nd-array.hpp	/^	typedef std::vector<value_type> value_container;$/;"	t	class:nd_array
+value_type	inc/nd-array.hpp	/^	typedef V value_type;$/;"	t	class:nd_array
+values	inc/nd-array.hpp	/^	value_container values;$/;"	m	class:nd_array
+window_add	inc/dim1algebra.hpp	/^window_add(InputIterator first, InputIterator last, OutputIterator result, size_t half_window) {$/;"	f	namespace:dobots
+writeLeftWheel	aim-core/inc/LDAModule.h	/^  bool writeLeftWheel(const int output);$/;"	p	class:rur::LDAModule
+writeLeftWheel	aim-core/src/LDAModule.cpp	/^bool LDAModule::writeLeftWheel(const int output) {$/;"	f	class:rur::LDAModule
+x_times_1_minus_x	inc/dim1algebra.hpp	/^T x_times_1_minus_x(T x) { return x * (T(1)-x); }$/;"	f	namespace:dobots
+xlogx	inc/dim1algebra.hpp	/^T xlogx(T x) { return std::log(x) * x; }$/;"	f	namespace:dobots
+xlogx_avg_y	inc/dim1algebra.hpp	/^T xlogx_avg_y(const T & x, const T & y) {$/;"	f	namespace:dobots
+xlogx_over_y	inc/dim1algebra.hpp	/^T xlogx_over_y(const T & x, const T & y) {$/;"	f	namespace:dobots
+xlogy	inc/dim1algebra.hpp	/^T xlogy(const T & x, const T & y) {$/;"	f	namespace:dobots
+yarp	aim-core/inc/LDAModule.h	/^  yarp::os::Network yarp;$/;"	m	class:rur::LDAModule
+zero_func	inc/dim1algebra.hpp	/^T zero_func() { return T(0); }$/;"	f	namespace:dobots
+~LDAModule	aim-core/inc/LDAModule.h	/^  virtual ~LDAModule();$/;"	p	class:rur::LDAModule
+~LDAModule	aim-core/src/LDAModule.cpp	/^LDAModule::~LDAModule() {$/;"	f	class:rur::LDAModule
+~LDAModuleExt	inc/LDAModuleExt.h	/^	virtual ~LDAModuleExt();$/;"	p	class:rur::LDAModuleExt
+~LDAModuleExt	src/LDAModuleExt.cpp	/^LDAModuleExt::~LDAModuleExt() {$/;"	f	class:LDAModuleExt
+~nd_array	inc/nd-array.hpp	/^	virtual ~nd_array() {$/;"	f	class:nd_array

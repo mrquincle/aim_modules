@@ -1,0 +1,67 @@
+/**
+ * IDL description of the LDAModule
+ *
+ * This file is automatically parsed by the rurbuilder backends for the omniidl compiler. The names of the functions
+ * will become port identifiers. The names of the function variables are not used. 
+ *
+ * The syntax of the IDL file also allows for "inout", but not all middlewares will accept this yet.
+ */
+
+#pragma author               Anne C. van Rossum
+#pragma copyright            Distributed Organisms B.V.
+#pragma date                 Mar 24, 2014
+#pragma license              GNU General Lesser Public
+
+// Recommended namespace "rur"
+module rur {
+
+// The command-line parameter (this struct is required)
+struct Param {
+  // multiple modules can be addressed in parallel, killed, etc. using "module_id"
+  string module_id;
+  // a certain parameter over the command-line (long becomes int) 
+  long parameter;
+};
+
+// Typedef for array of integers
+typedef sequence<long> long_seq;
+
+// The public interface of LDAModule
+interface LDAModule {
+
+  /**
+   * Input in the form of a document sample. This sample contains training data. The training data is in the form of 
+   * identifiers. For example, if we reason about computer vision objects, we do not want to have computer vision
+   * specific funtionality in our code. Note, that we want an item out of a sequence, that is the identifier should
+   * correspond to a "word". The data is not a "term" with a number of times it occurs. 
+   */
+  void Sample(in long_seq input);
+
+  /**
+   * Set the mode of the module. There are only two modes:
+   *  0: Accepting Inputs
+   *  1: Training (performing Gibbs sampling) and filling in the probability 
+   */
+  void Mode(in long input);
+
+  /**
+   * The lag with which samples are subsampled after the Gibbs sampling step. Due to the fact that subsequent Gibbs
+   * sampling steps move only slowly through the sampling space, they are correlated. That's why the target 
+   * distribution must be sampled over a time period.
+   */
+  void Lag(in long lag);
+
+  /**
+   * A value is said to have converged if subsequent iterations are at maximum "convergence" apart.
+   *
+   * @param convergence
+   *   The value at val[k] and val[k+1] when converged, should be smaller than "convergence".
+   */
+  void Convergence(in double convergence);
+
+  // A command to one of the wheels (just an example)
+  void LeftWheel(out long output);
+
+};
+
+};

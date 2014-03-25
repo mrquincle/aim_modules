@@ -1,0 +1,1 @@
+RurInt32[] data
