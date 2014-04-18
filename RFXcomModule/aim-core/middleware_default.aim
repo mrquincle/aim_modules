@@ -1,0 +1,14 @@
+#######################################################################################################################
+#  CHANGES TO THIS FILE WILL NOT BE PERSISTENT. DO NOT BOTHER EDITING IT.
+#######################################################################################################################
+
+# This file should be commited to the repository. It makes it possible to set module specific environmental variables. 
+# Do not change this file if you check out a repository or module from somewhere online. To be able to run your own 
+# middleware, copy this file to the aim-devel folder:
+#   cp middleware_default.aim aim-devel/middleware_local.aim
+# Then change THAT file and do NOT commit the aim-devel directory to the repository. It should ONLY be used locally. At 
+
+# Default middleware to be used, it can be:
+#   standard, yarp, ros, zeromq, nodejs
+middleware=standard
+
