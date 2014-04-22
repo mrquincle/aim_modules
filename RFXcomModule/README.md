@@ -19,11 +19,12 @@
 
 ## What does it do?
 
-The RFXcomModule ...
+The RFXcomModule opens up devices that are connected through an [RFXcom](http://www.rfxcom.com/) gateway. This module opens up four devices to be read or written via the gateway. There is no such limitation in the hardware, although of course it is true that the more devices are lingering around, the more contention there will be in the wireless spectrum.
 
-## How fast is it?
+The modules opens up four ports per device. One for sending it commands, one for getting its sensor values, one for selecting the device type, and one for selecting the device id. There will be several scenarios written for the Dodedodo platform using this module:
 
-The RFXcomModule ...
+* Turning on/off a Conrad power switch depending on a ELRO motion detection sensor
+* Finding the id of the Conrad power switch by plugging a lamp in it, and watching the result with a AvgBrightnessModule with a threshold
 
 ## How to install?
 

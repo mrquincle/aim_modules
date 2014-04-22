@@ -28,16 +28,55 @@ typedef sequence<long> long_seq;
 
 // The public interface of RFXcomModule
 interface RFXcomModule {
+  
+  // Input towards device 0
+  void Input0(in long_seq input0);
 
-  // Input from microphone in the form of an array (just an example)
-  void Audio(in long_seq input);
+  // Type of device
+  void Type0(in long type0);
 
-  // Input from infrared sensor (just an example)
-  void Infrared(in long input);
+  // Select which index to use
+  void Select0(in long_seq select0);
 
-  // A command to one of the wheels (just an example)
-  void LeftWheel(out long output);
+  // Output of device 0
+  void Output0(out long output0);
 
+  // Input towards device 1
+  void Input1(in long_seq input1);
+
+  // Type of device
+  void Type1(in long type1);
+  
+  // Select which index to use
+  void Select1(in long_seq select1);
+
+  // Output of device 1
+  void Output1(out long output1);
+  
+  // Input towards device 2
+  void Input2(in long_seq input2);
+
+  // Type of device
+  void Type2(in long type2);
+
+  // Select which index to use
+  void Select2(in long_seq select2);
+
+  // Output of device 2
+  void Output2(out long output2);
+
+  // Input towards device 3
+  void Input3(in long_seq input3);
+
+  // Type of device
+  void Type3(in long type3);
+
+  // Select which index to use
+  void Select3(in long_seq select3);
+
+  // Output of device 3
+  void Output3(out long output3);
+  
 };
 
 };
