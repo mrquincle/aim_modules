@@ -21,8 +21,8 @@
 
 The ClusterModule is able to cluster data, also known as unsupervised learning. On the moment two methods are implemented:
 
-* k-means clustering
-* Gaussian Mixture Model with as inference method Expectation-Maximization
+* [k-means clustering](https://en.wikipedia.org/wiki/K-means_clustering)
+* [Gaussian Mixture Model](https://en.wikipedia.org/wiki/Mixture_model#Gaussian_mixture_model) with as inference method Expectation-Maximization
 
 The Gaussian Mixture Model works okay on simple methods such as a testset with only 2 or 3 Gaussians. However, it totally fails on more complex testsets, such as the Iris dataset. It is known that an initialization that places the Gaussians very far from their final destinations and close to each other, will take long to converge. Hence, it is recommended to first initialize the Gaussians using k-means for example! Note that the the covariance matrix is a generalisation of the variance (the standard deviation squared) over the variables taken into account (in this case the x and y coordinate in our 2D setting). 
 
@@ -30,7 +30,7 @@ So, take for example the `scripts/gaussian2_in_2d.m`, there is a variance in (x,
 
 ## How fast is it?
 
-The ClusterModule uses Eigen for its matrix calculations and should be quite fast. However, there has been no specific attention to speed. There are many ways clustering can be accelerated, for example by hierarchical clustering. Henceforth, spending a lot of time on speeding up for example k-means clustering does not make much sense to me. I prefer to implement than a totally different method that can speed up everything with orders of magnitude instead taking into account special structure in the data (such as relational, ordinal, or hierarchical).
+The ClusterModule uses [Eigen](http://eigen.tuxfamily.org/) for its matrix calculations and should be quite fast. However, there has been no specific attention to speed. There are many ways clustering can be accelerated, for example by hierarchical clustering. Henceforth, spending a lot of time on speeding up for example k-means clustering does not make much sense to me. I prefer to implement than a totally different method that can speed up everything with orders of magnitude instead taking into account special structure in the data (such as relational, ordinal, or hierarchical).
 
 ## How to install?
 
