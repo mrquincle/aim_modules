@@ -25,6 +25,8 @@ The ClusterModule is able to cluster data, also known as unsupervised learning. 
 * [Gaussian Mixture Model](https://en.wikipedia.org/wiki/Mixture_model#Gaussian_mixture_model) with as inference method Expectation-Maximization
 
 The Gaussian Mixture Model works okay on simple methods such as a testset with only 2 or 3 Gaussians. However, it totally fails on more complex testsets, such as the Iris dataset. It is known that an initialization that places the Gaussians very far from their final destinations and close to each other, will take long to converge. Hence, it is recommended to first initialize the Gaussians using k-means for example! Note that the the covariance matrix is a generalisation of the variance (the standard deviation squared) over the variables taken into account (in this case the x and y coordinate in our 2D setting). 
+	  
+![Gaussian 2 in 2D](https://raw.githubusercontent.com/mrquincle/aim_modules/master/ClusterModule/figures/gaussian2.png)
 
 So, take for example the `scripts/gaussian2_in_2d.m`, there is a variance in (x,y) of (0.1,0.1) for cluster A, and (0.1,0.5) for cluster B. The final covariance for the models is then for cluster A (0.01, 0; 0, 0.01) and cluster B (0.01, 0; 0, 0.25). Of course cluster A and B here can be swapped, there is no favorite index per cluster (or else it would have been a supervised learning task).
 
