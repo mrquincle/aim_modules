@@ -205,8 +205,8 @@ public:
 		}
 
 		value_t quality = (a+b) / value_t(a+b+c+d);
-		//std::cout << "Rand index is (" << a << "+" << b << ") /" << a+b+c+d << " = " << quality << std::endl;
-		std::cout << "Rand index is " << quality << std::endl;
+		std::cout << "Rand index is (" << a << "+" << b << ") /" << a+b+c+d << " = " << quality << std::endl;
+		//std::cout << "Rand index is " << quality << std::endl;
 	}
 
 	/**
@@ -233,8 +233,9 @@ public:
 		}
 
 		// print means
+		std::cout << "Cluster means: " << std::endl;
 		for (int k = 0; k < clusters.size(); ++k) {
-			std::cout << clusters[k].mean << std::endl;
+			std::cout << "Cluster: " << k << ": " << clusters[k].mean << std::endl;
 		}
 	}
 protected:

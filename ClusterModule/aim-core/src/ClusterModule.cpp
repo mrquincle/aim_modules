@@ -18,35 +18,100 @@
 #include "ClusterModule.h"
 
 namespace rur {
+using namespace yarp::os;
 
 ClusterModule::ClusterModule():
   cliParam(0)
 {
-  const char* const channel[3] = {"readTrain", "readTest", "writeClass"};
+  const char* const channel[5] = {"readTrain", "readTest", "writeClass", "readClusterCount", "readMethod"};
   cliParam = new Param();
-  dummyTrain = long_seq(0);
-  dummyTest = long_seq(0);
+  portTrain = new BufferedPort<Bottle>();
+  portTest = new BufferedPort<Bottle>();
+  portClass = new BufferedPort<Bottle>();
+  portClusterCount = new BufferedPort<Bottle>();
+  portMethod = new BufferedPort<Bottle>();
 }
 
 ClusterModule::~ClusterModule() {
   delete cliParam;
+  delete portTrain;
+  delete portTest;
+  delete portClass;
+  delete portClusterCount;
+  delete portMethod;
 }
 
 void ClusterModule::Init(std::string & name) {
   cliParam->module_id = name;
   
+  std::stringstream yarpPortName;
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/clustermodule" << name << "/train";
+  portTrain->open(yarpPortName.str().c_str());
+  
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/clustermodule" << name << "/test";
+  portTest->open(yarpPortName.str().c_str());
+  
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/clustermodule" << name << "/class";
+  portClass->open(yarpPortName.str().c_str());
+  
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/clustermodule" << name << "/clustercount";
+  portClusterCount->open(yarpPortName.str().c_str());
+  
+  yarpPortName.str(""); yarpPortName.clear();
+  yarpPortName << "/clustermodule" << name << "/method";
+  portMethod->open(yarpPortName.str().c_str());
+  
 }
 
 long_seq* ClusterModule::readTrain(bool blocking) {
-  return &dummyTrain;
+  Bottle *b = portTrain->read(blocking);
+  if (b != NULL) {
+    for (int i = 0; i < b->size(); ++i) {
+      portTrainBuf.push_back(b->get(i).asInt());
+    }
+  }
+  return &portTrainBuf;
 }
 
 long_seq* ClusterModule::readTest(bool blocking) {
-  return &dummyTest;
+  Bottle *b = portTest->read(blocking);
+  if (b != NULL) {
+    for (int i = 0; i < b->size(); ++i) {
+      portTestBuf.push_back(b->get(i).asInt());
+    }
+  }
+  return &portTestBuf;
 }
 
 bool ClusterModule::writeClass(const int output) {
+  Bottle &outputPrepare = portClass->prepare();
+  outputPrepare.clear();
+  outputPrepare.addInt(output);
+  bool forceStrict = true; // wait till previous sends are complete
+  portClass->write(forceStrict);
   return true;
+}
+
+int* ClusterModule::readClusterCount(bool blocking) {
+  Bottle *b = portClusterCount->read(blocking);
+  if (b != NULL) { 
+    portClusterCountBuf = b->get(0).asInt();
+    return &portClusterCountBuf;
+  }
+  return NULL;
+}
+
+int* ClusterModule::readMethod(bool blocking) {
+  Bottle *b = portMethod->read(blocking);
+  if (b != NULL) { 
+    portMethodBuf = b->get(0).asInt();
+    return &portMethodBuf;
+  }
+  return NULL;
 }
 
 } // namespace

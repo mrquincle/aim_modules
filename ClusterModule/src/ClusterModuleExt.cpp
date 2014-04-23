@@ -36,12 +36,12 @@ void ClusterModuleExt::Init(std::string& name) {
 	std::ifstream f;
 	DataSet dataset;
 	dataset = D_ABALONE;
-//	dataset = D_GAUSSIAN;
+	dataset = D_GAUSSIAN;
 	//	dataset = D_IRIS;
 	std::string file = "";
 	switch (dataset) {
 	case D_ABALONE: {
-		file = "../../data/abalone3.data";
+		file = "data/abalone3.data";
 		// obtained # of clusters by $(cat ../../data/abalone3.data | cut -f11 -d',' | sort -n | uniq | wc -l)
 		predefined_clusters = 28;
 
@@ -51,15 +51,15 @@ void ClusterModuleExt::Init(std::string& name) {
 	}
 	break;
 	case D_GAUSSIAN: default: {
-		file = "../../data/gaussian3d1.data";
+		file = "data/gaussian3d1.data";
 		predefined_clusters = 3;
 
-		file = "../../data/gaussian1.data";
+		file = "data/gaussian2_in_2d.data";
 		predefined_clusters = 2;
 	}
 	break;
 	case D_IRIS: {
-		file = "../../data/iris2.data";
+		file = "data/iris2.data";
 		predefined_clusters = 3;
 	}
 	break;
@@ -78,8 +78,8 @@ void ClusterModuleExt::Init(std::string& name) {
 
 	stop = false;
 
-	//	cluster_method = C_EM_GMM;
-	cluster_method = C_KMEANS;
+	cluster_method = C_EM_GMM;
+	//cluster_method = C_KMEANS;
 }
 
 //! Replace with your own functionality
@@ -108,12 +108,14 @@ void ClusterModuleExt::Tick() {
 		kmeans.init();
 
 		int T = 400; // time span
+		std::cout << "Wait, it will take " << T/10 << " dots" << std::endl;
 		for (int t = 0; t < T; ++t) {
 			if (!(t%10)) std::cout << '.'; flush(std::cout);
 			kmeans.tick();
 		}
 		std::cout << std::endl;
 
+		kmeans.print();
 		kmeans.evaluate();
 	}
 	break;
@@ -146,13 +148,12 @@ void ClusterModuleExt::Tick() {
 			//				std::cout << std::endl;
 			//				expmax.evaluate();
 			//			}
-			//			std::cout << '.'; flush(std::cout);
+			std::cout << '.'; flush(std::cout);
 		}
 		std::cout << std::endl;
 
 		expmax.evaluate();
-
-		//		expmax.print();
+		expmax.print();
 
 	}
 	break;

@@ -38,6 +38,14 @@ interface ClusterModule {
   // Class of last test 
   void Class(out long output);
 
+  // Number of clusters can be set beforehand, e.g. in k-means
+  void ClusterCount(in long k);
+
+  // The method to be used:
+  // 0: k-means clustering (default)
+  // 1: Expectation-Maximization of a Gaussian Mixture Model
+  void Method(in long method);
+
 };
 
 };

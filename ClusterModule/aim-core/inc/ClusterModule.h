@@ -22,6 +22,10 @@
 #include <vector>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <yarp/os/BufferedPort.h>
+#include <yarp/os/Network.h>
+#include <yarp/os/Bottle.h>
 
 namespace rur {
 
@@ -36,11 +40,38 @@ class ClusterModule {
 private:
   Param *cliParam;
   
-  long_seq dummyTrain;
-  long_seq dummyTest;
+  yarp::os::Network yarp;
+  long_seq portTrainBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portTrain;
+  long_seq portTestBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portTest;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portClass;
+  int portClusterCountBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portClusterCount;
+  int portMethodBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portMethod;
 protected:
-  static const int channel_count = 3;
-  const char* channel[3];
+  static const int channel_count = 5;
+  const char* channel[5];
+  // Read from this function and assume it means something
+  // Remark: caller is responsible for evoking vector->clear()
+  long_seq *readTrain(bool blocking=false);
+  
+  // Read from this function and assume it means something
+  // Remark: caller is responsible for evoking vector->clear()
+  long_seq *readTest(bool blocking=false);
+  
+  // Write to this function and assume it ends up at some receiving module
+  bool writeClass(const int output);
+  
+  // Read from this function and assume it means something
+  // Remark: check if result is not NULL
+  int *readClusterCount(bool blocking=false);
+  
+  // Read from this function and assume it means something
+  // Remark: check if result is not NULL
+  int *readMethod(bool blocking=false);
+  
 public:
   // Default constructor
   ClusterModule();
@@ -59,17 +90,6 @@ public:
   
   // Overwrite this function with your own code
   bool Stop() { return false; }
-  
-  // Read from this function and assume it means something
-  // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readTrain(bool blocking=false);
-  
-  // Read from this function and assume it means something
-  // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readTest(bool blocking=false);
-  
-  // Write to this function and assume it ends up at some receiving module
-  bool writeClass(const int output);
   
 };
 } // End of namespace

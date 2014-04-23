@@ -72,13 +72,20 @@ public:
 
 	ExpectationMaximization(int K, int D) {
 		long int seed = rdtsc();
-
+//		seed = 51196996379962;
 		std::cout << "Use seed " << seed << std::endl;
 		srand(seed);
 
 		mixture_model.resize(K);
 		for (int k = 0; k < K; ++k) {
 			init(k, D);
+		}
+	
+		for (int k = 0; k < mixture_model.size(); ++k) {
+			std::cout << "Init mean of model " << k << ": " << mixture_model[k].mean.transpose() << std::endl;
+		}
+		for (int k = 0; k < mixture_model.size(); ++k) {
+			std::cout << "Init covariance of model " << k << ": " << std::endl << mixture_model[k].covariance << std::endl;
 		}
 		initialized = false;
 	}
@@ -192,6 +199,11 @@ public:
 		for (int k = 0; k < mixture_model.size(); ++k) {
 			std::cout << "Mean of model " << k << ": " << mixture_model[k].mean.transpose() << std::endl;
 		}
+
+		for (int k = 0; k < mixture_model.size(); ++k) {
+			std::cout << "Final covariance of model " << k << ": " << std::endl << mixture_model[k].covariance << std::endl;
+		}
+
 	}
 
 	void test() {

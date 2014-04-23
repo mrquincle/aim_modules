@@ -1,3 +1,5 @@
+clf;
+
 samples=4000;
 
 function r = gauss_rand(n, m, mu, sigma)
@@ -16,12 +18,12 @@ end
 
 % generate class id 1
 class_id=1;
-x_mean = -0.4;
-y_mean = 0.4;
+x_mean = 2.5;
+y_mean = 1.5;
 x_var = 0.1;
 y_var = 0.1;
 tz0_x=gauss_rand(samples,1,x_mean,x_var);
-tz0_y=gauss_rand(samples,1,x_mean,x_var);
+tz0_y=gauss_rand(samples,1,y_mean,y_var);
 tz0=[tz0_x tz0_y ones(samples,1)*class_id];
 
 % generate class id 2
@@ -29,9 +31,9 @@ class_id=2;
 x_mean = 0.4;
 y_mean = 0.4;
 x_var = 0.1;
-y_var = 0.1;
+y_var = 0.5;
 tz1_x=gauss_rand(samples,1,x_mean,x_var);
-tz1_y=gauss_rand(samples,1,x_mean,x_var);
+tz1_y=gauss_rand(samples,1,y_mean,y_var);
 tz1=[tz1_x tz1_y ones(samples,1)*class_id];
 
 % write to file
@@ -42,6 +44,8 @@ fclose(file_id);
 
 % plot, if you want to, uncomment
 plot(tz0_x, tz0_y, 'x');
+axis equal;
+title ({'2 Gaussians', 'with different "variance"'});
 hold on
 plot(tz1_x, tz1_y, 'o');
 hold off
