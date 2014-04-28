@@ -2,6 +2,8 @@
 	"name":"DirichletModule",
 	"type":"background",
 	"description":"Unsupervised clustering with Dirichlet process as prior",
+	"supported_middleware":[ ],
+	"supported_devices":[ ],
 	"enable":"false",
 	"android": {
 		"package":"com.dobots.dirichletmodule",
@@ -12,19 +14,19 @@
 			"name":"audio",
 			"dir":"in",
 			"type":"intarray",
-			"middleware":"standard"
+			"middleware":"default"
 		},
 		{
 			"name":"infrared",
 			"dir":"in",
 			"type":"int",
-			"middleware":"standard"
+			"middleware":"default"
 		},
 		{
 			"name":"leftwheel",
 			"dir":"out",
 			"type":"int",
-			"middleware":"standard"
+			"middleware":"default"
 		}
 	]
 }

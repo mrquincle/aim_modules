@@ -77,7 +77,9 @@ void NaiveBayesModuleExt::Test(std::vector<int> & sample) {
 	if (dataitem_length && (length != dataitem_length)) {
 		std::cerr << "All data items should be of the same length (" << length << " is not " << \
 			dataitem_length << ")" << std::endl;
-	} 
+	} else {
+		dataitem_length = length;
+	}
 
 	const int data_start = 4;
 	if (sample.size() != length+data_start) {
