@@ -21,7 +21,7 @@ Currently, there are several types of modules here, across the dimensions "Devic
 * ClusterModule, a module that performs unsupervised learning with either k-means clustering or a Gaussian Mixture Model with Expectation Maximization
 * ILVQModule, a different clustering method using Incremental Learning Vector Quantization
 * NaiveBayes, a Naive Bayes classifier (assumes conditional independence between observations without any additional structure)
-* LDAModule, a classifier that uses Latent Dirichlet Allocation (assumes one level of indirections, a hidden layer of topics), uses Gibbs sampling to perform inference
+* LDAModule, a classifier that uses Latent Dirichlet Allocation (assumes one level of indirection: a hidden layer of topics), uses Gibbs sampling to perform inference
 * ModelSectionModule, simple module that calculates the Akaike Information Criterion or the Bayesian Information Criterion which both penalize the model complexity and are therefore useful as model selection criteria
 * BeliefModule, module which performs belief propagation (not fully done, uses only example, not input/output ports yet)
 * DirichletModule, implements the Hierarchical Dirichlet Process through the Chinese Restaurant metaphor (not completed)
