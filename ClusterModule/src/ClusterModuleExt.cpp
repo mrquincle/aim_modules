@@ -12,12 +12,12 @@
  * bio-industry, for animal experimentation, or anything that violates the Universal
  * Declaration of Human Rights.
  *
- * Copyright © 2013 Your Name <your@email>
+ * Copyright © 2014 Anne van Rossum <anne@dobots.nl>
  *
- * @author	Your Name
- * @date	Current date
- * @company	Your Company
- * @project	Specific Software Project
+ * @author	Anne van Rossum
+ * @date	28 April, 2015
+ * @company	DoBots
+ * @project	Unsupervised learning
  */
 
 #include <ClusterModuleExt.h>
@@ -30,13 +30,14 @@
 
 using namespace rur;
 
-enum DataSet { D_ABALONE, D_GAUSSIAN, D_IRIS, NUMBER_OF_DATASETS };
+enum DataSet { D_ABALONE, D_GAUSSIAN, D_IRIS, D_LINES, NUMBER_OF_DATASETS };
 
 void ClusterModuleExt::Init(std::string& name) {
 	std::ifstream f;
 	DataSet dataset;
 	dataset = D_ABALONE;
 	dataset = D_GAUSSIAN;
+	dataset = D_LINES;
 	//	dataset = D_IRIS;
 	std::string file = "";
 	switch (dataset) {
@@ -60,6 +61,11 @@ void ClusterModuleExt::Init(std::string& name) {
 	break;
 	case D_IRIS: {
 		file = "data/iris2.data";
+		predefined_clusters = 3;
+	}
+	break;
+	case D_LINES: {
+		file = "data/lines.data";
 		predefined_clusters = 3;
 	}
 	break;
@@ -140,7 +146,7 @@ void ClusterModuleExt::Tick() {
 
 		expmax.init();
 
-		int T = 20; // time span
+		int T = 3; // time span
 		std::cout << "We will run for " << T << " time steps (progress shown by dots)" << std::endl;
 		for (int t = 0; t < T; ++t) {
 			expmax.tick();
@@ -148,7 +154,7 @@ void ClusterModuleExt::Tick() {
 			//				std::cout << std::endl;
 			//				expmax.evaluate();
 			//			}
-			std::cout << '.'; flush(std::cout);
+			//std::cout << '.'; flush(std::cout);
 		}
 		std::cout << std::endl;
 

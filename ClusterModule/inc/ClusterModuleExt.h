@@ -14,8 +14,8 @@
  *
  * Copyright © 2012 Anne van Rossum <anne@almende.com>
  *
- * @author  ...
- * @date    ...
+ * @author  Anne van Rossum
+ * @date    May 7, 2014
  * @company Almende B.V.
  * @case    Artificial Intelligence Framework
  */

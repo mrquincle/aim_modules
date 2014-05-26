@@ -31,7 +31,7 @@ Currently, there are several types of modules here, across the dimensions "Devic
 * KeypointModule, extraction of keypoints from an image
 * CornerDetectorModule, detects corners in an image
 * FindRobotModule, (not fully implemented!), uses Efficient Subwindow Search to match against a dictionary with image patches
-* DetectLineModule, line detection in an image, uses the Randomized Hough Transfform
+* DetectLineModule, line detection in an image, uses the Randomized Hough Transform
 
 ## Copyrights
 The copyrights (2014) belong to:
