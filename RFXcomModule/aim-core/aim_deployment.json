@@ -3,10 +3,12 @@
 	"type":"background",
 	"version":"0.2",
 	"category":"general",
-	"description":"Performs amazing functions",
+	"description":"The RFXcom module interfaces with many home automation solutions on 433MHz.",
+	"long_description":"The RFXcom module interfaces with many home automation solutions on 433MHz, such as Klik-Aan-Klik-Uit (KAKU, HomeEasy, etc.",
+	"category":"Home Automation",
 	"supported_middleware":[ "yarp", "zeromq", "ros" ],
 	"supported_devices":[ "raspberrypi", "ubuntu" ],
-	"enable":"false",
+	"enable":"true",
 	"android": {
 		"package":"org.dobots.rfxcommodule",
 		"url":"https://play.google.com/store/apps/details?id=org.dobots.rfxcommodule"
