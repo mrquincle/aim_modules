@@ -195,15 +195,23 @@ IF (${MIDDLEWARE} STREQUAL "zeromq")
 
 	FIND_PACKAGE(JsonSpirit REQUIRED)
 
-	IF (NOT ${JSON_SPIRIT_FOUND}) 
+	IF (NOT ${JSON_SPIRIT_FOUND} STREQUAL "TRUE") 
 		MESSAGE(FATAL_ERROR "Header files or library of json-spirit is not found. Did you install libjson-spirit-dev?")
 	ENDIF()
 
 	INCLUDE_DIRECTORIES(${JSON_SPIRIT_INCLUDE_DIRS})
 	SET(LIBS ${LIBS} ${JSON_SPIRIT_LIBRARIES})
 
-	# Currently tacitly assuming rt is always there...
+	FIND_LIBRARY(LIBRT_LIBRARIES rt)
+	IF(NOT LIBRT_LIBRARIES)
+		MESSAGE(FATAL_ERROR "Oh no, librt not found!")
+	ELSE()
+		MESSAGE(STATUS "Found librt")
+	ENDIF()
 	SET(LIBS ${LIBS} rt)
+	
+	FIND_PACKAGE(Threads)
+	SET(LIBS ${LIBS} pthread)
 ENDIF()
 
 IF (${MIDDLEWARE} STREQUAL "nodejs")
