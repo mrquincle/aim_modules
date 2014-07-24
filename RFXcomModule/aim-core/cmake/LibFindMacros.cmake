@@ -38,6 +38,8 @@ endmacro (libfind_pkg_check_modules)
 macro (libfind_process PREFIX)
   # Skip processing if already processed during this run
   if (NOT ${PREFIX}_FOUND)
+    
+    message( STATUS "Try to find package ${PREFIX}")
     # Start with the assumption that the library was found
     set (${PREFIX}_FOUND TRUE)
 

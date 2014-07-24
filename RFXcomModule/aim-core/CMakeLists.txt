@@ -194,6 +194,11 @@ IF (${MIDDLEWARE} STREQUAL "zeromq")
 	SET(LIBS ${LIBS} ${ZMQ_LIBRARIES})
 
 	FIND_PACKAGE(JsonSpirit REQUIRED)
+
+	IF (NOT ${JSON_SPIRIT_FOUND}) 
+		MESSAGE(FATAL_ERROR "Header files or library of json-spirit is not found. Did you install libjson-spirit-dev?")
+	ENDIF()
+
 	INCLUDE_DIRECTORIES(${JSON_SPIRIT_INCLUDE_DIRS})
 	SET(LIBS ${LIBS} ${JSON_SPIRIT_LIBRARIES})
 
