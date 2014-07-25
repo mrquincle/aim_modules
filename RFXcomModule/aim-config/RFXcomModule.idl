@@ -52,7 +52,10 @@ interface RFXcomModule {
 
   // Output of device 1
   void Output1(out long output1);
-  
+ 
+/* 
+  // just two devices for now
+
   // Input towards device 2
   void Input2(in long_seq input2);
 
@@ -76,7 +79,7 @@ interface RFXcomModule {
 
   // Output of device 3
   void Output3(out long output3);
-  
+ */
 };
 
 };

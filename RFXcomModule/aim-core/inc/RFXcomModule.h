@@ -55,23 +55,9 @@ private:
   long_seq portSelect1Buf;
   yarp::os::BufferedPort<yarp::os::Bottle> *portSelect1;
   yarp::os::BufferedPort<yarp::os::Bottle> *portOutput1;
-  long_seq portInput2Buf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portInput2;
-  int portType2Buf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portType2;
-  long_seq portSelect2Buf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portSelect2;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portOutput2;
-  long_seq portInput3Buf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portInput3;
-  int portType3Buf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portType3;
-  long_seq portSelect3Buf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portSelect3;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portOutput3;
 protected:
-  static const int channel_count = 16;
-  const char* channel[16];
+  static const int channel_count = 8;
+  const char* channel[8];
   // Read from this function and assume it means something
   // Remark: caller is responsible for evoking vector->clear()
   long_seq *readInput0(bool blocking=false);
@@ -101,36 +87,6 @@ protected:
   
   // Write to this function and assume it ends up at some receiving module
   bool writeOutput1(const int output1);
-  
-  // Read from this function and assume it means something
-  // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readInput2(bool blocking=false);
-  
-  // Read from this function and assume it means something
-  // Remark: check if result is not NULL
-  int *readType2(bool blocking=false);
-  
-  // Read from this function and assume it means something
-  // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readSelect2(bool blocking=false);
-  
-  // Write to this function and assume it ends up at some receiving module
-  bool writeOutput2(const int output2);
-  
-  // Read from this function and assume it means something
-  // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readInput3(bool blocking=false);
-  
-  // Read from this function and assume it means something
-  // Remark: check if result is not NULL
-  int *readType3(bool blocking=false);
-  
-  // Read from this function and assume it means something
-  // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readSelect3(bool blocking=false);
-  
-  // Write to this function and assume it ends up at some receiving module
-  bool writeOutput3(const int output3);
   
 public:
   // Default constructor

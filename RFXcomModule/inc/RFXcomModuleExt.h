@@ -23,6 +23,8 @@ namespace rur {
 #define READ_SELECT(dev) readSelect ## dev()
 #define READ_INPUT(dev) readInput ## dev()
 
+#define TWO_DEVICES
+
 struct RFXcomDevice {
 	uint8_t type;
 	uint8_t id[3];
@@ -70,32 +72,40 @@ protected:
 		switch(channel) {
 			case 0: return READ_TYPE(0);
 			case 1: return READ_TYPE(1);
+#ifndef TWO_DEVICES
 			case 2: return READ_TYPE(2);
 			case 3: return READ_TYPE(3);
+#endif
 		}
 	}
 	long_seq* readSelect(int channel) {
 		switch(channel) {
 			case 0: return READ_SELECT(0);
 			case 1: return READ_SELECT(1);
+#ifndef TWO_DEVICES
 			case 2: return READ_SELECT(2);
 			case 3: return READ_SELECT(3);
+#endif
 		}
 	}
 	long_seq* readInput(int channel) {
 		switch(channel) {
 			case 0: return READ_INPUT(0);
 			case 1: return READ_INPUT(1);
+#ifndef TWO_DEVICES
 			case 2: return READ_INPUT(2);
 			case 3: return READ_INPUT(3);
+#endif
 		}
 	}
 	bool writeOutput(int channel, const int output) {
 		switch(channel) {
 			case 0: return writeOutput0(output);
 			case 1: return writeOutput1(output);
+#ifndef TWO_DEVICES
 			case 2: return writeOutput2(output);
 			case 3: return writeOutput3(output);
+#endif
 		}
 	}
 	
