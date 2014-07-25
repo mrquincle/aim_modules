@@ -29,7 +29,13 @@
 using namespace rur;
 
 //! Replace with your own code
-RFXcomModuleExt::RFXcomModuleExt(): nof_devices(4), devices(std::vector<RFXcomDevice>(4)) {
+RFXcomModuleExt::RFXcomModuleExt() {
+	int nof_devices = 4;
+	for (int d = 0; d < nof_devices; ++d) {
+		RFXcomDevice *dev = new RFXcomDevice();
+		dev->init = false;
+		devices.push_back(dev);
+	}
 	//Init();	
 }
 
@@ -156,11 +162,19 @@ void RFXcomModuleExt::SetMode(RFXmsg & msg) {
 	Send(msg);
 }
 
-void RFXcomModuleExt::SendCommand(RFXmsg &msg, RFXcomDevice &device, long_seq &command) {
+bool RFXcomModuleExt::SendCommand(RFXmsg &msg, RFXcomDevice &device, long_seq &command) {
 	std::cout << "Send command" << std::endl;
+
+	if (!device.init) {
+		std::cerr << "It doesn't seem the device type has been communicated" << std::endl;
+		std::cerr << "Have you forgotten to send this info to the /type channel?" << std::endl;
+		std::cerr << "Or is there a synchronicity issue?" << std::endl;
+		return false;
+	}
 
 	switch(device.type) {
 		case MSG_LIGHTING1: {
+			// this is a simple switch 
 			msg.lighting1.message_length = 8-1;
 			msg.lighting1.message_type = MSG_LIGHTING1;
 			msg.lighting1.sub_type = MSG_LIGHTING1_RISING_SUN; // CONRAD_RSL_366R
@@ -174,9 +188,10 @@ void RFXcomModuleExt::SendCommand(RFXmsg &msg, RFXcomDevice &device, long_seq &c
 
 		}
 		case MSG_LIGHTING5: {
-			// depends on switch, for now Conrad only
+			// depends on switch, I thought this was the Conrad, but that one is MSG_LIGHTING1
 			msg.lighting5.message_length = 11-1;
 			msg.lighting5.message_type = MSG_LIGHTING5;
+			// currently we just assume a conrad switch
 			msg.lighting5.sub_type = MSG_LIGHTING5_CONRAD_RSL2;
 
 			// remote/switch/unit ID
@@ -185,6 +200,7 @@ void RFXcomModuleExt::SendCommand(RFXmsg &msg, RFXcomDevice &device, long_seq &c
 			msg.lighting5.id[0] = device.id[0];
 			msg.lighting5.id[1] = device.id[1];
 			msg.lighting5.id[2] = device.id[2];
+			// currently we just pick unitcode 1
 			msg.lighting5.unitcode = 1;
 			msg.lighting5.cmd = command[0];
 			msg.lighting5.level = 0; // only used for LIGHTWAVE_RF / SIEMENS
@@ -192,12 +208,14 @@ void RFXcomModuleExt::SendCommand(RFXmsg &msg, RFXcomDevice &device, long_seq &c
 			break;
 		}
 		default: {
-			std::cerr << "Error, device.type is not known: " << device.type << std::endl;
-			return;
+			std::cerr << "Error, device.type \"" << device.type << "\" is not known" << std::endl;
+			std::cerr << "Currently supported: \"" << MSG_LIGHTING1 << "\" and \"" << MSG_LIGHTING5 << "\"" << std::endl;
+			return false;
 		}
 	}
 			
 	Send(msg);
+	return true;
 }
 
 
@@ -247,19 +265,19 @@ void RFXcomModuleExt::ReceiveAll() {
 }
 
 RFXcomDevice * RFXcomModuleExt::GetDevice(int type, long_seq & id) {
-	for (int i = 0; i < nof_devices; i++) {
-		if (devices[i].type == type) {
+	for (int i = 0; i < devices.size(); i++) {
+		if (devices[i]->type == type) {
 			std::cout << "For now, success! We do not check on id yet" << std::endl;
 			std::cout << "however, it is ";
 			for (int j = 0; j < 3; j++) {
-				std::cout << devices[i].id[j] << ' ';
+				std::cout << devices[i]->id[j] << ' ';
 			}
 			std::cout << " vs ";
 			for (int j = 0; j < id.size(); j++) {
 				std::cout << id[j] << ' ';
 			}
 			std::cout << std::endl;
-			return &devices[i];
+			return devices[i];
 		}
 	}
 	return NULL;
@@ -290,48 +308,56 @@ void RFXcomModuleExt::Receive(RFXmsg &msg) {
  */
 void RFXcomModuleExt::Tick() {
 //	stop = true;
-	
 	int *type; long_seq *id = NULL, *cmd = NULL;
 
-	for (int d = 0; d < nof_devices; ++d) {
+	for (int d = 0; d < devices.size(); ++d) {
+		if (!devices[d]) {
+			std::cerr << "Device " << d << " seems to be null!" << std::endl;
+			continue;
+		}
 		type = readType(d);
 		if (type) {
-			devices[d].type = *type;
+			devices[d]->type = *type;
+			devices[d]->init = true;
 			std::cout << "Device type " << 
 				//std::dec <<
 				std::internal << std::setfill('0') << std::hex << std::setw(2) <<
-				"0x" << (int)devices[d].type << " set for channel " << d << std::endl;
-			devices[d].channel = d;
+				"0x" << (int)devices[d]->type << " set for channel " << d << std::endl;
+			devices[d]->channel = d;
 		}
 		id = readSelect(d);
-		if (!id->empty()) {
+		if (id && !id->empty()) {
 			std::cout << "Device id ";
 			for (int i = 0; i < id->size() && i < 3; i++) {
-				devices[d].id[i] = (*id)[i];
-				std::cout << (int)devices[d].id[i] << ' ';
+				devices[d]->id[i] = (*id)[i];
+				std::cout << (int)devices[d]->id[i] << ' ';
 			}
 			std::cout << " set for channel " << d << std::endl;
 			id->clear();
 		}	
-
 		cmd = readInput(d);
-		if (!cmd->empty()) {
+		if (cmd && !cmd->empty()) {
 			RFXmsg msg;
 			Clear(msg);
 			std::cout << "Send command to device from channel " << d << std::endl;
-			SendCommand(msg,devices[d],*cmd);
-			Display(msg);
-			Receive(msg);
-			Display(msg);
+			bool success = SendCommand(msg,*devices[d],*cmd);
+			if (success) {
+				Display(msg);
+				Receive(msg);
+				Display(msg);
+			}
 			cmd->clear();
 		}
 	}
-	return;
-
+#ifdef TEST
 	RFXmsg msg;
 	Clear(msg);
 	Receive(msg);
 	Display(msg);	
+#endif
+
+	//ReceiveAll(); blocks
+
 	sleep(1);
 }
 

@@ -27,6 +27,7 @@ struct RFXcomDevice {
 	uint8_t type;
 	uint8_t id[3];
 	uint8_t channel; // outgoing channel in middleware
+	bool init;
 };
 
 /**
@@ -53,7 +54,7 @@ public:
 //	void TurnOnSwitch(RFXmsg &msg);
 	RFXcomDevice * GetDevice(int type, long_seq & id);
 
-	void SendCommand(RFXmsg &msg, RFXcomDevice &device, long_seq &command);
+	bool SendCommand(RFXmsg &msg, RFXcomDevice &device, long_seq &command);
 
 	void ReceiveAll();
 
@@ -105,9 +106,7 @@ private:
 
 	bool stop = false;
 
-	uint8_t nof_devices;
-
-	std::vector<RFXcomDevice> devices;
+	std::vector<RFXcomDevice*> devices;
 };
 
 }

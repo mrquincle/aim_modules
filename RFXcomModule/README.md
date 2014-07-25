@@ -36,6 +36,30 @@ Note that `udev` is the system that is used for device management on `Ubuntu` an
 
 Follow the instructions on [AIM website](http://dobots.github.com/aim/). 
 
+## Example
+
+Suppose you have bought the Conrad remote-controlled switch with a label at the back that states RSL366R. This is the type `MSG_LIGHTING1`.
+
+Run `./run.sh` in the `scripts` directory. Note that if this is the first time you use the RFXcom, you might to have a different mode. You can set the mode by enabling the `SetMode(..)` call in the source code in `src/RFXcomModuleExt.cpp`, but this will be made easier in the future. You can also try to run the `RFXmngr` utility from [rfxcom.com](http://www.rfxcom.com/downloads.htm), through `mono RFXmngr.exe`, and set the mode yourself, but I wasn't successful in writing (already reading went smoothly).
+
+Now to control it, you have to configurate it first:
+
+    yarp write /write /rfxcommodule0/type0
+    type "16" which corresponds to 0x10 (MSG_LIGHTING1)
+
+Quit the process (Ctrl+C) and start a new one:
+
+    yarp write /rfxcommodule0/select0
+    type "1" this corresponds to the rotating wheels on the back set to "I" and "1"
+
+Quit again.
+
+Start another:
+
+    yarp write /rfxcommodule0/input0
+    type "1" to turn on the switch
+    type "0" to turn off the switch
+
 ## Where can I read more?
 
 * [AIM website](http://dobots.github.com/aim/) 
