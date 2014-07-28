@@ -30,8 +30,7 @@ using namespace rur;
 
 //! Replace with your own code
 RFXcomModuleExt::RFXcomModuleExt() {
-	int nof_devices = 4;
-	for (int d = 0; d < nof_devices; ++d) {
+	for (int d = 0; d < NOF_DEVICES; ++d) {
 		RFXcomDevice *dev = new RFXcomDevice();
 		dev->init = false;
 		devices.push_back(dev);
@@ -49,6 +48,10 @@ void RFXcomModuleExt::Init(std::string& param) {
 
 	std::cout << "Open device /dev/rfxcom" << std::endl;
 	fd = open( "/dev/rfxcom", O_RDWR| O_NOCTTY );
+	if (fd < 0) {
+		std::cerr << "Could not open /dev/rfxcom" << std::endl;
+		return;
+	}
 	std::cout << "Nice, rfxcom device opened" << std::endl;
 	struct termios tty;
 	struct termios tty_old;
@@ -113,7 +116,6 @@ void RFXcomModuleExt::Init(std::string& param) {
 	Display(msg);
 
 	//sleep(2);
-
 	//Clear(msg);
 	//SetMode(msg);
 	//Display(msg);
@@ -125,6 +127,7 @@ void RFXcomModuleExt::Init(std::string& param) {
 //	Display(msg);
 //	Receive(msg);
 //	Display(msg);
+	std::cout << "Done with initialization" << std::endl;
 }
 
 void RFXcomModuleExt::Clear(RFXmsg & msg) {
@@ -307,7 +310,6 @@ void RFXcomModuleExt::Receive(RFXmsg &msg) {
  * Read all the ports corresponding to all possible devices.
  */
 void RFXcomModuleExt::Tick() {
-//	stop = true;
 	int *type; long_seq *id = NULL, *cmd = NULL;
 
 	for (int d = 0; d < devices.size(); ++d) {

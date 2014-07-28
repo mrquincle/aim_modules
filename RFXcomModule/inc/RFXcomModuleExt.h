@@ -25,6 +25,12 @@ namespace rur {
 
 #define TWO_DEVICES
 
+#ifdef TWO_DEVICES
+	const int NOF_DEVICES = 2;
+#else
+	const int NOF_DEVICES = 4;
+#endif
+
 struct RFXcomDevice {
 	uint8_t type;
 	uint8_t id[3];
