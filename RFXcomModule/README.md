@@ -46,23 +46,25 @@ Suppose you have bought the Conrad remote-controlled switch with a label at the 
 
 Run `./run.sh` in the `scripts` directory. Note that if this is the first time you use the RFXcom, you might to have a different mode. You can set the mode by enabling the `SetMode(..)` call in the source code in `src/RFXcomModuleExt.cpp`, but this will be made easier in the future. You can also try to run the `RFXmngr` utility from [rfxcom.com](http://www.rfxcom.com/downloads.htm), through `mono RFXmngr.exe`, and set the mode yourself, but I wasn't successful in writing (already reading went smoothly).
 
-Now to control it, you have to configurate it first:
+Now to control it, you have to configure it first (`16`=`0x10`=`MSG_LIGHTING1`):
 
-    yarp write /write /rfxcommodule0/type0
-    type "16" which corresponds to 0x10 (MSG_LIGHTING1)
+    echo "16" | yarp write /write /rfxcommodule0/type0
 
-Quit the process (Ctrl+C) and start a new one:
+Send now a command to select which plug we want to address:
 
-    yarp write /rfxcommodule0/select0
-    type "1" this corresponds to the rotating wheels on the back set to "I" and "1"
+    echo "1" | yarp write /write /rfxcommodule0/select0
 
-Quit again.
+This corresponds to the rotating wheels on the back set to "I" and "1"
 
-Start another:
+To turn it on:
+
+    echo "1" | yarp write /write /rfxcommodule0/input0
+
+To turn it off, send echo "0". Or just type:
 
     yarp write /rfxcommodule0/input0
-    type "1" to turn on the switch
-    type "0" to turn off the switch
+
+And you can interact with it directly.
 
 ## Usage as a normal developer
 

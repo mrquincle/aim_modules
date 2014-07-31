@@ -15,6 +15,7 @@
 
 #include <RFXcomModule.h>
 #include <rfxcom.h>
+#include <queue>
 
 namespace rur {
 
@@ -31,11 +32,27 @@ namespace rur {
 	const int NOF_DEVICES = 4;
 #endif
 
+struct rfxcom_device_init_t {
+	bool type;
+	bool id;
+	bool channel;
+};
+
+//! Can be used to create a buffer to send a batch of messages or reorder them
+struct RFXcomBufferItem {
+	RFXcomBufferItem(long_seq &command) {
+		// copy contents
+		this->command = command;
+	}
+	long_seq command;
+};
+
 struct RFXcomDevice {
 	uint8_t type;
 	uint8_t id[3];
 	uint8_t channel; // outgoing channel in middleware
-	bool init;
+	rfxcom_device_init_t init;
+	std::queue<RFXcomBufferItem*> buffer;
 };
 
 /**
@@ -123,6 +140,7 @@ private:
 	bool stop = false;
 
 	std::vector<RFXcomDevice*> devices;
+
 };
 
 }

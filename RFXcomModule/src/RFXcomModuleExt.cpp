@@ -32,7 +32,9 @@ using namespace rur;
 RFXcomModuleExt::RFXcomModuleExt() {
 	for (int d = 0; d < NOF_DEVICES; ++d) {
 		RFXcomDevice *dev = new RFXcomDevice();
-		dev->init = false;
+		dev->init.type = false;
+		dev->init.id = false;
+		dev->init.channel = false;
 		devices.push_back(dev);
 	}
 	//Init();	
@@ -168,10 +170,12 @@ void RFXcomModuleExt::SetMode(RFXmsg & msg) {
 bool RFXcomModuleExt::SendCommand(RFXmsg &msg, RFXcomDevice &device, long_seq &command) {
 	std::cout << "Send command" << std::endl;
 
-	if (!device.init) {
+	if (!device.init.type || !device.init.channel) {
 		std::cerr << "It doesn't seem the device type has been communicated" << std::endl;
 		std::cerr << "Have you forgotten to send this info to the /type channel?" << std::endl;
 		std::cerr << "Or is there a synchronicity issue?" << std::endl;
+		RFXcomBufferItem *item = new RFXcomBufferItem(command);
+		device.buffer.push(item);
 		return false;
 	}
 
@@ -320,7 +324,7 @@ void RFXcomModuleExt::Tick() {
 		type = readType(d);
 		if (type) {
 			devices[d]->type = *type;
-			devices[d]->init = true;
+			devices[d]->init.type = true;
 			std::cout << "Device type " << 
 				//std::dec <<
 				std::internal << std::setfill('0') << std::hex << std::setw(2) <<
@@ -335,6 +339,7 @@ void RFXcomModuleExt::Tick() {
 				std::cout << (int)devices[d]->id[i] << ' ';
 			}
 			std::cout << " set for channel " << d << std::endl;
+			devices[d]->init.channel = true;
 			id->clear();
 		}	
 		cmd = readInput(d);
@@ -350,7 +355,29 @@ void RFXcomModuleExt::Tick() {
 			}
 			cmd->clear();
 		}
+		if (!devices[d]->buffer.empty()) {
+			if (devices[d]->init.type && devices[d]->init.channel) {
+				// we have a message in the buffer and are now properly initialized, resend that message
+				RFXmsg msg;
+				Clear(msg);
+				std::cout << "Resend command to device from channel " << d << std::endl;
+				RFXcomBufferItem *item = devices[d]->buffer.front();
+				if (!item) {
+					std::cerr << "Resend failed. Item is null!" << std::endl;
+					devices[d]->buffer.pop();
+					continue;
+				}
+				bool success = SendCommand(msg,*devices[d],*cmd);
+				if (success) {
+					Display(msg);
+					Receive(msg);
+					Display(msg);
+				}
+				devices[d]->buffer.pop();
+			}
+		}
 	}
+
 #ifdef TEST
 	RFXmsg msg;
 	Clear(msg);
