@@ -46,7 +46,13 @@ DirichletModuleExt::~DirichletModuleExt() {
 
 }
 
-//! Replace with your own code
+/**
+ * We tick only once and stop then our module. There is currently no input from outside this module used.
+ *
+ * The function CreateAssignments generates samples according to a Chinese Restaurant Process with alpha defined in 
+ * the constructor. Then the representation in the form of a table index per customer, is changed to a representation 
+ * in the form of only the number of customers per table. 
+ */
 void DirichletModuleExt::Tick() {
 	std::vector<value_t> assignments; assignments.clear();
 	CreateAssignments(100, assignments);
@@ -84,7 +90,7 @@ void DirichletModuleExt::SampleFromPrior() {
 
 /**
  * Create table assignments following the Chinese Restaurant Process. The first table is table with index "0". If you
- * use a Dirichlet process for data points, you can in a batch process, generated all the seat assignments at once.
+ * use a Dirichlet process for the data points, you can generate all the seat assignments at once.
  */
 void DirichletModuleExt::CreateAssignments(int count, std::vector<value_t> & assignments) {
 	int last_table;
@@ -99,19 +105,35 @@ void DirichletModuleExt::CreateAssignments(int count, std::vector<value_t> & ass
 	}
 }
 
+/**
+ * Pick a new table with probability a/(n+a) and pick an existing table with probability (1 - a/(n+a)) with n being the
+ * number of customers already seated. If n==0 it is the first customer, and the chance to get a new table is 1. Note,
+ * this assumes observations/assignments starting from index 0: X_0, X_1, etc. The equations on for example
+ * http://www.wikiwand.com/en/Dirichlet_process assume them starting from index 1: X_1, X_2, etc. So, they have (n-1)
+ * in the equations below.
+ *
+ * Draw X_0 from the base distribution H
+ * For n > 0
+ *   1.) Draw X_1 (and up) with probability a/(n+a) from H
+ *   2.) Set X_1 (and up) with probability n_{table}/(n+a) to X_{table}
+ * We use a shortcut here. Because we have stored an array for all customers, we can perform 2.) by uniformly sampling
+ * over these customers (this will automatically be in correspondence with the number of customers at each table).
+ */
 DirichletModuleExt::value_t DirichletModuleExt::NextAssignment(std::vector<value_t> & assignments, int & last_table) {
-	int i = assignments.size();
-	if (drand48() < (alpha / (i + alpha))) {
+	int n = assignments.size();
+	if (drand48() < (alpha / (n + alpha))) {
 		last_table++;
 		return last_table;
 	} else {
-		return assignments[rand() %  i];
+		return assignments[rand() %  n];
 	}
 }
 
 /**
  * We can also sample over a distribution. This is more flexible, because it is possible not to just enter the
  * distribution, but assign different weights corresponding to e.g. a likelihood function to each table.
+ *
+ * TODO: not used
  */
 DirichletModuleExt::value_t DirichletModuleExt::NextTable(std::vector<value_t> & weighted_distribution, int & last_table) {
 	size_t len = weighted_distribution.size();
@@ -131,6 +153,10 @@ DirichletModuleExt::value_t DirichletModuleExt::NextTable(std::vector<value_t> &
 	}
 }
 
+/**
+ * Just get the vector of customers referring to table indices and calculate the number of customers at each table.
+ * Note that this changes the assignments vector (it gets sorted).
+ */
 void DirichletModuleExt::AssignmentsToDistribution(std::vector<value_t> & assignments,
 		std::vector<value_t> & distribution) {
 	std::sort(assignments.begin(), assignments.end());
@@ -139,7 +165,9 @@ void DirichletModuleExt::AssignmentsToDistribution(std::vector<value_t> & assign
 	dobots::count(assignments.begin(), assignments.end(), distribution.begin());
 }
 
-//! Replace with your own code
+/**
+ * The Stop function checks when its time to stop. We use a simple flag that we set in the Tick function.
+ */
 bool DirichletModuleExt::Stop() {
 	return stopping_flag;
 }
