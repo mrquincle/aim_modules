@@ -10,3 +10,8 @@
 #######################################################################################################################
 
 # Your own changes to the CMake build system such as for example FindEigen to support matrix manipulations
+
+ADD_DEFINITIONS(
+	-std=c++11
+)
+

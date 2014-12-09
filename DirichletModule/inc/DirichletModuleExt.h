@@ -30,6 +30,18 @@ public:
 	typedef Eigen::Matrix<value_t,Eigen::Dynamic,Eigen::Dynamic> matrix_t;
 	typedef Eigen::Matrix<value_t,Eigen::Dynamic,1> vector_t; // column_vector
 
+	struct NormalDistribution {
+		vector_t mean;
+		matrix_t covar;
+	};
+
+	struct SufficientStatistics {
+		vector_t mu;
+		value_t kappa;
+		value_t nu;
+		matrix_t lambda;
+	};
+
 	//! The constructor
 	DirichletModuleExt();
 
@@ -59,6 +71,23 @@ public:
 	//! Come up with the next parameter, this would use NextAssignment and if larger than parameters.size()
 	// generate a new parameter with the given prior, and if smaller, pick that parameter.
 	void NextParameter();
+
+	void UpdateSufficientStatistics(const SufficientStatistics & ss_in, vector_t observation,
+			SufficientStatistics & ss_out);
+	void PosteriorPredictive(const SufficientStatistics & ss, const vector_t & observation,
+			value_t & posterior_predictive);
+	value_t Likelihood(const NormalDistribution &nd, const vector_t & observation);
+	void PosteriorDensity(const SufficientStatistics & ss, const vector_t & observation, 
+			NormalDistribution & nd);
+	void SampleNormalInverseWishart(const SufficientStatistics & ss, NormalDistribution &nd);
+	void SampleMultivariateNormal(const vector_t & mean, const matrix_t & S, vector_t sample);
+	void SampleInverseWishart(const value_t & dof, matrix_t & S);
+	void Likelihoods(const std::vector<NormalDistribution> & thetas, const vector_t & observation,
+			std::vector<value_t> & likelihoods);
+	void GibbsStep(const SufficientStatistics & ss, const std::vector<NormalDistribution> & thetas_without_k, 
+			const value_t dispersion_factor, const vector_t & observation, 
+			NormalDistribution & theta_k);
+
 private:
 	// each parameter is a column-vector
 	matrix_t parameters;

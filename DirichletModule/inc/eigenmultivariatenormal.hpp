@@ -87,6 +87,8 @@ public:
 		return (transform * Matrix<V,Eigen::Dynamic,-1>::NullaryExpr(Eigen::Dynamic,n,randN)).colwise() + mean;
 	}
 
+	// Todo: draw single sample
+
 }; // end class EigenMultivariateNormal
 
 } // end namespace Eigen
