@@ -350,7 +350,8 @@ void DirichletModuleExt::Likelihoods(const std::vector<NormalDistribution> & the
  * @param                    observation [in], the new observation
  * @param                    theta_k [out], the updated normal distribution as a result of the Gibbs sampling step
  */
-void DirichletModuleExt::GibbsStep(const SufficientStatistics & ss, const std::vector<NormalDistribution> & thetas_without_k, 
+void DirichletModuleExt::GibbsStep(const SufficientStatistics & ss, 
+		const std::vector<NormalDistribution> & thetas_without_k, 
 		const value_t dispersion_factor, const vector_t & observation, 
 		NormalDistribution & theta_k) {
 	// 1. calculate likelihoods	

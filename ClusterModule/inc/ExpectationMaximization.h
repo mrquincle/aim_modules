@@ -41,7 +41,7 @@
 //#define VERBOSE
 #define ASSIGNMENT
 
-//#define TEST_START_FROM_GROUND_TRUTH
+#define TEST_START_FROM_GROUND_TRUTH
 
 
 /**
@@ -414,6 +414,86 @@ class ExpectationMaximization {
 			return result;
 		}
 
+		/**
+		 * G((\tau+1)/2)/( G(\tau/2) sqrt(pi*\tau) )
+		 */
+		value_t t_distribution_Gamma_factor(const value_t tau) {
+			value_t result = sqrt(tau);
+			int itau = (int)tau;
+			if (itau % 2 == 0) {
+				// even
+				//value_t nominator = 1, denominator = sqrt(tau)*2;
+				result *= 2;
+				for (int i = 0; i < tau/2-2; i++) {
+					result *= ((tau - (2*i + 1)) / ( tau - (2*i+2)));
+				}
+				//for (int j = 2; j < tau; j+=2) {
+				//	demoninator *= j;
+				//}
+				//for (int j = 3; j < tau; j+=2) {
+				//	nominator *= j;
+				//}
+			} else {
+				// odd
+				result *= M_PI;
+				for (int i = 0; i < (tau-1)/2-1; i++) {
+					result *= ((tau - (2*i + 1)) / ( tau - (2*i+2)));
+				}
+				//value_t nominator = 1, denominator = sqrt(tau)*M_PI;
+				//for (int j = 3; j < tau; j+=2) {
+				//	demoninator *= j;
+				//}
+				//for (int j = 2; j < tau; j+=2) {
+				//	nominator *= j;
+				//}
+
+			}
+			return result;
+		}
+
+		/**
+		 * The non-standardized Student's t-distribution has a location / scale parameter (as with a Gaussian) plus a degrees
+		 * of freedom parameter, \tau. It's form is quite different though (although it converges to a Gaussian with 
+		 * dof=\infty.
+		 *
+		 *   f(x_1,...x_d) = G((\tau+1)/2)/( G(\tau/2) sqrt(pi*\tau) * |\Sigma| )  * ( 1 -1/\tau * (x-\mu)' \Sigma^-1 (x-\mu ) ) ^ ((-\tau+1)/2)
+		 *
+		 * G is the Gamma function.
+		 */	
+		value_t t_distribution(const vector_t & x, const vector_t &mean, const matrix_t covariance, const value_t dof) {
+			value_t det = fabs(covariance.determinant());
+			assert (det >= 0.0);
+			assert (mean.size());
+			if (det < 0.0001) {
+				std::cout << "Determinant is zero, means that the matrix is rank deficient" << std::endl;
+				std::cout << "This means that the random variables are perfectly correlated" << std::endl;
+			}
+			value_t sq = std::pow(2.0*M_PI,mean.size()) * det ;
+			assert (sq >= 0.0);
+			value_t factor = std::sqrt( sq );
+#ifdef VERBOSE
+			//	std::cout << "Multiply by " << (value_t(1)/factor) << " which is 1/sqrt(" << std::pow(2.0*M_PI,mean.size())
+			//	<< "*" << det << ")" << std::endl;
+#endif
+			value_t result = (value_t(1)/factor) * t_distribution_Gamma_factor(dof) *
+				std::pow(1 + 1/dof * (value_t)((x-mean).transpose() * covariance.inverse() * (x-mean)) , -(dof+1)/2);
+
+#ifdef VERBOSE
+			std::cout << "Student-t distance between (" << mean.transpose() << ") and data (" << x.transpose() <<
+				") is " << result << std::endl;
+#endif
+
+			int large_number = 1000;
+			if ((result != result) || (result > large_number)) {
+#ifdef VERBOSE
+				std::cout << "Return " << large_number << " as large number" << std::endl;
+#endif
+				return 1000;
+			}
+			return result;
+
+		}
+
 #ifndef LINE_DETECTION
 
 		/**
@@ -432,7 +512,8 @@ class ExpectationMaximization {
 			for (int m = 0; m < mixture_model.size(); ++m) {
 				//			std::cout << "Covariance: " << std::endl << mixture_model[m].covariance << std::endl;
 				clusters[m] = mixture_model[m].weight *
-					gaussian_kernel(data_set[i], mixture_model[m].mean, mixture_model[m].covariance);
+					t_distribution(data_set[i], mixture_model[m].mean, mixture_model[m].covariance, 4);
+					//gaussian_kernel(data_set[i], mixture_model[m].mean, mixture_model[m].covariance);
 #ifdef VERBOSE
 				//			std::cout << "Generated " << i << " by cluster " << m << " as " << clusters[m] <<
 				//					" from weight " << mixture_model[m].weight <<
@@ -510,7 +591,8 @@ class ExpectationMaximization {
 				closest(mixture_model[m].beta, data_set[i], cl);
 				// now use the error residual as input for the Gaussian model
 				clusters[m] = mixture_model[m].weight *
-					gaussian_kernel(data_set[i], cl, mixture_model[m].covariance);
+					t_distribution(data_set[i], cl, mixture_model[m].covariance, 4);
+//					gaussian_kernel(data_set[i], cl, mixture_model[m].covariance);
 			}
 		}
 #endif

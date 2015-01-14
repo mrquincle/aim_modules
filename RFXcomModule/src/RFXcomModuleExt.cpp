@@ -387,7 +387,7 @@ void RFXcomModuleExt::Tick() {
 
 	//ReceiveAll(); blocks
 
-	sleep(1);
+	//sleep(1);
 }
 
 //! Replace with your own code

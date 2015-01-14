@@ -24,7 +24,7 @@ Currently, there are several types of modules here, across the dimensions "Devic
 * LDAModule, a classifier that uses Latent Dirichlet Allocation (assumes one level of indirection: a hidden layer of topics), uses Gibbs sampling to perform inference
 * ModelSectionModule, simple module that calculates the Akaike Information Criterion or the Bayesian Information Criterion which both penalize the model complexity and are therefore useful as model selection criteria
 * BeliefModule, module which performs belief propagation (not fully done, uses only example, not input/output ports yet)
-* DirichletModule, implements the Hierarchical Dirichlet Process through the Chinese Restaurant metaphor (not completed)
+* DirichletModule, implements the Hierarchical Dirichlet Process through the Chinese Restaurant metaphor. This is used in the recommender engine in the [Sensei](http://www.commit-nl.nl/projects/sensei-sensor-based-engagement-for-improved-health) project.
 
 ### Computer Vision
 

@@ -66,7 +66,7 @@ void ClusterModuleExt::Init(std::string& name) {
 	break;
 	case D_LINES: {
 		file = "data/lines.data";
-		predefined_clusters = 3;
+		predefined_clusters = 2;
 	}
 	break;
 	}
