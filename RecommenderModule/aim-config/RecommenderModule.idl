@@ -1,0 +1,47 @@
+/**
+ * IDL description of the RecommenderModule
+ *
+ * This file is automatically parsed by the rurbuilder backends for the omniidl compiler. The names of the functions
+ * will become port identifiers. The names of the function variables are not used. 
+ *
+ * The syntax of the IDL file also allows for "inout", but not all middlewares will accept this yet.
+ */
+
+#pragma author               Anne van Rossum
+#pragma copyright            Distributed Organisms B.V. (DoBots)
+#pragma date                 Mar 23, 2015
+#pragma license              LGPLv3
+
+// Recommended namespace "rur"
+module rur {
+
+// The command-line parameter (this struct is required)
+struct Param {
+  // multiple modules can be addressed in parallel, killed, etc. using "module_id"
+  string module_id;
+  // a certain parameter over the command-line (long becomes int) 
+  long parameter;
+};
+
+// Typedef for array of integers
+typedef sequence<long> long_seq;
+
+// The public interface of RecommenderModule
+interface RecommenderModule {
+
+  // A new document, requires internal parsing
+  // Format: [doc-identifier term0, ..., termN] (square brackets are not part of format)
+  void Document(in string input);
+
+  // The term to test, can be multiple terms, separated by delimiters 
+  // Format: [doc-identifier term] (separated by spaces, or commas)
+  void Term(in string input);
+
+  // The weighting factor according to the frequencies of the words encountered. The query of "Term" is added to the
+  // result, so it is possible to call Term multiple times and still now which output corresponds to which query.
+  // Format: [doc-identifier term, factor] 
+  void Recommendation(out string output);
+
+};
+
+};
