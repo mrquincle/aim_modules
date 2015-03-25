@@ -39,7 +39,9 @@
 			"sources":[
 				"../../aim-core/src/RecommenderModule.cpp",
 				"RecommenderModuleNode.cc",
-				"../../src/RecommenderModuleExt.cpp"
+				"../../src/RecommenderModuleExt.cpp",
+				"../../src/Document.cpp",
+				"../../src/Library.cpp"
 			],
 		}
 	]

@@ -67,7 +67,7 @@ void Library::add(Document &doc) {
 }
 
 Document* Library::get(const std::string &docId) {
-	for (int i = 0; i < documents.size(); i++) {
+	for (int i = 0; i < (int)documents.size(); i++) {
 		std::string id = documents[i]->getId();
 		if (!id.compare(docId)) {
 			return documents[i];
@@ -82,7 +82,7 @@ int Library::count() {
 
 int Library::count(const std::string &term) {
 	int result = 0;
-	for (int i = 0; i < documents.size(); i++) {
+	for (int i = 0; i < (int)documents.size(); i++) {
 		if (documents[i]->count(term) > 0) result++;
 	}
 	return result;
