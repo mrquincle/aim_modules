@@ -17,6 +17,7 @@
 #include <math.h>
 #include <sstream>
 #include <unistd.h>
+#include <iostream>
 
 using namespace rur;
 

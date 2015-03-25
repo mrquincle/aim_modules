@@ -22,10 +22,9 @@
 #include <vector>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <yarp/os/BufferedPort.h>
-#include <yarp/os/Network.h>
-#include <yarp/os/Bottle.h>
+#include <deque>
+#include <node.h>
+#include <pthread.h>
 
 namespace rur {
 
@@ -36,30 +35,48 @@ struct Param {
 
 typedef std::vector<int> long_seq;
 
-class RecommenderModule {
+class RecommenderModule : public node::ObjectWrap {
 private:
   Param *cliParam;
   
-  yarp::os::Network yarp;
-  std::string portDocumentBuf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portDocument;
-  std::string portTermBuf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portTerm;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portRecommendation;
+  pthread_t moduleThread;
+  bool DestroyFlag;
+  pthread_mutex_t destroyMutex;
+  
+  std::deque<std::string> readBufDocument;
+  std::string readValDocument;
+  pthread_mutex_t readMutexDocument;
+  
+  std::deque<std::string> readBufTerm;
+  std::string readValTerm;
+  pthread_mutex_t readMutexTerm;
+  
+  std::deque<std::string> writeBufRecommendation;
+  v8::Persistent<v8::Function> nodeCallBackRecommendation;
+  uv_async_t asyncRecommendation;
+  pthread_mutex_t writeMutexRecommendation;
+  
+  static v8::Handle<v8::Value> NodeNew(const v8::Arguments& args);
+  
+  static v8::Handle<v8::Value> NodeDestroy(const v8::Arguments& args);
+  
+  bool Destroy();
+  
+  // Function to be used in NodeJS, not in your C++ code
+  static v8::Handle<v8::Value> NodeWriteDocument(const v8::Arguments& args);
+  
+  // Function to be used in NodeJS, not in your C++ code
+  static v8::Handle<v8::Value> NodeWriteTerm(const v8::Arguments& args);
+  
+  // Function to be used in NodeJS, not in your C++ code
+  static v8::Handle<v8::Value> NodeRegReadRecommendation(const v8::Arguments& args);
+  
+  // Function to be used internally, not in your C++ code
+  static void CallBackRecommendation(uv_async_t *handle, int status);
+  
 protected:
   static const int channel_count = 3;
   const char* channel[3];
-  // Read from this function and assume it means something
-  // Remark: check if result is not NULL
-  std::string *readDocument(bool blocking=false);
-  
-  // Read from this function and assume it means something
-  // Remark: check if result is not NULL
-  std::string *readTerm(bool blocking=false);
-  
-  // Write to this function and assume it ends up at some receiving module
-  bool writeRecommendation(const std::string output);
-  
 public:
   // Default constructor
   RecommenderModule();
@@ -78,6 +95,22 @@ public:
   
   // Overwrite this function with your own code
   bool Stop() { return false; }
+  
+  void Run();
+  
+  // Function template for NodeJS, do not use in your own code
+  static void NodeRegister(v8::Handle<v8::Object> exports);
+  
+  // Read from this function and assume it means something
+  // Remark: check if result is not NULL
+  std::string *readDocument(bool blocking=false);
+  
+  // Read from this function and assume it means something
+  // Remark: check if result is not NULL
+  std::string *readTerm(bool blocking=false);
+  
+  // Write to this function and assume it ends up at some receiving module
+  bool writeRecommendation(const std::string output);
   
 };
 } // End of namespace

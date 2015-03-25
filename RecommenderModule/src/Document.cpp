@@ -26,7 +26,6 @@ int Document::count() {
 }
 
 int Document::count(const std::string & term) {
-	//std::cout << "For document \"" << identifier << "\" term \"" << term << "\" the count is " << content.count(term) << std::endl;
 	if (content.count(term)) {
 		return content[term];
 	}
