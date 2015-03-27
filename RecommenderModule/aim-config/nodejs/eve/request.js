@@ -23,7 +23,10 @@ eve.system.init({
 var requestAgent = new agent('agent0');
 
 var doc0 = ["doc0", "test", "test", "test", "rest", "pest"];
-var doc1 = ["doc1", "test", "zest", "rest"];
+var doc1 = ["doc1", "test", "rest", "zest"];
+var doc2 = ["doc2", "zest"];
+
+var query = ["doc0", "rest"];
 
 // on training we don't get anything
 console.log("Send train command");
@@ -34,9 +37,12 @@ console.log("Send train command");
 message = { method:'train', params: doc1 };
 requestAgent.rpc.request('http://127.0.0.1:3000/agents/recommenderAgent', message);
 
+console.log("Send train command");
+message = { method:'train', params: doc2 };
+requestAgent.rpc.request('http://127.0.0.1:3000/agents/recommenderAgent', message);
+
 // on our test we get a response
 console.log("Send test query");
-var query = ["doc0", "rest"];
 message = { method:'test', params: query };
 requestAgent.rpc.request('http://127.0.0.1:3000/agents/recommenderAgent', message)
 	.then(function(reply) {

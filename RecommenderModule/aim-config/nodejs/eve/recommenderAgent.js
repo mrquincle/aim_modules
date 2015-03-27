@@ -23,17 +23,14 @@ RecommenderAgent.prototype.constructor = RecommenderAgent;
 RecommenderAgent.prototype.rpcFunctions = {};
 
 RecommenderAgent.prototype.rpcFunctions.train = function(params, sender) {
-	// List of document
-	var doc0 = ["doc0", "test", "test", "test", "rest", "pest"];
-	var doc1 = ["doc1", "test", "zest", "rest"];
-
+	// document to send is exactly the parameters for training
+	var doc = params;
 	// Write documents to ports
-	this.AIMmodule.WriteDocument(doc0);
-	this.AIMmodule.WriteDocument(doc1);
+	this.AIMmodule.WriteDocument(doc);
 }
 
 RecommenderAgent.prototype.rpcFunctions.test = function(params, sender) {
-	var termQuery = ["doc0", "test"];
+	var termQuery = params;
 	var module = this.AIMmodule;
 	module.WriteTerm(termQuery);
 
