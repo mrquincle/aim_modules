@@ -5,7 +5,7 @@
  * This file is created at "Distributed Organisms B.V.". It is open-source software and part of "COMMIT P3". 
  * This software is published under the LGPLv3 license.
  *
- * Copyright © 2015 Homer J. Simpson <chunkylover53@aol.com>
+ * Copyright © 2015 Anne van Rossum <anne@dobots.nl>
  *
  * @author                   Anne van Rossum
  * @date                     Mar 23, 2015

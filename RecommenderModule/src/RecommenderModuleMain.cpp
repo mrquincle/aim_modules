@@ -2,17 +2,17 @@
  * @file RecommenderModuleMain.cpp
  * @brief Entry function for RecommenderModule
  *
- * This file is created at "Springfield Power Company". It is open-source software and part of "Project Bootstrap". 
- * This software is published under the State license (TR8OR).
+ * This file is created at "Distributed Organisms B.V.". It is open-source software and part of "COMMIT P3". 
+ * This software is published under the LGPLv3 license.
  *
- * Copyright © 2015 Homer J. Simpson <chunkylover53@aol.com>
+ * Copyright © 2015 Anne van Rossum <anne@dobots.nl>
  *
- * @author                   Homer J. Simpson
+ * @author                   Anne van Rossum
  * @date                     Mar 23, 2015
- * @organisation             Springfield Power Company
- * @project                  Project Bootstrap
+ * @organisation             Distributed Organisms B.V. (DoBots)
+ * @project                  COMMIT P3 / Sensei
  */
- 
+
 #include <RecommenderModuleExt.h>
 
 #include <stdlib.h>

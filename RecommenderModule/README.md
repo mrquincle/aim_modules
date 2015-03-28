@@ -94,6 +94,6 @@ Of course you can adjust the request accordingly. See also the [Eve](https://git
 ## Copyrights
 The copyrights of this module (2015) belong to:
 
-- Author: Homer J. Simpson
-- Springfield Power Company
+- Author: Anne van Rossum
+- Copyrights: Distributed Organisms B.V. (http://dobots.nl)
 
