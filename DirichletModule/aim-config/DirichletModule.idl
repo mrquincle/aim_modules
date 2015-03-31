@@ -25,18 +25,31 @@ struct Param {
 
 // Typedef for array of integers
 typedef sequence<long> long_seq;
+typedef sequence<float> float_seq;
+typedef sequence<double> double_seq;
 
 // The public interface of DirichletModule
 interface DirichletModule {
 
-  // Input from microphone in the form of an array (just an example)
-  void Audio(in long_seq input);
+  // Configuration of the hyperparameters
+  void Hyperparameters(in long_seq input);
 
-  // Input from infrared sensor (just an example)
-  void Infrared(in long input);
+  // Add a single observation (vector)
+  void Observation(in float_seq input);
 
-  // A command to one of the wheels (just an example)
-  void LeftWheel(out long output);
+  // Train for N steps
+  void DoTrain(in long input);
+
+  // Get assignments to class indices for the observations (in the order with which the observations arrived)
+  void Class(out long_seq output);
+
+  // The functions below can also be used, but are more of theoretical interest (generation rather than inference)
+
+  // Make the module generate an additional n items using the CRP
+  void Generate(in long input);
+
+  // Chinese Restaurant Process: generate (table) assignments 
+  void CRP(out long_seq output);
 
 };
 

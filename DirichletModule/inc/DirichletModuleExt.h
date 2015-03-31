@@ -54,7 +54,9 @@ public:
 	//! As soon as Stop() returns "true", the DirichletModuleMain will stop the module
 	bool Stop();
 
-	void SampleFromPrior();
+	
+	void Test(int count, bool distribution);
+	//void SampleFromPrior();
 
 	//! Create table assignments
 	void CreateAssignments(int count, std::vector<value_t> & assignments);
@@ -100,6 +102,8 @@ private:
 
 //	int param_dim = prior_mean.size();
 	Eigen::EigenMultivariateNormal<value_t> *prior_dist;
+
+	std::vector< std::vector<value_t>* > observations;
 
 	bool stopping_flag;
 };

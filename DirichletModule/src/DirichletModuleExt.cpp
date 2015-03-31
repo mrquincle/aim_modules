@@ -55,7 +55,6 @@ DirichletModuleExt::DirichletModuleExt(): alpha(1.2) {
 	stopping_flag = false;
 }
 
-//! Replace with your own code
 DirichletModuleExt::~DirichletModuleExt() {
 
 }
@@ -68,6 +67,33 @@ DirichletModuleExt::~DirichletModuleExt() {
  * in the form of only the number of customers per table. 
  */
 void DirichletModuleExt::Tick() {
+	int *count;
+	count = readGenerate();
+	if (count && *count) {
+		std::vector<value_t> assignments; assignments.clear();
+		CreateAssignments(*count, assignments);
+		std::vector<int> crp; crp.clear();
+		for (int i = 0; i < assignments.size(); i++) {
+			crp.push_back((int)assignments[i]);
+		}
+		writeCRP(crp);
+	}
+
+	std::vector<value_t> *observation;
+	observation = readObservation();
+	if (observation) {
+		observations.push_back(observation);
+	}
+
+	int *train;
+	train = readDoTrain();
+	if (train && *train) {
+		// take all observations and run Gibbs sampling
+		//GibbsStep
+	}
+}
+
+void DirichletModuleExt::Test(int count, bool calculate_distribution) {
 	std::vector<value_t> assignments; assignments.clear();
 	CreateAssignments(100, assignments);
 	std::cout << "Assignments: ";
@@ -76,29 +102,14 @@ void DirichletModuleExt::Tick() {
 	}
 	std::cout << std::endl;
 
-	std::vector<value_t> distribution; distribution.clear();
-
-	AssignmentsToDistribution(assignments, distribution);
-	std::cout << "Distribution: ";
-	for (int i = 0; i < distribution.size(); i++) {
-		std::cout << distribution[i] << ' ';
-	}
-	std::cout << std::endl;
-
-	stopping_flag = true;
-}
-
-/**
- * \theta_i | \theta_{-i} ~ 1/(i-1+\alpa) \sum_{j=1}^{i-1} \delta(\theta_j) + \alpha / (i-1+\alpha) G_0
- *
- * Here \theta_{-i} means all \theta, but "not i", ~ means "from distribution".
- *
- * Wrong interpretation. To
- */
-void DirichletModuleExt::SampleFromPrior() {
-	matrix_t theta = prior_dist->samples(parameters.cols());
-	for (int i = 1; i < theta.cols(); i++) {
-		theta.col(i) = 1/(i-1+alpha) * theta.leftCols(i-1).colwise().sum() + alpha/(i-1+alpha) * theta.col(i);
+	if (calculate_distribution) {
+		std::vector<value_t> distribution; distribution.clear();
+		AssignmentsToDistribution(assignments, distribution);
+		std::cout << "Distribution: ";
+		for (int i = 0; i < distribution.size(); i++) {
+			std::cout << distribution[i] << ' ';
+		}
+		std::cout << std::endl;
 	}
 }
 

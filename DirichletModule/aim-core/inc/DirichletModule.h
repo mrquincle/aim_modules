@@ -36,29 +36,49 @@ struct Param {
 
 typedef std::vector<int> long_seq;
 
+typedef std::vector<float> float_seq;
+
+typedef std::vector<double> double_seq;
+
 class DirichletModule {
 private:
   Param *cliParam;
   
   yarp::os::Network yarp;
-  long_seq portAudioBuf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portAudio;
-  int portInfraredBuf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portInfrared;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portLeftWheel;
+  long_seq portHyperparametersBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portHyperparameters;
+  float_seq portObservationBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portObservation;
+  int portDoTrainBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portDoTrain;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portClass;
+  int portGenerateBuf;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portGenerate;
+  yarp::os::BufferedPort<yarp::os::Bottle> *portCRP;
 protected:
-  static const int channel_count = 3;
-  const char* channel[3];
+  static const int channel_count = 6;
+  const char* channel[6];
   // Read from this function and assume it means something
   // Remark: caller is responsible for evoking vector->clear()
-  long_seq *readAudio(bool blocking=false);
+  long_seq *readHyperparameters(bool blocking=false);
+  
+  // Read from this function and assume it means something
+  // Remark: caller is responsible for evoking vector->clear()
+  float_seq *readObservation(bool blocking=false);
   
   // Read from this function and assume it means something
   // Remark: check if result is not NULL
-  int *readInfrared(bool blocking=false);
+  int *readDoTrain(bool blocking=false);
   
   // Write to this function and assume it ends up at some receiving module
-  bool writeLeftWheel(const int output);
+  bool writeClass(const long_seq &output);
+  
+  // Read from this function and assume it means something
+  // Remark: check if result is not NULL
+  int *readGenerate(bool blocking=false);
+  
+  // Write to this function and assume it ends up at some receiving module
+  bool writeCRP(const long_seq &output);
   
 public:
   // Default constructor
