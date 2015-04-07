@@ -60,31 +60,44 @@ struct functor_traits<V_normal_dist_op<V> >
 template<typename V>
 class EigenMultivariateNormal
 {
-	Matrix<V,Eigen::Dynamic,Eigen::Dynamic> covar;
-	Matrix<V,Eigen::Dynamic,Eigen::Dynamic> transform;
-	Matrix<V,Eigen::Dynamic,1> mean;
+	typedef Eigen::Matrix<V,Eigen::Dynamic,Eigen::Dynamic> matrix_t;
+	typedef Eigen::Matrix<V,Eigen::Dynamic,1> vector_t;
+
+	matrix_t covar;
+	matrix_t transform;
+	vector_t mean;
 	internal::V_normal_dist_op<V> randN; // Gaussian functor
+	size_t size;
 
 public:
-	EigenMultivariateNormal(const Matrix<V,Eigen::Dynamic,1>& mean,
-			const Matrix<V,Eigen::Dynamic,Eigen::Dynamic>& covar) {
+	EigenMultivariateNormal(const vector_t& mean, const matrix_t& covar) {
 		setMean(mean);
 		setCovar(covar);
 	}
 
-	void setMean(const Matrix<V,Eigen::Dynamic,1>& mean) {
+	void setMean(const vector_t & mean) {
+		//std::cout << "Set mean to " << mean << std::endl;
 		this->mean = mean;
+		size = mean.rows();
 	}
 
-	void setCovar(const Matrix<V,Eigen::Dynamic,Eigen::Dynamic>& covar)	{
+	void setCovar(const matrix_t & covar)	{
+		//std::cout << "Set covariance to " << covar << std::endl;
 		this->covar = covar;
-		SelfAdjointEigenSolver<Matrix<V,Eigen::Dynamic,Eigen::Dynamic> > eigenSolver(covar);
-		transform = eigenSolver.eigenvectors()*eigenSolver.eigenvalues().cwiseMax(0).cwiseSqrt().asDiagonal();
+		SelfAdjointEigenSolver<matrix_t > eigenSolver(covar);
+		transform = eigenSolver.eigenvectors() * 
+			eigenSolver.eigenvalues().cwiseMax(0).cwiseSqrt().asDiagonal();
 	}
 
 	/// Draw nn samples from the gaussian and return them as columns in a mean.cols() x n matrix
-	Matrix<V,Eigen::Dynamic,-1> samples(int n) {
-		return (transform * Matrix<V,Eigen::Dynamic,-1>::NullaryExpr(Eigen::Dynamic,n,randN)).colwise() + mean;
+	vector_t samples(int n) {
+		//std::cout << "Get " << n << " samples " << std::endl;
+		vector_t result = (transform
+				//* vector_t::NullaryExpr(Eigen::Dynamic,n,randN)).colwise() 
+				* vector_t::NullaryExpr(size,n,randN)).colwise() 
+				+ mean;
+		//std::cout << "Result: " << result << std::endl;
+		return result;
 	}
 
 	// Todo: draw single sample

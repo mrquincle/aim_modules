@@ -21,8 +21,10 @@
 
 namespace rur {
 
+
 /**
- * Your Description of this module.
+ * The Dirichlet Module contains a mixture model in which a Dirichlet Process is used as underlying distribution of
+ * the latent classes. It is an unsupervised learning method.
  */
 class DirichletModuleExt: public DirichletModule {
 public:
@@ -30,12 +32,31 @@ public:
 	typedef Eigen::Matrix<value_t,Eigen::Dynamic,Eigen::Dynamic> matrix_t;
 	typedef Eigen::Matrix<value_t,Eigen::Dynamic,1> vector_t; // column_vector
 
-	struct NormalDistribution {
-		vector_t mean;
-		matrix_t covar;
+	/**
+	 * Normal distribution is represented by mean (vector) and covariance (matrix).
+	 */
+	class NormalDistribution {
+		public:
+			vector_t mean;
+			matrix_t covar;
+
+			NormalDistribution & operator=(const NormalDistribution & other) {
+				if (&other == this) return *this;
+				mean = other.mean;
+				covar = other.covar;
+				return *this;
+			}
+
+			bool operator==(const NormalDistribution &other) {
+				return (mean == other.mean && covar == other.covar);
+			}
 	};
 
+	/**
+	 * The sufficient statistics of the NIW distribution are represented by four parameters.
+	 */
 	struct SufficientStatistics {
+		size_t dim;
 		vector_t mu;
 		value_t kappa;
 		value_t nu;
@@ -54,7 +75,10 @@ public:
 	//! As soon as Stop() returns "true", the DirichletModuleMain will stop the module
 	bool Stop();
 
-	
+	void Initialization(const SufficientStatistics & ss);
+
+	void Run(const SufficientStatistics & ss, size_t iterations);
+
 	void Test(int count, bool distribution);
 	//void SampleFromPrior();
 
@@ -83,7 +107,7 @@ public:
 			NormalDistribution & nd);
 	void SampleNormalInverseWishart(const SufficientStatistics & ss, NormalDistribution &nd);
 	void SampleMultivariateNormal(const vector_t & mean, const matrix_t & S, vector_t sample);
-	void SampleInverseWishart(const value_t & dof, matrix_t & S);
+	void SampleInverseWishart(const SufficientStatistics & ss, matrix_t & S);
 	void Likelihoods(const std::vector<NormalDistribution> & thetas, const vector_t & observation,
 			std::vector<value_t> & likelihoods);
 	void GibbsStep(const SufficientStatistics & ss, const std::vector<NormalDistribution> & thetas_without_k, 
@@ -103,7 +127,11 @@ private:
 //	int param_dim = prior_mean.size();
 	Eigen::EigenMultivariateNormal<value_t> *prior_dist;
 
-	std::vector< std::vector<value_t>* > observations;
+	// TODO: perhaps use Eigen::Ref to put on the heap?
+	std::vector< vector_t > observations;
+	
+	// parameters (theta collects both mean and covariance matrices, and define a normal distribution)
+	std::vector<NormalDistribution> thetas;
 
 	bool stopping_flag;
 };

@@ -11,7 +11,7 @@
  *
  * @author               Anne C. van Rossum
  * @copyright            Distributed Organisms B.V.
- * @date                 Oct 22, 2013
+ * @date                 Mar 31, 2015
  * @license              GNU General Lesser Public
  */
 
@@ -22,10 +22,6 @@
 #include <vector>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <yarp/os/BufferedPort.h>
-#include <yarp/os/Network.h>
-#include <yarp/os/Bottle.h>
 
 namespace rur {
 
@@ -44,20 +40,32 @@ class DirichletModule {
 private:
   Param *cliParam;
   
-  yarp::os::Network yarp;
-  long_seq portHyperparametersBuf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portHyperparameters;
-  float_seq portObservationBuf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portObservation;
-  int portDoTrainBuf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portDoTrain;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portClass;
-  int portGenerateBuf;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portGenerate;
-  yarp::os::BufferedPort<yarp::os::Bottle> *portCRP;
+  long_seq dummyHyperparameters;
+  float_seq dummyObservation;
+  int dummyDoTrain;
+  int dummyGenerate;
 protected:
   static const int channel_count = 6;
   const char* channel[6];
+public:
+  // Default constructor
+  DirichletModule();
+  
+  // Default destructor
+  virtual ~DirichletModule();
+  
+  // Extend this with your own code, first call DirichletModule::Init(name);
+  void Init(std::string& name);
+  
+  // Function to get Param struct (to subsequently set CLI parameters)
+  inline Param *GetParam() { return cliParam; }
+  
+  // Overwrite this function with your own code
+  virtual void Tick() = 0;
+  
+  // Overwrite this function with your own code
+  bool Stop() { return false; }
+  
   // Read from this function and assume it means something
   // Remark: caller is responsible for evoking vector->clear()
   long_seq *readHyperparameters(bool blocking=false);
@@ -79,25 +87,6 @@ protected:
   
   // Write to this function and assume it ends up at some receiving module
   bool writeCRP(const long_seq &output);
-  
-public:
-  // Default constructor
-  DirichletModule();
-  
-  // Default destructor
-  virtual ~DirichletModule();
-  
-  // Extend this with your own code, first call DirichletModule::Init(name);
-  void Init(std::string& name);
-  
-  // Function to get Param struct (to subsequently set CLI parameters)
-  inline Param *GetParam() { return cliParam; }
-  
-  // Overwrite this function with your own code
-  virtual void Tick() = 0;
-  
-  // Overwrite this function with your own code
-  bool Stop() { return false; }
   
 };
 } // End of namespace

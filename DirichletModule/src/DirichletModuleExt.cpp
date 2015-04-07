@@ -27,9 +27,14 @@
 #include <algorithm>
 #include <cmath>
 #include <random>
+#include <fstream>
 
 using namespace rur;
 using namespace Eigen;
+
+#define DEBUG 7
+
+#define VERBOSITY DEBUG
 
 /**
  * Constructor initializes random generators and the dispersion factor for the Dirichlet Process.
@@ -67,6 +72,41 @@ DirichletModuleExt::~DirichletModuleExt() {
  * in the form of only the number of customers per table. 
  */
 void DirichletModuleExt::Tick() {
+#define TESTING
+
+#ifdef TESTING
+	std::cout << "Read observations from file" << std::endl;	
+	//LoadFile();
+	std::ifstream input;
+	input.open("../../data/clusters.txt");
+	if (input && input.is_open()) {
+		value_t x, y;
+		while (input >> x >> y) {
+			//std::cout << "Read observation: " << x << "," << y << std::endl;	
+			vector_t v(2); v << x, y;
+			observations.push_back(v);
+		}
+		std::cout << "Load " << observations.size() << " observations" << std::endl;
+		input.close();
+	}
+
+	SufficientStatistics ss;
+	ss.dim = 2; // data dimension
+	ss.kappa = 0.001;
+	ss.mu = vector_t(ss.dim);
+	ss.mu << 0, 0;
+	ss.nu = 4;
+	ss.lambda = matrix_t::Identity(ss.dim, ss.dim);
+
+	std::cout << "Create hyper parameters with dimension for data of " << ss.mu.rows() << std::endl;
+
+	Initialization(ss);
+	//int steps = 10;
+	std::cout << "b" << std::endl;
+	//Run(ss, steps);
+
+	stopping_flag = true;
+#else
 	int *count;
 	count = readGenerate();
 	if (count && *count) {
@@ -82,15 +122,28 @@ void DirichletModuleExt::Tick() {
 	std::vector<value_t> *observation;
 	observation = readObservation();
 	if (observation) {
-		observations.push_back(observation);
+		vector_t v(observation->size()) = vector_t::Map(observation->data(), observation->size());
+		observations.push_back(v);
 	}
 
 	int *train;
 	train = readDoTrain();
 	if (train && *train) {
-		// take all observations and run Gibbs sampling
-		//GibbsStep
+		std::cout << "Start training" << std::endl;
+		SufficientStatistics ss;
+		ss.dim = 2;
+		ss.kappa = 0.001;
+		ss.mu = vector_t(ss.dim);
+		ss.mu << 0, 0;
+		ss.nu = 4;
+		ss.lambda = matrix_t::Identity(ss.dim,ss.dim);
+	
+		Initialization(ss);
+		int steps = 10;
+		Run(ss, steps);
+
 	}
+#endif
 }
 
 void DirichletModuleExt::Test(int count, bool calculate_distribution) {
@@ -106,8 +159,8 @@ void DirichletModuleExt::Test(int count, bool calculate_distribution) {
 		std::vector<value_t> distribution; distribution.clear();
 		AssignmentsToDistribution(assignments, distribution);
 		std::cout << "Distribution: ";
-		for (int i = 0; i < distribution.size(); i++) {
-			std::cout << distribution[i] << ' ';
+		for (auto i : distribution) {
+			std::cout << i << ' ';
 		}
 		std::cout << std::endl;
 	}
@@ -198,6 +251,58 @@ bool DirichletModuleExt::Stop() {
 }
 
 /**
+ * Initialization of the "tables". The first table is equipped with a prior from the normal inverse Wishart
+ * distribution. For the next tables the mean and covariance matrix are sampled using the parameters of the preceding
+ * tables.
+ */
+void DirichletModuleExt::Initialization(const SufficientStatistics & ss) {
+	std::cout << "Initialization" << std::endl;
+	NormalDistribution nd;
+	PosteriorDensity(ss, observations[0], nd);
+	thetas.push_back(nd);
+	std::cout << "Initialization of further observations" << std::endl;
+	for (int i = 1; i < observations.size(); i++) {
+		NormalDistribution theta;
+		GibbsStep(ss, thetas, alpha, observations[i], theta);
+		thetas.push_back(theta);
+	}
+}
+
+void DirichletModuleExt::Run(const SufficientStatistics & ss, size_t iterations) {
+	std::cout << "Run" << std::endl;
+	if (thetas.empty()) {
+		std::cerr << "Theta array shouldn't be empty" << std::endl;
+		return;
+	}
+	size_t M = observations.size()-1;
+	for (int t = 1; t < iterations; t++) {
+		thetas.erase(thetas.begin());
+		for (int i = 0; i < M; i++) {
+			GibbsStep(ss, thetas, alpha, observations[i], thetas[i]);
+		}	
+		// last observation
+		NormalDistribution theta;
+		GibbsStep(ss, thetas, alpha, observations[M], theta);
+		thetas.push_back(theta);
+
+		// Plot or print current partition
+		std::vector<NormalDistribution> clusters;
+		std::vector<NormalDistribution>::iterator iter;
+		
+		iter = std::unique_copy(thetas.begin(), thetas.end(), clusters.begin());
+		clusters.resize( std::distance(clusters.begin(), iter));
+
+#if VERBOSITY==DEBUG
+		std::cout << "Number of clusters: " << clusters.size() << std::endl;
+		for (int i = 0; i < clusters.size(); i++) {
+			std::cout << "Parameters: " << clusters[i].mean << std::endl;
+			//std::cout << "Parameters: " << clusters[i].mean << ", " << clusters[i].covar << std::endl;
+		}
+#endif
+	}
+}
+
+/**
  * Update the sufficient statistics (the hyperparameters) that describe the Normal Inverse Wishart distribution. A 
  * single observation changes these parameters in a closed form manner.
  *
@@ -205,11 +310,13 @@ bool DirichletModuleExt::Stop() {
  */
 void DirichletModuleExt::UpdateSufficientStatistics(const SufficientStatistics & ss_in, vector_t observation,
 		SufficientStatistics & ss_out) {
+	ss_out.dim = ss_in.dim;
 	ss_out.kappa = ss_in.kappa + 1;
 	ss_out.nu = ss_in.nu + 1;
 	ss_out.mu = (observation + ss_in.kappa*ss_in.mu)/ss_out.kappa;
 	ss_out.lambda = ss_in.lambda + (ss_in.kappa/ss_out.kappa) * 
 		(observation-ss_in.mu)*(observation-ss_in.mu).transpose();
+	std::cout << "Updated ss" << std::endl;
 }
 
 /**
@@ -230,6 +337,8 @@ void DirichletModuleExt::UpdateSufficientStatistics(const SufficientStatistics &
  */
 void DirichletModuleExt::PosteriorPredictive(const SufficientStatistics & ss, const vector_t & observation,
 		value_t & posterior_predictive) {
+	std::cout << "Posterior Pred" << std::endl;
+
 	value_t d = observation.size();
 	// parameters for the t-distribution
 	matrix_t S = ss.lambda * (ss.kappa + 1) / ( ss.kappa * ( ss.nu - d + 1) );
@@ -249,7 +358,7 @@ void DirichletModuleExt::PosteriorPredictive(const SufficientStatistics & ss, co
 	vector_t diff = (observation - mu);
 	value_t term = (diff.transpose() * S.inverse() * diff); 
 	value_t scatter = std::pow(1+term/nu, -(nu+d)/2);
-       	posterior_predictive = scatter * c * Snupi;
+	posterior_predictive = scatter * c * Snupi;
 }
 
 /**
@@ -289,9 +398,10 @@ DirichletModuleExt::value_t DirichletModuleExt::Likelihood(const NormalDistribut
  */
 void DirichletModuleExt::PosteriorDensity(const SufficientStatistics & ss, const vector_t & observation, 
 	       NormalDistribution & nd) {
-	SufficientStatistics ss_temp;
-	UpdateSufficientStatistics(ss, observation, ss_temp);
-	SampleNormalInverseWishart(ss_temp, nd);	
+	std::cout << "Posterior Density" << std::endl;
+	SufficientStatistics ss_out;
+	UpdateSufficientStatistics(ss, observation, ss_out);
+	SampleNormalInverseWishart(ss_out, nd);	
 }
 
 /**
@@ -303,14 +413,17 @@ void DirichletModuleExt::PosteriorDensity(const SufficientStatistics & ss, const
  *       and adjust prior accordingly if necessary.
  */
 void DirichletModuleExt::SampleNormalInverseWishart(const SufficientStatistics & ss, NormalDistribution &nd) {
-	SampleInverseWishart(ss.nu, nd.covar);
+	std::cout << "Sample NIW" << std::endl;
+	SampleInverseWishart(ss, nd.covar);
 	SampleMultivariateNormal(ss.mu, nd.covar/ss.kappa, nd.mean);
+	std::cout << "NIW sampled" << std::endl;
 }
 
 /**
  * Generate a vector (e.g. a mean) using a multivariate normal distribution.
  */
 void DirichletModuleExt::SampleMultivariateNormal(const vector_t & mean, const matrix_t & S, vector_t sample) {
+	std::cout << "Sample N" << std::endl;
 	EigenMultivariateNormal<value_t> normX_solver(mean, S);
 	sample = normX_solver.samples(1);// might need transpose
 }
@@ -318,10 +431,15 @@ void DirichletModuleExt::SampleMultivariateNormal(const vector_t & mean, const m
 /**
  * Generate a matrix (e.g. a covariance matrix) using the hyperparameters given by the Inverse Wishart.
  */
-void DirichletModuleExt::SampleInverseWishart(const value_t & degrees_of_freedom, matrix_t & S) {
+void DirichletModuleExt::SampleInverseWishart(const SufficientStatistics & ss, matrix_t & S) {
+	std::cout << "Sample IW" << std::endl;
 	// zero-mean normal
-	vector_t mean = vector_t::Zero(S.cols());
-	EigenMultivariateNormal<value_t> normX_solver(mean, S);
+	vector_t zeromean = vector_t::Zero(ss.dim);
+	// huh, we take ss.lambda.inverse() every time? then who not ss.lambda_inv stored instead?
+	//EigenMultivariateNormal<value_t> normX_solver(ss.mu, ss.lambda);
+	std::cout << ss.lambda.inverse() << std::endl;
+	EigenMultivariateNormal<value_t> normX_solver(zeromean, ss.lambda.inverse());
+	std::cout << "Sample: " << normX_solver.samples(1) << std::endl;
 	vector_t sample = normX_solver.samples(1);
 	matrix_t iS = sample*sample.transpose();
 	/*
@@ -351,6 +469,7 @@ void DirichletModuleExt::Likelihoods(const std::vector<NormalDistribution> & the
 }
 
 /**
+ * Perform a single Gibbs step. 
  *
  * Notations used in the literature
  *     dispersion_factor     alpha (Neal2000), A_0 (Escobar1994)
@@ -365,6 +484,8 @@ void DirichletModuleExt::GibbsStep(const SufficientStatistics & ss,
 		const std::vector<NormalDistribution> & thetas_without_k, 
 		const value_t dispersion_factor, const vector_t & observation, 
 		NormalDistribution & theta_k) {
+	
+	std::cout << "Gibbs step" << std::endl;
 	// 1. calculate likelihoods	
 	std::vector<value_t> likelihoods;
 	Likelihoods(thetas_without_k, observation, likelihoods);
