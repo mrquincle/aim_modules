@@ -47,7 +47,15 @@ public:
 				return *this;
 			}
 
-			bool operator==(const NormalDistribution &other) {
+			bool operator<(const NormalDistribution &other) const {
+				for (int i=0; i < other.mean.size(); i++) {
+					if (mean[i] < other.mean[i]) return true;
+					if (mean[i] > other.mean[i]) return false;
+				}
+				return false;
+			}
+
+			bool operator==(const NormalDistribution &other) const {
 				return (mean == other.mean && covar == other.covar);
 			}
 	};
@@ -106,7 +114,7 @@ public:
 	void PosteriorDensity(const SufficientStatistics & ss, const vector_t & observation, 
 			NormalDistribution & nd);
 	void SampleNormalInverseWishart(const SufficientStatistics & ss, NormalDistribution &nd);
-	void SampleMultivariateNormal(const vector_t & mean, const matrix_t & S, vector_t sample);
+	void SampleMultivariateNormal(const vector_t & mean, const matrix_t & S, vector_t & sample);
 	void SampleInverseWishart(const SufficientStatistics & ss, matrix_t & S);
 	void Likelihoods(const std::vector<NormalDistribution> & thetas, const vector_t & observation,
 			std::vector<value_t> & likelihoods);

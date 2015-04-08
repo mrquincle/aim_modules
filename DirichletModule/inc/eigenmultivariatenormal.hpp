@@ -32,24 +32,36 @@ namespace Eigen {
 
 namespace internal {
 
-template<typename V>
-struct V_normal_dist_op
-{
-	static boost::mt19937 rng;                        // The uniform pseudo-random algorithm
-	mutable boost::normal_distribution<V> norm;  // The gaussian combinator
+	template<typename V>
+	struct V_normal_dist_op
+	{
+		// uniform (pseudo) random algorithm
+		static boost::mt19937 rng;
+		// Gaussian combinator
+		mutable boost::normal_distribution<V> norm;  
 
-	EIGEN_EMPTY_STRUCT_CTOR(V_normal_dist_op);
+		EIGEN_EMPTY_STRUCT_CTOR(V_normal_dist_op);
 
-	template<typename Index>
-	inline const V operator() (Index, Index = 0) const { return norm(rng); }
-};
+		template<typename Index>
+		inline const V operator() (Index, Index = 0) const { 
+			return norm(rng); 
+		}
+	};
 
-template<typename V>
-boost::mt19937 V_normal_dist_op<V>::rng;
+	// referenced though V_normal_dist_op statically
+	template<typename V>
+	boost::mt19937 V_normal_dist_op<V>::rng;
 
-template<typename V>
-struct functor_traits<V_normal_dist_op<V> >
-{ enum { Cost = 50 * NumTraits<V>::MulCost, PacketAccess = false, IsRepeatable = false }; };
+	// is this actually required?
+	template<typename V>
+	struct functor_traits<V_normal_dist_op<V> >
+	{ 
+		enum { 
+				 Cost = 50 * NumTraits<V>::MulCost, 
+				 PacketAccess = false, 
+				 IsRepeatable = false 
+		}; 
+	};
 
 } // end namespace internal
 
@@ -88,7 +100,17 @@ public:
 		transform = eigenSolver.eigenvectors() * 
 			eigenSolver.eigenvalues().cwiseMax(0).cwiseSqrt().asDiagonal();
 	}
-
+	
+	matrix_t samples(int n) {
+		//std::cout << "Get " << n << " samples " << std::endl;
+		matrix_t result = (transform
+				//* vector_t::NullaryExpr(Eigen::Dynamic,n,randN)).colwise() 
+				* matrix_t::NullaryExpr(size,n,randN)).colwise() 
+				+ mean;
+		//std::cout << "Result: " << result << std::endl;
+		return result;
+	}
+	/*
 	/// Draw nn samples from the gaussian and return them as columns in a mean.cols() x n matrix
 	vector_t samples(int n) {
 		//std::cout << "Get " << n << " samples " << std::endl;
@@ -98,7 +120,7 @@ public:
 				+ mean;
 		//std::cout << "Result: " << result << std::endl;
 		return result;
-	}
+	} */
 
 	// Todo: draw single sample
 

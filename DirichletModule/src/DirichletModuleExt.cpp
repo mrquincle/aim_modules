@@ -56,8 +56,9 @@ DirichletModuleExt::DirichletModuleExt(): alpha(1.2) {
 */
 	long int seed = time(NULL);
 	std::cout << "Use seed: " << seed << std::endl;
-	srand(seed);
+	srand48(seed);
 	stopping_flag = false;
+	Eigen::internal::V_normal_dist_op<value_t>::rng.seed(seed);
 }
 
 DirichletModuleExt::~DirichletModuleExt() {
@@ -75,16 +76,19 @@ void DirichletModuleExt::Tick() {
 #define TESTING
 
 #ifdef TESTING
+	stopping_flag = true;
 	std::cout << "Read observations from file" << std::endl;	
 	//LoadFile();
 	std::ifstream input;
 	input.open("../../data/clusters.txt");
 	if (input && input.is_open()) {
 		value_t x, y;
+		int trunc = 5, i = 0;
 		while (input >> x >> y) {
 			//std::cout << "Read observation: " << x << "," << y << std::endl;	
 			vector_t v(2); v << x, y;
 			observations.push_back(v);
+			if (++i >= trunc) break;
 		}
 		std::cout << "Load " << observations.size() << " observations" << std::endl;
 		input.close();
@@ -92,20 +96,32 @@ void DirichletModuleExt::Tick() {
 
 	SufficientStatistics ss;
 	ss.dim = 2; // data dimension
-	ss.kappa = 0.001;
+	ss.kappa = 1;
 	ss.mu = vector_t(ss.dim);
 	ss.mu << 0, 0;
 	ss.nu = 4;
 	ss.lambda = matrix_t::Identity(ss.dim, ss.dim);
 
+#ifdef UNIT_TEST_POST_PRED	
+	std::cout << "kappa0: " << ss.kappa << std::endl;
+	std::cout << "mu0: " << ss.mu.transpose() << std::endl;
+	std::cout << "nu0: " << ss.nu << std::endl;
+	std::cout << "lambda0: " << ss.lambda << std::endl;
+
+	// check posterior predictive
+	value_t post;
+	PosteriorPredictive(ss, observations[0], post);
+	std::cout << "Observation " << observations[0].transpose() << " leads to post.pred " << post << std::endl;
+
+	std::cout << "posterior " << post << " should be 0.0353623" << std::endl;
+
 	std::cout << "Create hyper parameters with dimension for data of " << ss.mu.rows() << std::endl;
+#endif
 
 	Initialization(ss);
-	//int steps = 10;
-	std::cout << "b" << std::endl;
-	//Run(ss, steps);
+	int steps = 2;
+	Run(ss, steps);
 
-	stopping_flag = true;
 #else
 	int *count;
 	count = readGenerate();
@@ -132,7 +148,7 @@ void DirichletModuleExt::Tick() {
 		std::cout << "Start training" << std::endl;
 		SufficientStatistics ss;
 		ss.dim = 2;
-		ss.kappa = 0.001;
+		ss.kappa = 1;
 		ss.mu = vector_t(ss.dim);
 		ss.mu << 0, 0;
 		ss.nu = 4;
@@ -264,42 +280,51 @@ void DirichletModuleExt::Initialization(const SufficientStatistics & ss) {
 	for (int i = 1; i < observations.size(); i++) {
 		NormalDistribution theta;
 		GibbsStep(ss, thetas, alpha, observations[i], theta);
+		if (!theta.mean.rows() )
+			std::cerr << "Gibbs step to calculate the mean is incorrect! Input:"
+				<< " ss.mu " << ss.mu 
+				<< " thetas.size " << thetas.size() << std::endl;
 		thetas.push_back(theta);
 	}
 }
 
 void DirichletModuleExt::Run(const SufficientStatistics & ss, size_t iterations) {
-	std::cout << "Run" << std::endl;
+	std::cout << "====================================================================" << std::endl;
+	std::cout << "================================ Run ===============================" << std::endl;
+	std::cout << "====================================================================" << std::endl;
 	if (thetas.empty()) {
 		std::cerr << "Theta array shouldn't be empty" << std::endl;
 		return;
 	}
 	size_t M = observations.size()-1;
 	for (int t = 1; t < iterations; t++) {
+		std::cout << "Number of thetas is " << thetas.size() << " (and should be " << observations.size() << ")" << std::endl;
 		thetas.erase(thetas.begin());
 		for (int i = 0; i < M; i++) {
 			GibbsStep(ss, thetas, alpha, observations[i], thetas[i]);
 		}	
 		// last observation
+		std::cout << "Handle last observation" << std::endl;
 		NormalDistribution theta;
 		GibbsStep(ss, thetas, alpha, observations[M], theta);
 		thetas.push_back(theta);
 
 		// Plot or print current partition
-		std::vector<NormalDistribution> clusters;
-		std::vector<NormalDistribution>::iterator iter;
-		
-		iter = std::unique_copy(thetas.begin(), thetas.end(), clusters.begin());
-		clusters.resize( std::distance(clusters.begin(), iter));
+		std::set<NormalDistribution> clusters(thetas.begin(), thetas.end());
 
 #if VERBOSITY==DEBUG
+		std::cout << "Number of thetas: " << thetas.size() << std::endl;
+		for (auto && i : thetas) {
+			std::cout << "Parameters (mean): " << i.mean.transpose() << std::endl;
+		}
+
 		std::cout << "Number of clusters: " << clusters.size() << std::endl;
-		for (int i = 0; i < clusters.size(); i++) {
-			std::cout << "Parameters: " << clusters[i].mean << std::endl;
+		for (auto && i : clusters) {
+			std::cout << "Parameters (mean): " << i.mean.transpose() << std::endl;
 			//std::cout << "Parameters: " << clusters[i].mean << ", " << clusters[i].covar << std::endl;
 		}
 #endif
-	}
+}
 }
 
 /**
@@ -316,7 +341,6 @@ void DirichletModuleExt::UpdateSufficientStatistics(const SufficientStatistics &
 	ss_out.mu = (observation + ss_in.kappa*ss_in.mu)/ss_out.kappa;
 	ss_out.lambda = ss_in.lambda + (ss_in.kappa/ss_out.kappa) * 
 		(observation-ss_in.mu)*(observation-ss_in.mu).transpose();
-	std::cout << "Updated ss" << std::endl;
 }
 
 /**
@@ -337,12 +361,11 @@ void DirichletModuleExt::UpdateSufficientStatistics(const SufficientStatistics &
  */
 void DirichletModuleExt::PosteriorPredictive(const SufficientStatistics & ss, const vector_t & observation,
 		value_t & posterior_predictive) {
-	std::cout << "Posterior Pred" << std::endl;
 
-	value_t d = observation.size();
+	value_t p = ss.dim;
 	// parameters for the t-distribution
-	matrix_t S = ss.lambda * (ss.kappa + 1) / ( ss.kappa * ( ss.nu - d + 1) );
-	value_t nu = ss.nu - d + 1;
+	matrix_t S = ss.lambda * (ss.kappa + 1) / ( ss.kappa * ( ss.nu - p + 1) );
+	value_t nu = ss.nu - p + 1;
 	vector_t mu = ss.mu;
 	// calculate the t-distribution
 	// set up Cholesky decomposition to get S^{-1}
@@ -353,12 +376,18 @@ void DirichletModuleExt::PosteriorPredictive(const SufficientStatistics & ss, co
 		std::cout << "Error in LLT decomposition. Is covariance matrix positive semi-definite?" << std::endl;
 		return;
 	}*/
-	value_t Snupi = (S * nu * M_PI).determinant();
-	value_t c = std::exp(lgamma((nu+d)/2)-lgamma(nu/2)) * std::pow(Snupi, -0.5);
+	value_t Snupi = (S * nu * p).determinant();
+//	std::cout << "Snupi: " << Snupi << std::endl;
+//	value_t c0 = std::exp(lgamma((nu+p)/2)-lgamma(nu/2));
+//	std::cout << "c0: " << c0 << std::endl;
+	value_t c = std::exp(lgamma((nu+p)/2)-lgamma(nu/2)) * std::pow(Snupi, -0.5);
 	vector_t diff = (observation - mu);
+//	std::cout << "c: " << c << std::endl;
 	value_t term = (diff.transpose() * S.inverse() * diff); 
-	value_t scatter = std::pow(1+term/nu, -(nu+d)/2);
-	posterior_predictive = scatter * c * Snupi;
+	value_t scatter = std::pow(1+term/nu, -(nu+p)/2);
+//	std::cout << "term: " << term << std::endl;
+//	std::cout << "scatter: " << scatter << std::endl;
+	posterior_predictive = scatter * c;
 }
 
 /**
@@ -374,6 +403,11 @@ void DirichletModuleExt::PosteriorPredictive(const SufficientStatistics & ss, co
  * @return                   probability [out], probability that this data point stems from this distribution
  */
 DirichletModuleExt::value_t DirichletModuleExt::Likelihood(const NormalDistribution &nd, const vector_t & observation) {
+	//std::cout << "Likelihood" << std::endl;
+	if (!nd.mean.rows()) {
+		std::cerr << "Mean should have values" << std::endl;
+		return 1;
+	}
 	/*
 	LLT<matrix_t> llt(nd.covar);
 	//llt.compute(nd.covar);
@@ -401,7 +435,13 @@ void DirichletModuleExt::PosteriorDensity(const SufficientStatistics & ss, const
 	std::cout << "Posterior Density" << std::endl;
 	SufficientStatistics ss_out;
 	UpdateSufficientStatistics(ss, observation, ss_out);
-	SampleNormalInverseWishart(ss_out, nd);	
+	std::cout << "Hyperparameter mu updated from " << ss.mu.transpose() << " to " << ss_out.mu.transpose() << std::endl;
+	SampleNormalInverseWishart(ss_out, nd);
+	std::cout << "Theta mean becomes " << nd.mean.transpose() << std::endl;
+	if (!nd.mean.rows() )
+		std::cerr << "Sampling of the mean is incorrect! Input:"
+			<< " ss.mu " << ss.mu 
+			<< " nd.covar / ss.kappa" << nd.covar / ss.kappa << std::endl;
 }
 
 /**
@@ -413,35 +453,39 @@ void DirichletModuleExt::PosteriorDensity(const SufficientStatistics & ss, const
  *       and adjust prior accordingly if necessary.
  */
 void DirichletModuleExt::SampleNormalInverseWishart(const SufficientStatistics & ss, NormalDistribution &nd) {
-	std::cout << "Sample NIW" << std::endl;
+//	std::cout << "Sample NIW" << std::endl;
 	SampleInverseWishart(ss, nd.covar);
 	SampleMultivariateNormal(ss.mu, nd.covar/ss.kappa, nd.mean);
-	std::cout << "NIW sampled" << std::endl;
 }
 
 /**
  * Generate a vector (e.g. a mean) using a multivariate normal distribution.
  */
-void DirichletModuleExt::SampleMultivariateNormal(const vector_t & mean, const matrix_t & S, vector_t sample) {
-	std::cout << "Sample N" << std::endl;
+void DirichletModuleExt::SampleMultivariateNormal(const vector_t & mean, const matrix_t & S, vector_t & sample) {
+//	std::cout << "Sample N" << std::endl;
 	EigenMultivariateNormal<value_t> normX_solver(mean, S);
 	sample = normX_solver.samples(1);// might need transpose
+	std::cout << "Sample from " << mean.transpose() << " with covar " << S << ": " << std::endl;
+	std::cout << sample.transpose() << std::endl;
 }
 
 /**
  * Generate a matrix (e.g. a covariance matrix) using the hyperparameters given by the Inverse Wishart.
  */
 void DirichletModuleExt::SampleInverseWishart(const SufficientStatistics & ss, matrix_t & S) {
-	std::cout << "Sample IW" << std::endl;
+//	std::cout << "Sample IW" << std::endl;
 	// zero-mean normal
 	vector_t zeromean = vector_t::Zero(ss.dim);
 	// huh, we take ss.lambda.inverse() every time? then who not ss.lambda_inv stored instead?
 	//EigenMultivariateNormal<value_t> normX_solver(ss.mu, ss.lambda);
-	std::cout << ss.lambda.inverse() << std::endl;
+	//std::cout << ss.lambda.inverse() << std::endl;
 	EigenMultivariateNormal<value_t> normX_solver(zeromean, ss.lambda.inverse());
-	std::cout << "Sample: " << normX_solver.samples(1) << std::endl;
-	vector_t sample = normX_solver.samples(1);
-	matrix_t iS = sample*sample.transpose();
+	//EigenMultivariateNormal<value_t> normX_solver(zeromean, ss.lambda); // use no inverse
+//	std::cout << "Sample: " << normX_solver.samples(ss.nu).transpose() << std::endl;
+	matrix_t samples = normX_solver.samples(ss.nu);
+	matrix_t iS = samples*samples.transpose();
+	std::cout << "New precision matrix: " << iS << std::endl;
+//	std::cout << "Its determinant: " << iS.determinant() << std::endl; // duh... should be 0
 	/*
 	LLT<matrix_t> llt;
 	llt.compute(iS);
@@ -452,6 +496,7 @@ void DirichletModuleExt::SampleInverseWishart(const SufficientStatistics & ss, m
 	S = llt().solve();
 	*/
 	S = iS.inverse();
+//	std::cout << "New covariance matrix: " << iS.inverse() << std::endl;
 }
 
 /**
@@ -460,9 +505,11 @@ void DirichletModuleExt::SampleInverseWishart(const SufficientStatistics & ss, m
  */
 void DirichletModuleExt::Likelihoods(const std::vector<NormalDistribution> & thetas, const vector_t & observation,
 		std::vector<value_t> & likelihoods) {
+//	std::cout << "Likelihoods" << std::endl;
 	likelihoods.clear();
-	likelihoods.resize(thetas.size());
+	//likelihoods.resize(thetas.size());
 	for (auto && i : thetas) {
+		//std::cout << "Calculate likelihood for theta " << i.mean.transpose() << std::endl;
 		value_t ll = Likelihood(i, observation);
 		likelihoods.push_back(ll);
 	}
@@ -489,42 +536,66 @@ void DirichletModuleExt::GibbsStep(const SufficientStatistics & ss,
 	// 1. calculate likelihoods	
 	std::vector<value_t> likelihoods;
 	Likelihoods(thetas_without_k, observation, likelihoods);
+	std::cout << "Likelihoods: " << std::endl;
+	dobots::print(likelihoods.begin(), likelihoods.end());
 
 	// 2. calculate posterior predictive of observation given a gaussian distribution
 	value_t posterior_predictive;
 	PosteriorPredictive(ss, observation, posterior_predictive);
+	std::cout << "Unnormalized posterior predictive is: " << posterior_predictive << std::endl;
 
 	// 3. calculate denominator
-	value_t sum_likelihoods;
+	value_t sum_likelihoods = value_t(0);
 	for (auto & i : likelihoods) {
 		sum_likelihoods += i;
 	}
 	value_t Z = sum_likelihoods + dispersion_factor * posterior_predictive;
+	std::cout << "Sum of all likelihoods is: " << sum_likelihoods << std::endl;
 
 	// 4. calculate probability of a new "table", a new gaussian distribution
 	value_t prob_new = (dispersion_factor * posterior_predictive) / Z;
 
 	// 5. pick a uniform number between 0 and 1
-	value_t u = rand(); // <!- todo, pick proper random generator
+	value_t u = drand48(); // <!- todo, pick proper random generator
 
+	std::cout << "Compare " << prob_new << " with " << u << std::endl;
 	// 6. assign from new table 
 	if (u < prob_new) {
 		PosteriorDensity(ss, observation, theta_k);
+		std::cout << "Create new table with i.e. param " << theta_k.mean.transpose() << std::endl;
 	}
 	// 7. assign from old table
 	else {
 		// 8. inverse transform sample to use a uniform number to pick item from normal distribution set
 		value_t its = u - prob_new;
+		std::cout << "Check for probability: " << its << std::endl;
 		std::vector<value_t> cumsum_likelihoods;
 		cumsum_likelihoods.resize(likelihoods.size());
 		std::partial_sum(likelihoods.begin(), likelihoods.end(), cumsum_likelihoods.begin());
+		// divide each item (we can also compare with a multiplication factor)
+		std::cout << "Mult factor: " << Z << std::endl;
+		std::transform(cumsum_likelihoods.begin(), cumsum_likelihoods.end(), 
+				cumsum_likelihoods.begin(), std::bind1st(std::multiplies<value_t>(), value_t(1)/Z));
+		std::cout << "Cumulative likelihoods: " << std::endl;
+		value_t end = cumsum_likelihoods.back();
+		std::cout << "Probability " << prob_new << " should be 1-" << end << " = " << (1-end) << std::endl;
+		dobots::print(cumsum_likelihoods.begin(), cumsum_likelihoods.end());
+		value_t index = -1;
 		for (auto it = cumsum_likelihoods.begin(); it != cumsum_likelihoods.end(); ++it) {
 			// 9. pick the item when uniform number exceeds value in the cumulative density function
 			if (*it >= its) {
 				// likelihoods in step 1 have to be ordered exactly the same as the thetas_without_k
-				value_t index = std::distance(it, cumsum_likelihoods.begin());
+				index = std::distance(cumsum_likelihoods.begin(), it);
+				std::cout << "Item " << index << " is first item with cumulative prob above " << its << std::endl;
+				std::cout << "Thetas, size: " << thetas_without_k.size() << std::endl;
 				theta_k = thetas_without_k[index];
+				break;
 			}
+		}
+		if (index >= 0) {
+			std::cout << "Picked table: " << index << std::endl;
+		} else {
+			std::cerr << "Error! Cumulative sum not 1?" << std::endl;
 		}
 	}
 }
