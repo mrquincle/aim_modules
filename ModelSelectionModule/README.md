@@ -64,7 +64,7 @@ It would be nice to have some simple tests that would cover most situations. For
 
 ## How to install?
 
-Follow the instructions on [AIM website](http://dobots.github.com/aim-bzr/). 
+Follow the instructions on [AIM website](http://dobots.github.com/aim/). 
 
 ## Where can I read more?
 

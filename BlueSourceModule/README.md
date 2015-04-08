@@ -29,7 +29,7 @@ buffer which also adds to its latency. It is fast enough for data collection or 
 
 ## How to install?
 
-Follow the instructions on [AIM website](http://dobots.github.com/aim-bzr/). 
+Follow the instructions on [AIM website](http://dobots.github.com/aim/). 
 
 ## Where can I read more?
 
