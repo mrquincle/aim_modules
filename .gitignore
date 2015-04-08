@@ -5,6 +5,7 @@ build/
 .project
 .cproject
 .metadata
+tags
 TestModule
 SamplingModule
 RandomDecisionForestModule
