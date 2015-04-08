@@ -10,6 +10,10 @@ include aim-core/middleware_default.aim
 
 middleware_build=$(build_folder)/$(middleware)
 
+ifneq ($(findstring nodejs,$(middleware)),)
+$(error "For nodejs, run aimmake, not make")
+endif
+
 all: 
 	@mkdir -p $(middleware_build)
 	cd $(middleware_build) && cmake $(CMAKE_FLAGS) ../..

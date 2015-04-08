@@ -203,7 +203,13 @@ ENDIF()
 
 IF (${MIDDLEWARE} STREQUAL "nodejs")
 	MESSAGE("[*] NodeJS build, compiles a NodeJS addon")
-	MESSAGE("[*] For now: use node-gyp to build")
+   MESSAGE("[*] For now: use node-gyp to build")
+#	FIND_PACKAGE(NodeJS REQUIRED)
+#	INCLUDE_DIRECTORIES(${NODEJS_INCLUDE_DIRS})
+#	MESSAGE(STATUS "Include NODEJS: ${NODEJS_INCLUDE_DIRS}")
+#	
+#	SET(INCLUDE_DIRS "${NODEJS_INCLUDE_DIRS}")
+#	SET(PARENT_INCLUDE_DIRS ${INCLUDE_DIRS} PARENT_SCOPE)
 ENDIF()
 
 # Source directory
