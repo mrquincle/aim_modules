@@ -24,7 +24,7 @@ using namespace rur;
 //! Replace with your own code
 RotateModuleExt::RotateModuleExt() {
 	int seed = time(NULL);
-	cout << "Use seed for random generator: " << seed << endl;
+	std::cout << "Use seed for random generator: " << seed << std::endl;
 	srand(seed);
 }
 
