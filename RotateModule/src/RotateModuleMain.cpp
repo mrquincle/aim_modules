@@ -1,25 +1,19 @@
 /**
  * @file RotateModuleMain.cpp
- * @brief ...
+ * @brief Entry function for RotateModule
  *
- * This file is created at Almende B.V. It is open-source software and part of the Common 
- * Hybrid Agent Platform (CHAP). A toolbox with a lot of open-source tools, ranging from 
- * thread pools and TCP/IP components to control architectures and learning algorithms. 
- * This software is published under the GNU Lesser General Public license (LGPL).
+ * This file is created at "Distributed Organisms B.V.". It is open-source software and part of "Crownstone". 
+ * This software is published under the GNU Lesser General Public License license (LGPLv3).
  *
- * It is not possible to add usage restrictions to an open-source license. Nevertheless,
- * we personally strongly object against this software being used by the military, in the
- * bio-industry, for animal experimentation, or anything that violates the Universal
- * Declaration of Human Rights.
+ * Copyright © 2015 Anne van Rossum <anne@dobots.nl>
  *
- * Copyright © 2012 Your Name <your@email.address>
- *
- * @author  ...
- * @date    ...
- * @company Almende B.V. (or your university, institute or company)
- * @case    Artificial Intelligence Module
+ * @author                   Anne van Rossum
+ * @date                     Apr  9, 2015
+ * @organisation             Distributed Organisms B.V.
+ * @project                  Crownstone
  */
-#include <RotateModule.h>
+ 
+#include <RotateModuleExt.h>
 
 #include <stdlib.h>
 #include <iostream>
@@ -33,11 +27,7 @@ using namespace std;
  * have this file and the RotateModule header and code in a separate "aim" directory.
  */
 int main(int argc, char *argv[])  {
-	RotateModule *m = new RotateModule();
-
-	int seed = time(NULL);
-	cout << "Use seed for random generator: " << seed << endl;
-	srand(seed);
+	RotateModuleExt *m = new RotateModuleExt();
 
 	if (argc < 2) {
 		std::cout << "Use an identifier as argument for this instance" << endl;
@@ -48,7 +38,7 @@ int main(int argc, char *argv[])  {
 
 	do {
 		m->Tick();
-	} while (!m->Stop());
+	} while (!m->Stop()); 
 
 	delete m;
 

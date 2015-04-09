@@ -1,0 +1,32 @@
+# Use format xxx=xxx for configuration options
+
+# Version must positive integer number
+version=1
+build_folder=builds
+
+# Brief description for e.g. on the website
+description='Performs amazing functions'
+long_description='Performs amazing functions'
+category='general'
+#img_url='https://raw.github.com/username/somemodule/aim_config/assets/icon.png'
+
+# Wether the website should add this module
+enable='false'
+
+# The application types that are possible: UI, background
+application_type=background
+
+# For deployment as Android package
+android_package='org.dobots.rotatemodule'
+android_url='https://play.google.com/store/apps/details?id=org.dobots.rotatemodule'
+
+# Supported middlewarez
+middleware_support_android='false'
+middleware_support_yarp='true'
+middleware_support_zeromq='true'
+middleware_support_ros='true'
+
+# Supported devices
+device_support_android='false'
+device_support_raspberrypi='true'
+device_support_ubuntu='true'
