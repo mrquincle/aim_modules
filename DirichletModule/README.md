@@ -64,9 +64,9 @@ example algorithm 5.
 
 The initial values for the clusters are determined randomly. The covariances are not visualized (yet). 
 
-<img src="mrquincle/aim_modules/raw/master/DetectLineModule/docs/images/init.jpg" width="320" height="240" 
+<img src="//github.com/mrquincle/aim_modules/raw/master/DirichletModule/docs/images/init.jpg" width="320" height="240" 
 	title="Initial cluster" hspace="10"/>
-<img src="mrquincle/aim_modules/raw/master/DirichletModule/docs/images/clusters.jpg" width="320" height="240" 
+<img src="//github.com/mrquincle/aim_modules/raw/master/DirichletModule/docs/images/clusters.jpg" width="320" height="240" 
 	title="After 1000 iterators" hspace="10"/>
 
 If we run Gibbs sampling for 1000 iterators. Note that this image concerns a single Gibbs step. It still needs to be
