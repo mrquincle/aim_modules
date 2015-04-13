@@ -16,4 +16,4 @@ p0=p(:,1);
 p1=p(:,2);
 plot(p0,p1,"r.");
 
-sleep(5);
+print -djpg clusters.jpg

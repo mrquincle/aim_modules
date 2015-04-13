@@ -60,6 +60,19 @@ which is a collapsed Gibbs sampler. The latter leads to much faster mixing that 
 however, it is reasonable to assume that I will first implement an algorithm that doesn't require conjugacy, for
 example algorithm 5.
 
+## Can I see some results?
+
+The initial values for the clusters are determined randomly. The covariances are not visualized (yet). 
+
+<img src="mrquincle/aim_modules/raw/master/DetectLineModule/docs/images/init.jpg" width="320" height="240" 
+	title="Initial cluster" hspace="10"/>
+<img src="mrquincle/aim_modules/raw/master/DirichletModule/docs/images/clusters.jpg" width="320" height="240" 
+	title="After 1000 iterators" hspace="10"/>
+
+If we run Gibbs sampling for 1000 iterators. Note that this image concerns a single Gibbs step. It still needs to be
+thinned (because it is a Markov chain), burned in (skip first samples) and averaged (over samples to get expected
+values for the random variables involved: the clusters).
+
 ## How fast is it?
 
 The DirichletModule is not implemented with speed in mind. Although some decisions have been made, such as the use of
