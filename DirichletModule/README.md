@@ -67,10 +67,11 @@ The initial values for the clusters are determined randomly. The covariances are
 <img src="https://github.com/mrquincle/aim_modules/raw/master/DirichletModule/docs/images/init.jpg" width="320" height="240" 
 	title="Initial cluster" hspace="10"/>
 <img src="https://github.com/mrquincle/aim_modules/raw/master/DirichletModule/docs/images/clusters.jpg" width="320" height="240" 
-	title="After 1000 iterators" hspace="10"/>
+	title="After 2000 iterations" hspace="10"/>
 
-If we run Gibbs sampling for 1000 iterators. Note that this image concerns a single Gibbs step. It still needs to be
-thinned (because it is a Markov chain), burned in (skip first samples) and averaged (over samples to get expected
+In the images above at the left we start clustering, at the right we are at the 2000th Gibbs sampling step. Note that 
+this image visualizes a single Gibbs step. To get a nice posterior you will need to consider multiple results. It needs 
+to be thinned (because it is a Markov chain), burned-in (skip first samples) and averaged (over samples to get expected
 values for the random variables involved: the clusters).
 
 ## How fast is it?
