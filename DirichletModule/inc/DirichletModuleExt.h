@@ -13,14 +13,13 @@
  * @project                  Robotic Suite
  */
 
+#pragma once
+
 #include <DirichletModule.h>
-
 #include <eigenmultivariatenormal.hpp>
-
 #include <vector>
 
 namespace rur {
-
 
 /**
  * The Dirichlet Module contains a mixture model in which a Dirichlet Process is used as underlying distribution of
@@ -87,24 +86,6 @@ public:
 
 	void Run(const SufficientStatistics & ss, size_t iterations);
 
-	void Test(int count, bool distribution);
-	//void SampleFromPrior();
-
-	//! Create table assignments
-	void CreateAssignments(int count, std::vector<value_t> & assignments);
-
-	//! Next assignment
-	value_t NextAssignment(std::vector<value_t> & assignments, int & last_table);
-
-	//! Next assignment
-	value_t NextTable(std::vector<value_t> & weighted_distribution, int & last_table);
-
-	//! Cast to distribution
-	void AssignmentsToDistribution(std::vector<value_t> & assignments, std::vector<value_t> & distribution);
-
-	//! Come up with the next parameter, this would use NextAssignment and if larger than parameters.size()
-	// generate a new parameter with the given prior, and if smaller, pick that parameter.
-	void NextParameter();
 
 	void UpdateSufficientStatistics(const SufficientStatistics & ss_in, vector_t observation,
 			SufficientStatistics & ss_out);

@@ -23,7 +23,7 @@
 #include <DirichletModuleExt.h>
 
 #include <dim1algebra.hpp>
-
+#include <ChineseRestaurantProcess.h>
 #include <algorithm>
 #include <cmath>
 #include <random>
@@ -70,7 +70,7 @@ DirichletModuleExt::~DirichletModuleExt() {
  * in the form of only the number of customers per table. 
  */
 void DirichletModuleExt::Tick() {
-#define TESTING
+//#define TESTING
 
 #ifdef TESTING
 	stopping_flag = true;
@@ -124,7 +124,8 @@ void DirichletModuleExt::Tick() {
 	count = readGenerate();
 	if (count && *count) {
 		std::vector<value_t> assignments; assignments.clear();
-		CreateAssignments(*count, assignments);
+		ChineseRestaurantProcess CRP(alpha);
+		CRP.CreateAssignments(*count, assignments);
 		std::vector<int> crp; crp.clear();
 		for (int i = 0; i < assignments.size(); i++) {
 			crp.push_back((int)assignments[i]);
@@ -135,7 +136,9 @@ void DirichletModuleExt::Tick() {
 	std::vector<value_t> *observation;
 	observation = readObservation();
 	if (observation) {
-		vector_t v(observation->size()) = vector_t::Map(observation->data(), observation->size());
+		vector_t v(observation->size());
+		v = vector_t::Map(observation->data(), observation->size());
+		//vector_t v = vector_t::Map(observation->data(), observation->size());
 		observations.push_back(v);
 	}
 
@@ -159,102 +162,6 @@ void DirichletModuleExt::Tick() {
 #endif
 }
 
-void DirichletModuleExt::Test(int count, bool calculate_distribution) {
-	std::vector<value_t> assignments; assignments.clear();
-	CreateAssignments(100, assignments);
-	dobots::debug << "Assignments: ";
-	for (int i = 0; i < assignments.size(); i++) {
-		dobots::debug << assignments[i] << ' ';
-	}
-	dobots::debug << std::endl;
-
-	if (calculate_distribution) {
-		std::vector<value_t> distribution; distribution.clear();
-		AssignmentsToDistribution(assignments, distribution);
-		dobots::debug << "Distribution: ";
-		for (auto i : distribution) {
-			dobots::debug << i << ' ';
-		}
-		dobots::debug << std::endl;
-	}
-}
-
-/**
- * Create table assignments following the Chinese Restaurant Process. The first table is table with index "0". If you
- * use a Dirichlet process for the data points, you can generate all the seat assignments at once.
- */
-void DirichletModuleExt::CreateAssignments(int count, std::vector<value_t> & assignments) {
-	int last_table;
-	if (assignments.empty()) {
-		assignments.push_back(0);
-		last_table = 0;
-	} else {
-		last_table = *std::max_element(assignments.begin(), assignments.end());
-	}
-	for (int i = 0; i < count; ++i) {
-		assignments.push_back(NextAssignment(assignments, last_table));
-	}
-}
-
-/**
- * Pick a new table with probability a/(n+a) and pick an existing table with probability (1 - a/(n+a)) with n being the
- * number of customers already seated. If n==0 it is the first customer, and the chance to get a new table is 1. Note,
- * this assumes observations/assignments starting from index 0: X_0, X_1, etc. The equations on for example
- * http://www.wikiwand.com/en/Dirichlet_process assume them starting from index 1: X_1, X_2, etc. So, they have (n-1)
- * in the equations below.
- *
- * Draw X_0 from the base distribution H
- * For n > 0
- *   1.) Draw X_1 (and up) with probability a/(n+a) from H
- *   2.) Set X_1 (and up) with probability n_{table}/(n+a) to X_{table}
- * We use a shortcut here. Because we have stored an array for all customers, we can perform 2.) by uniformly sampling
- * over these customers (this will automatically be in correspondence with the number of customers at each table).
- */
-DirichletModuleExt::value_t DirichletModuleExt::NextAssignment(std::vector<value_t> & assignments, int & last_table) {
-	int n = assignments.size();
-	if (drand48() < (alpha / (n + alpha))) {
-		last_table++;
-		return last_table;
-	} else {
-		return assignments[rand() %  n];
-	}
-}
-
-/**
- * We can also sample over a distribution. This is more flexible, because it is possible not to just enter the
- * distribution, but assign different weights corresponding to e.g. a likelihood function to each table.
- *
- * TODO: not used
- */
-DirichletModuleExt::value_t DirichletModuleExt::NextTable(std::vector<value_t> & weighted_distribution, int & last_table) {
-	size_t len = weighted_distribution.size();
-	assert (len != 0);
-	std::vector<value_t> part_sum;
-	part_sum.resize(len, 0);
-	std::partial_sum(weighted_distribution.begin(), weighted_distribution.end(), part_sum.begin());
-	double total_sum = part_sum[len - 1];
-	if (drand48() < (alpha / (total_sum + alpha))) {
-		last_table++;
-		return last_table;
-	} else {
-		std::transform(part_sum.begin(), part_sum.end(), part_sum.begin(), std::bind1st(std::divides<double>(),total_sum));
-		size_t index = dobots::exceeds_element(part_sum.begin(), part_sum.end(), (float)drand48()) - part_sum.begin();
-		assert (index < weighted_distribution.size());
-		return weighted_distribution[index];
-	}
-}
-
-/**
- * Just get the vector of customers referring to table indices and calculate the number of customers at each table.
- * Note that this changes the assignments vector (it gets sorted).
- */
-void DirichletModuleExt::AssignmentsToDistribution(std::vector<value_t> & assignments,
-		std::vector<value_t> & distribution) {
-	std::sort(assignments.begin(), assignments.end());
-	size_t length = *std::max_element(assignments.begin(), assignments.end());
-	distribution.resize(length+1, 0);
-	dobots::count(assignments.begin(), assignments.end(), distribution.begin());
-}
 
 /**
  * The Stop function checks when its time to stop. We use a simple flag that we set in the Tick function.
@@ -285,6 +192,10 @@ void DirichletModuleExt::Initialization(const SufficientStatistics & ss) {
 	}
 }
 
+/**
+ * This function is called after initialization and performs the Gibbs iterations. At the moment also debug information
+ * will be output (if the verbosity level is high enough) about the clusters every Gibbs step.
+ */
 void DirichletModuleExt::Run(const SufficientStatistics & ss, size_t iterations) {
 	dobots::debug << "====================================================================" << std::endl;
 	dobots::debug << "================================ Run ===============================" << std::endl;
@@ -295,7 +206,9 @@ void DirichletModuleExt::Run(const SufficientStatistics & ss, size_t iterations)
 	}
 	size_t M = observations.size()-1;
 	for (int t = 1; t < iterations; t++) {
-		dobots::debug << "Number of thetas is " << thetas.size() << " (and should be " << observations.size() << ")" << std::endl;
+		dobots::debug << "Number of thetas is " << thetas.size() << " (and should be " << 
+			observations.size() << ")" << std::endl;
+		// remove first theta, so we iterate through [1, 2, 3, ..] -> [0, 2, 3, ..] -> [0, 1, 3, ..], etc.
 		thetas.erase(thetas.begin());
 		for (int i = 0; i < M; i++) {
 			GibbsStep(ss, thetas, alpha, observations[i], thetas[i]);
@@ -514,6 +427,13 @@ void DirichletModuleExt::Likelihoods(const std::vector<NormalDistribution> & the
  *
  * Notations used in the literature
  *     dispersion_factor     alpha (Neal2000), A_0 (Escobar1994)
+ *
+ * Calculates:
+ *  1.) likelihoods F(y_i,\theta_j)
+ *  2.) posterior predictives \int F(y_i,\theta) dG_0(\theta)
+ *  3-5.) calculate denominator (or ratio considering sum of likelihoods and alpha factor)
+ *  6.) if new table, calculate posterior density H_i 
+ *  7.) if old table, sample from one of the old densities \sum{i\neq j} q_{i,j} \delta(\theta_j)
  *
  * @param                    ss [in], sufficient statistics for normal-inverse wishart distribution (4 parameters)
  * @param                    thetas_without_k [in], all other normal distributions (each 2 parameters)
