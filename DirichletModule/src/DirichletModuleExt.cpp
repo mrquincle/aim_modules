@@ -23,7 +23,6 @@
 #include <DirichletModuleExt.h>
 
 #include <dim1algebra.hpp>
-#include <ChineseRestaurantProcess.h>
 #include <algorithm>
 #include <cmath>
 #include <random>
@@ -36,7 +35,7 @@ using namespace Eigen;
 /**
  * Constructor initializes random generators and the dispersion factor for the Dirichlet Process.
  */
-DirichletModuleExt::DirichletModuleExt(): alpha(1.2) {
+DirichletModuleExt::DirichletModuleExt(): alpha(1.2), chinese_restaurant_process(alpha) {
 /*
 	int param_dim = 2;
 	prior_mean.resize(1,param_dim);
@@ -70,7 +69,14 @@ DirichletModuleExt::~DirichletModuleExt() {
  * in the form of only the number of customers per table. 
  */
 void DirichletModuleExt::Tick() {
-//#define TESTING
+#define TESTING1
+	SufficientStatistics ss;
+	ss.dim = 2; // data dimension, for now fix it, but should be obtained from actual received data dimension
+	ss.kappa = 1;
+	ss.mu = vector_t(ss.dim);
+	ss.mu << 0, 0;
+	ss.nu = 4;
+	ss.lambda = matrix_t::Identity(ss.dim, ss.dim);
 
 #ifdef TESTING
 	stopping_flag = true;
@@ -90,14 +96,6 @@ void DirichletModuleExt::Tick() {
 		dobots::info << "Load " << observations.size() << " observations" << std::endl;
 		input.close();
 	}
-
-	SufficientStatistics ss;
-	ss.dim = 2; // data dimension
-	ss.kappa = 1;
-	ss.mu = vector_t(ss.dim);
-	ss.mu << 0, 0;
-	ss.nu = 4;
-	ss.lambda = matrix_t::Identity(ss.dim, ss.dim);
 
 #ifdef UNIT_TEST_POST_PRED	
 	dobots::debug << "kappa0: " << ss.kappa << std::endl;
@@ -119,6 +117,51 @@ void DirichletModuleExt::Tick() {
 	int steps = 2000;
 	Run(ss, steps);
 
+#elif defined(TESTING1)
+	stopping_flag = true;
+
+	// creation of table assignments
+	index_t last_table = 0;
+
+	// assignments are kept separate from the distribution vector and store only an index to an entry into the latter
+	std::vector<index_t> assignments; 
+	assignments.clear();
+
+	// the distributions
+	std::vector<NormalDistribution> tables; 
+	tables.clear();
+
+	// initialize
+	index_t current_table_index;
+	NormalDistribution tmp_table;
+	for (int i = 0; i < observations.size(); i++) {
+		index_t assignment;
+		MetropolisHastingsStep(assignments, tables, tmp_table, current_table_index, ss, observations[i], true,
+				assignment);
+		assignments.push_back(assignment);
+	}
+		
+	
+	dobots::debug << "Number of assignments is " << assignments.size() << " (and should be " << 
+		observations.size() << ")" << std::endl;
+
+	// going over table assignments and reassign
+	size_t M = assignments.size()-1;
+	current_table_index = assignments.front();
+	NormalDistribution &current_table = tables[current_table_index];
+	assignments.erase(assignments.begin());
+	bool is_new_table = false;
+	for (int i = 0; i < M; i++) {
+		MetropolisHastingsStep(assignments, tables, current_table, current_table_index, ss, observations[i], false,
+				assignments[i]);
+		current_table_index = assignments[i+1];
+		current_table = tables[current_table_index];
+	}
+	// for last table	
+	index_t assignment;
+	MetropolisHastingsStep(assignments, tables, current_table, current_table_index, ss, observations[M], false, assignment);
+	assignments.push_back(assignment);
+	
 #else
 	int *count;
 	count = readGenerate();
@@ -162,6 +205,58 @@ void DirichletModuleExt::Tick() {
 #endif
 }
 
+/*
+ * Metropolis Hasting step calculate an acceptance probability. If the probability 
+ */
+void DirichletModuleExt::MetropolisHastingsStep(const std::vector<index_t> & assignments, 
+		std::vector<NormalDistribution> & tables, const NormalDistribution &current_distribution, 
+		const index_t current_table_index, const SufficientStatistics & ss, const vector_t & observation, 
+		bool accept_all, index_t & assignment) {
+	if (tables.empty()) {
+		dobots::error << "Might be fine" << std::endl;
+	}
+	bool is_new_table;
+	index_t table;
+	index_t last_table = tables.size()-1;
+	chinese_restaurant_process.NextAssignment(assignments, last_table, table, is_new_table);
+	if (is_new_table) {
+		// sample from G_0
+		NormalDistribution nd;
+		SampleNormalInverseWishart(ss, nd);
+		if (tables.size() != table) {
+			dobots::error << "Table " << table << " should be last table in vector" << std::endl;
+		}
+		NormalDistribution &proposed_distribution = nd;
+		if (accept_all || Acceptance(proposed_distribution, current_distribution, observation)) {
+			tables.push_back(nd);
+			assignment = table;
+		} else {
+			assignment = current_table_index;
+		}
+	} else {
+		NormalDistribution &proposed_distribution = tables[table];
+		if (accept_all || Acceptance(proposed_distribution, current_distribution, observation)) {
+			assignment = table;
+		} else {
+			assignment = current_table_index;
+		}
+	}
+}
+
+/**
+ * Calculate the acceptance probability in the Metropolis-Hastings step. 
+ */
+bool DirichletModuleExt::Acceptance(const NormalDistribution &nd_proposed, 
+		const NormalDistribution &nd_old, const vector_t observation) {
+	value_t nom = Likelihood(nd_proposed, observation);
+	value_t denom = Likelihood(nd_old, observation);
+	value_t a = std::min((value_t)1, nom/denom);
+	value_t random = drand48();
+	bool accept = a > random;
+	if (accept) std::cout << "Accept " << a << std::endl;
+	if (!accept) std::cout << "Deny " << a << std::endl;
+	return (a > random);
+}
 
 /**
  * The Stop function checks when its time to stop. We use a simple flag that we set in the Tick function.
@@ -195,6 +290,9 @@ void DirichletModuleExt::Initialization(const SufficientStatistics & ss) {
 /**
  * This function is called after initialization and performs the Gibbs iterations. At the moment also debug information
  * will be output (if the verbosity level is high enough) about the clusters every Gibbs step.
+ *
+ * For the data structures we use just as many parameters (thetas) as we have observations. A lot of observation refer
+ * to the same parameter, but we account for that with having duplicates.
  */
 void DirichletModuleExt::Run(const SufficientStatistics & ss, size_t iterations) {
 	dobots::debug << "====================================================================" << std::endl;
@@ -208,13 +306,14 @@ void DirichletModuleExt::Run(const SufficientStatistics & ss, size_t iterations)
 	for (int t = 1; t < iterations; t++) {
 		dobots::debug << "Number of thetas is " << thetas.size() << " (and should be " << 
 			observations.size() << ")" << std::endl;
+		// the following is a nice design pattern, let's call it the "cavity pattern"
 		// remove first theta, so we iterate through [1, 2, 3, ..] -> [0, 2, 3, ..] -> [0, 1, 3, ..], etc.
 		thetas.erase(thetas.begin());
 		for (int i = 0; i < M; i++) {
+			// note that thetas[i] writes the result to location i 
 			GibbsStep(ss, thetas, alpha, observations[i], thetas[i]);
 		}	
-		// last observation
-		dobots::debug << "Handle last observation" << std::endl;
+		// last observation, needs to be added to the vector
 		NormalDistribution theta;
 		GibbsStep(ss, thetas, alpha, observations[M], theta);
 		thetas.push_back(theta);

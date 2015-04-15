@@ -18,6 +18,7 @@
 #include <DirichletModule.h>
 #include <eigenmultivariatenormal.hpp>
 #include <vector>
+#include <ChineseRestaurantProcess.h>
 
 namespace rur {
 
@@ -28,6 +29,8 @@ namespace rur {
 class DirichletModuleExt: public DirichletModule {
 public:
 	typedef float value_t;
+	typedef int index_t;
+
 	typedef Eigen::Matrix<value_t,Eigen::Dynamic,Eigen::Dynamic> matrix_t;
 	typedef Eigen::Matrix<value_t,Eigen::Dynamic,1> vector_t; // column_vector
 
@@ -86,6 +89,12 @@ public:
 
 	void Run(const SufficientStatistics & ss, size_t iterations);
 
+	void MetropolisHastingsStep(const std::vector<index_t> & assignments, 
+		std::vector<NormalDistribution> & tables, const NormalDistribution &current_distribution, 
+		const index_t current_table_index, const SufficientStatistics & ss, const vector_t & observation, 
+		bool accept_all, index_t & assignment);
+	bool Acceptance(const NormalDistribution &nd_proposed, const NormalDistribution &nd_old, 
+		const vector_t observation);
 
 	void UpdateSufficientStatistics(const SufficientStatistics & ss_in, vector_t observation,
 			SufficientStatistics & ss_out);
@@ -104,16 +113,11 @@ public:
 			NormalDistribution & theta_k);
 
 private:
-	// each parameter is a column-vector
-	matrix_t parameters;
-
 	// alpha value for Dirichlet prior
 	value_t alpha;
 
-	vector_t prior_mean;
-	matrix_t prior_covar;
+	ChineseRestaurantProcess chinese_restaurant_process;
 
-//	int param_dim = prior_mean.size();
 	Eigen::EigenMultivariateNormal<value_t> *prior_dist;
 
 	// TODO: perhaps use Eigen::Ref to put on the heap?
@@ -122,7 +126,11 @@ private:
 	// parameters (theta collects both mean and covariance matrices, and define a normal distribution)
 	std::vector<NormalDistribution> thetas;
 
+	// stops the module when set to true
 	bool stopping_flag;
+
+	// 
+	std::vector< index_t > tables;
 };
 
 }

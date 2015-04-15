@@ -30,7 +30,7 @@ ChineseRestaurantProcess::ChineseRestaurantProcess(float alpha) {
  * Write assignments and show distribution.
  */
 void ChineseRestaurantProcess::Test(int count, bool calculate_distribution) {
-	std::vector<value_t> assignments; assignments.clear();
+	std::vector<index_t> assignments; assignments.clear();
 	CreateAssignments(100, assignments);
 	dobots::debug << "Assignments: ";
 	for (int i = 0; i < assignments.size(); i++) {
@@ -39,7 +39,7 @@ void ChineseRestaurantProcess::Test(int count, bool calculate_distribution) {
 	dobots::debug << std::endl;
 
 	if (calculate_distribution) {
-		std::vector<value_t> distribution; distribution.clear();
+		std::vector<index_t> distribution; distribution.clear();
 		AssignmentsToDistribution(assignments, distribution);
 		dobots::debug << "Distribution: ";
 		for (auto i : distribution) {
@@ -53,16 +53,18 @@ void ChineseRestaurantProcess::Test(int count, bool calculate_distribution) {
  * Create table assignments following the Chinese Restaurant Process. The first table is table with index "0". If you
  * use a Dirichlet process for the data points, you can generate all the seat assignments at once.
  */
-void ChineseRestaurantProcess::CreateAssignments(int count, std::vector<value_t> & assignments) {
-	int last_table;
+void ChineseRestaurantProcess::CreateAssignments(int count, std::vector<index_t> & assignments) {
+	index_t last_table, table;
+	bool is_new_table;
 	if (assignments.empty()) {
 		assignments.push_back(0);
 		last_table = 0;
 	} else {
 		last_table = *std::max_element(assignments.begin(), assignments.end());
 	}
-	for (int i = 0; i < count; ++i) {
-		assignments.push_back(NextAssignment(assignments, last_table));
+	for (int i = 1; i < count; ++i) {
+		NextAssignment(assignments, last_table, table, is_new_table);
+		assignments.push_back(table);
 	}
 }
 
@@ -80,13 +82,16 @@ void ChineseRestaurantProcess::CreateAssignments(int count, std::vector<value_t>
  * We use a shortcut here. Because we have stored an array for all customers, we can perform 2.) by uniformly sampling
  * over these customers (this will automatically be in correspondence with the number of customers at each table).
  */
-ChineseRestaurantProcess::value_t ChineseRestaurantProcess::NextAssignment(std::vector<value_t> & assignments, int & last_table) {
+void ChineseRestaurantProcess::NextAssignment(const std::vector<index_t> & assignments, index_t & last_table, 
+		int & assigned_table, bool & is_table_new) {
 	int n = assignments.size();
-	if (drand48() < (alpha / (n + alpha))) {
+	is_table_new = (drand48() < (alpha / (n + alpha)));
+	if (is_table_new) {
 		last_table++;
-		return last_table;
+		assigned_table = last_table;
 	} else {
-		return assignments[rand() %  n];
+		// automatically returns relative to the number of customers seated at a table
+		assigned_table = assignments[rand() %  n];
 	}
 }
 
@@ -96,7 +101,8 @@ ChineseRestaurantProcess::value_t ChineseRestaurantProcess::NextAssignment(std::
  *
  * TODO: not used
  */
-ChineseRestaurantProcess::value_t ChineseRestaurantProcess::NextTable(std::vector<value_t> & weighted_distribution, int & last_table) {
+ChineseRestaurantProcess::value_t ChineseRestaurantProcess::NextTable(std::vector<value_t> & weighted_distribution, 
+		index_t & last_table) {
 	size_t len = weighted_distribution.size();
 	assert (len != 0);
 	std::vector<value_t> part_sum;
@@ -116,14 +122,14 @@ ChineseRestaurantProcess::value_t ChineseRestaurantProcess::NextTable(std::vecto
 
 /**
  * Just get the vector of customers referring to table indices and calculate the number of customers at each table.
- * Note that this changes the assignments vector (it gets sorted).
  */
-void ChineseRestaurantProcess::AssignmentsToDistribution(std::vector<value_t> & assignments,
-		std::vector<value_t> & distribution) {
-	std::sort(assignments.begin(), assignments.end());
-	size_t length = *std::max_element(assignments.begin(), assignments.end());
+void ChineseRestaurantProcess::AssignmentsToDistribution(std::vector<index_t> & assignments,
+		std::vector<index_t> & distribution) {
+	std::vector<index_t> tmp = assignments;
+	std::sort(tmp.begin(), tmp.end());
+	size_t length = *std::max_element(tmp.begin(), tmp.end());
 	distribution.resize(length+1, 0);
-	dobots::count(assignments.begin(), assignments.end(), distribution.begin());
+	dobots::count(tmp.begin(), tmp.end(), distribution.begin());
 }
 
 
