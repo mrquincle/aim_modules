@@ -31,6 +31,8 @@
 
 using namespace rur;
 using namespace Eigen;
+	
+const static IOFormat VectorFormat(StreamPrecision, DontAlignCols, " ", " | ");
 
 /**
  * Constructor initializes random generators and the dispersion factor for the Dirichlet Process.
@@ -69,7 +71,10 @@ DirichletModuleExt::~DirichletModuleExt() {
  * in the form of only the number of customers per table. 
  */
 void DirichletModuleExt::Tick() {
+
+//#define TESTING0
 #define TESTING1
+
 	SufficientStatistics ss;
 	ss.dim = 2; // data dimension, for now fix it, but should be obtained from actual received data dimension
 	ss.kappa = 1;
@@ -78,10 +83,8 @@ void DirichletModuleExt::Tick() {
 	ss.nu = 4;
 	ss.lambda = matrix_t::Identity(ss.dim, ss.dim);
 
-#ifdef TESTING
 	stopping_flag = true;
 	dobots::debug << "Read observations from file" << std::endl;	
-	//LoadFile();
 	std::ifstream input;
 	input.open("../../data/clusters.txt");
 	if (input && input.is_open()) {
@@ -96,6 +99,8 @@ void DirichletModuleExt::Tick() {
 		dobots::info << "Load " << observations.size() << " observations" << std::endl;
 		input.close();
 	}
+
+#ifdef TESTING0
 
 #ifdef UNIT_TEST_POST_PRED	
 	dobots::debug << "kappa0: " << ss.kappa << std::endl;
@@ -118,7 +123,6 @@ void DirichletModuleExt::Tick() {
 	Run(ss, steps);
 
 #elif defined(TESTING1)
-	stopping_flag = true;
 
 	// creation of table assignments
 	index_t last_table = 0;
@@ -141,27 +145,56 @@ void DirichletModuleExt::Tick() {
 		assignments.push_back(assignment);
 	}
 		
+	dobots::print(assignments.begin(), assignments.end());
 	
 	dobots::debug << "Number of assignments is " << assignments.size() << " (and should be " << 
 		observations.size() << ")" << std::endl;
 
-	// going over table assignments and reassign
-	size_t M = assignments.size()-1;
-	current_table_index = assignments.front();
-	NormalDistribution &current_table = tables[current_table_index];
-	assignments.erase(assignments.begin());
-	bool is_new_table = false;
-	for (int i = 0; i < M; i++) {
-		MetropolisHastingsStep(assignments, tables, current_table, current_table_index, ss, observations[i], false,
-				assignments[i]);
-		current_table_index = assignments[i+1];
-		current_table = tables[current_table_index];
+	int steps = 1000;
+	for (int t = 0; t < steps; t++) {
+		//std::debug << "Step " << t << std::endl;
+		// going over table assignments and reassign
+		size_t M = assignments.size()-1;
+		current_table_index = assignments.front();
+		assignments.erase(assignments.begin());
+		bool is_new_table = false;
+		for (int i = 0; i < M; i++) {
+			index_t assignment;
+			MetropolisHastingsStep(assignments, tables, tables[current_table_index], current_table_index, ss, 
+					observations[i], false, assignment);
+			//dobots::debug << i << " @" <<  current_table_index << " -> " << assignment << std::endl;
+			assignments[i] = assignment;
+			current_table_index = assignments[i+1];
+		}
+		// for last table	
+		index_t assignment;
+		MetropolisHastingsStep(assignments, tables, tables[current_table_index], current_table_index, ss, 
+				observations[M], false, assignment);
+		assignments.push_back(assignment);
+		//dobots::print(assignments.begin(), assignments.end());
+
+		std::set<index_t> cluster_indices(assignments.begin(), assignments.end());
+
+		std::vector<NormalDistribution> clusters;
+		clusters.clear();
+		for (auto && i: cluster_indices) {
+			dobots::debug << "Add table " << i << std::endl;
+			clusters.push_back(tables[i]);
+		}
+
+		dobots::debug << "Number of tables: " << tables.size() << std::endl;
+		for (auto && i : tables) {
+			dobots::debug << "Parameters (mean): " << i.mean.transpose() << std::endl;
+		}
+
+		dobots::info << "Number of clusters: " << clusters.size() << std::endl;
+		for (auto && i : clusters) {
+			dobots::info << "Parameters (mean): " << t << " " << i.mean.transpose() << std::endl;
+		}
 	}
-	// for last table	
-	index_t assignment;
-	MetropolisHastingsStep(assignments, tables, current_table, current_table_index, ss, observations[M], false, assignment);
-	assignments.push_back(assignment);
-	
+
+
+
 #else
 	int *count;
 	count = readGenerate();
@@ -213,7 +246,7 @@ void DirichletModuleExt::MetropolisHastingsStep(const std::vector<index_t> & ass
 		const index_t current_table_index, const SufficientStatistics & ss, const vector_t & observation, 
 		bool accept_all, index_t & assignment) {
 	if (tables.empty()) {
-		dobots::error << "Might be fine" << std::endl;
+		dobots::debug << "Might be fine" << std::endl;
 	}
 	bool is_new_table;
 	index_t table;
@@ -227,10 +260,14 @@ void DirichletModuleExt::MetropolisHastingsStep(const std::vector<index_t> & ass
 			dobots::error << "Table " << table << " should be last table in vector" << std::endl;
 		}
 		NormalDistribution &proposed_distribution = nd;
+		dobots::debug << "Calculate acceptance" << std::endl;
 		if (accept_all || Acceptance(proposed_distribution, current_distribution, observation)) {
+			dobots::debug << "Add " << nd.mean.transpose() << " to table with index " << table << std::endl;
 			tables.push_back(nd);
 			assignment = table;
 		} else {
+			dobots::debug << "Forget new table" << std::endl;
+			last_table--;
 			assignment = current_table_index;
 		}
 	} else {
@@ -253,8 +290,8 @@ bool DirichletModuleExt::Acceptance(const NormalDistribution &nd_proposed,
 	value_t a = std::min((value_t)1, nom/denom);
 	value_t random = drand48();
 	bool accept = a > random;
-	if (accept) std::cout << "Accept " << a << std::endl;
-	if (!accept) std::cout << "Deny " << a << std::endl;
+	//if (accept) dobots::debug << "Accept " << a << std::endl;
+	//if (!accept) dobots::debug << "Deny " << a << std::endl;
 	return (a > random);
 }
 
@@ -318,7 +355,7 @@ void DirichletModuleExt::Run(const SufficientStatistics & ss, size_t iterations)
 		GibbsStep(ss, thetas, alpha, observations[M], theta);
 		thetas.push_back(theta);
 
-		// Plot or print current partition
+		// Plot or print current partition, copy vector it into a set to make parameters unique
 		std::set<NormalDistribution> clusters(thetas.begin(), thetas.end());
 
 		dobots::debug << "Number of thetas: " << thetas.size() << std::endl;
@@ -459,9 +496,10 @@ void DirichletModuleExt::PosteriorDensity(const SufficientStatistics & ss, const
  *       and adjust prior accordingly if necessary.
  */
 void DirichletModuleExt::SampleNormalInverseWishart(const SufficientStatistics & ss, NormalDistribution &nd) {
-//	dobots::debug << "Sample NIW" << std::endl;
+	//dobots::debug << "Sample NIW" << std::endl;
 	SampleInverseWishart(ss, nd.covar);
 	SampleMultivariateNormal(ss.mu, nd.covar/ss.kappa, nd.mean);
+	//dobots::debug << "New NIW sample obtained" << std::endl;
 }
 
 /**
@@ -471,8 +509,8 @@ void DirichletModuleExt::SampleMultivariateNormal(const vector_t & mean, const m
 //	dobots::debug << "Sample N" << std::endl;
 	EigenMultivariateNormal<value_t> normX_solver(mean, S);
 	sample = normX_solver.samples(1);// might need transpose
-	dobots::debug << "Sample from " << mean.transpose() << " with covar " << S << ": " << std::endl;
-	dobots::debug << sample.transpose() << std::endl;
+	//dobots::debug << "Sample from " << mean.transpose() << " with covar " << S.format(VectorFormat) << " becomes: " 
+	//	<< sample.transpose() << std::endl;
 }
 
 /**
@@ -490,7 +528,7 @@ void DirichletModuleExt::SampleInverseWishart(const SufficientStatistics & ss, m
 //	dobots::debug << "Sample: " << normX_solver.samples(ss.nu).transpose() << std::endl;
 	matrix_t samples = normX_solver.samples(ss.nu);
 	matrix_t iS = samples*samples.transpose();
-	dobots::debug << "New precision matrix: " << iS << std::endl;
+	dobots::debug << "New precision matrix: " << iS.format(VectorFormat) << std::endl;
 //	dobots::debug << "Its determinant: " << iS.determinant() << std::endl; // duh... should be 0
 	/*
 	LLT<matrix_t> llt;
