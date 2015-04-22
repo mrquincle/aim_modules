@@ -32,7 +32,13 @@
 using namespace rur;
 using namespace Eigen;
 	
-const static IOFormat VectorFormat(StreamPrecision, DontAlignCols, " ", " | ");
+//const static IOFormat VectorFormat(StreamPrecision, DontAlignCols, " ", " | ");
+const static IOFormat VectorFormat(StreamPrecision, DontAlignCols, " ", " ");
+
+#define UPDATE_CLUSTERS
+
+// Comment following to enable cluster updates, do this only after you're sure the inference method is correct
+#undef UPDATE_CLUSTERS
 
 /**
  * Constructor initializes random generators and the dispersion factor for the Dirichlet Process.
@@ -150,7 +156,8 @@ void DirichletModuleExt::Tick() {
 	dobots::debug << "Number of assignments is " << assignments.size() << " (and should be " << 
 		observations.size() << ")" << std::endl;
 
-	int steps = 1000;
+	int steps = 200;
+	int R = 3;
 	for (int t = 0; t < steps; t++) {
 		//std::debug << "Step " << t << std::endl;
 		// going over table assignments and reassign
@@ -160,8 +167,11 @@ void DirichletModuleExt::Tick() {
 		bool is_new_table = false;
 		for (int i = 0; i < M; i++) {
 			index_t assignment;
-			MetropolisHastingsStep(assignments, tables, tables[current_table_index], current_table_index, ss, 
-					observations[i], false, assignment);
+			for (int j = 0; j < R; j++) {
+				MetropolisHastingsStep(assignments, tables, tables[current_table_index], current_table_index, ss, 
+						observations[i], false, assignment);
+				current_table_index = assignment;
+			}
 			//dobots::debug << i << " @" <<  current_table_index << " -> " << assignment << std::endl;
 			assignments[i] = assignment;
 			current_table_index = assignments[i+1];
@@ -172,7 +182,7 @@ void DirichletModuleExt::Tick() {
 				observations[M], false, assignment);
 		assignments.push_back(assignment);
 		//dobots::print(assignments.begin(), assignments.end());
-
+		
 		std::set<index_t> cluster_indices(assignments.begin(), assignments.end());
 
 		std::vector<NormalDistribution> clusters;
@@ -182,6 +192,44 @@ void DirichletModuleExt::Tick() {
 			clusters.push_back(tables[i]);
 		}
 
+#ifdef UPDATE_CLUSTERS
+		// update clusters given observations
+		std::vector<size_t> tmp(assignments.size());
+		std::iota(tmp.begin(), tmp.end(), 0);
+		for (auto && index: cluster_indices) {
+			std::vector<size_t> cl_assignments;
+			cl_assignments.clear();
+			std::copy_if(tmp.begin(), tmp.end(), 
+				std::back_inserter(cl_assignments),
+				[=](size_t i) { return assignments[i] == index; });
+			//dobots::print(cl_assignments.begin(), cl_assignments.end());
+
+			// create Eigen matrix with corresponding observations
+			matrix_t mat(cl_assignments.size(), ss.dim);
+			for (int i = 0; i < cl_assignments.size(); ++i) {
+				mat.row(i) = vector_t::Map(observations[cl_assignments[i]].data(), ss.dim) ;
+			}
+			// std::cout << mat << std::endl;
+
+			// calculate maximum likelihood (for Gaussian), sample mean and variance
+			vector_t mean = mat.colwise().mean().transpose();
+			tables[index].mean = mean;
+
+			//std::cout << "Mean: " << mean << std::endl;
+
+			// update tables
+			//std::cout << "Currently: " << tables[index].mean.transpose() << std::endl;
+			if (mat.rows() > 1) {
+				matrix_t centered = mat.rowwise() - mat.colwise().mean();
+				matrix_t cov = (centered.adjoint() * centered) / value_t(mat.rows() - 1);
+				// determinant might be very small, if accidently there are many points on the same location
+				// this will lead to blow ups, so don't update the covar in that case
+				if (cov.determinant() > 0.001) {
+					tables[index].covar = cov;
+				}
+			}
+		}
+#endif
 		dobots::debug << "Number of tables: " << tables.size() << std::endl;
 		for (auto && i : tables) {
 			dobots::debug << "Parameters (mean): " << i.mean.transpose() << std::endl;
@@ -189,7 +237,7 @@ void DirichletModuleExt::Tick() {
 
 		dobots::info << "Number of clusters: " << clusters.size() << std::endl;
 		for (auto && i : clusters) {
-			dobots::info << "Parameters (mean): " << t << " " << i.mean.transpose() << std::endl;
+			dobots::info << "Parameters (mean): " << t << " " << i.mean.transpose() << " " << i.covar.format(VectorFormat) << std::endl;
 		}
 	}
 
@@ -254,16 +302,15 @@ void DirichletModuleExt::MetropolisHastingsStep(const std::vector<index_t> & ass
 	chinese_restaurant_process.NextAssignment(assignments, last_table, table, is_new_table);
 	if (is_new_table) {
 		// sample from G_0
-		NormalDistribution nd;
-		SampleNormalInverseWishart(ss, nd);
+		NormalDistribution new_distribution;
+		SampleNormalInverseWishart(ss, new_distribution);
 		if (tables.size() != table) {
 			dobots::error << "Table " << table << " should be last table in vector" << std::endl;
 		}
-		NormalDistribution &proposed_distribution = nd;
 		dobots::debug << "Calculate acceptance" << std::endl;
-		if (accept_all || Acceptance(proposed_distribution, current_distribution, observation)) {
-			dobots::debug << "Add " << nd.mean.transpose() << " to table with index " << table << std::endl;
-			tables.push_back(nd);
+		if (accept_all || Acceptance(new_distribution, current_distribution, observation)) {
+			dobots::debug << "Add " << new_distribution.mean.transpose() << " to table with index " << table << std::endl;
+			tables.push_back(new_distribution);
 			assignment = table;
 		} else {
 			dobots::debug << "Forget new table" << std::endl;
@@ -271,8 +318,8 @@ void DirichletModuleExt::MetropolisHastingsStep(const std::vector<index_t> & ass
 			assignment = current_table_index;
 		}
 	} else {
-		NormalDistribution &proposed_distribution = tables[table];
-		if (accept_all || Acceptance(proposed_distribution, current_distribution, observation)) {
+		// move to another, existing, table?
+		if (accept_all || Acceptance(tables[table], current_distribution, observation)) {
 			assignment = table;
 		} else {
 			assignment = current_table_index;
@@ -365,7 +412,8 @@ void DirichletModuleExt::Run(const SufficientStatistics & ss, size_t iterations)
 
 		dobots::info << "Number of clusters: " << clusters.size() << std::endl;
 		for (auto && i : clusters) {
-			dobots::info << "Parameters (mean): " << t << " " << i.mean.transpose() << std::endl;
+			dobots::info << "Parameters (mean): " << t << " " << i.mean.transpose() << " " << i.covar.format(VectorFormat) << std::endl;
+		//	dobots::info << "Parameters (mean): " << t << " " << i.mean.transpose() << std::endl;
 		}
 }
 }
