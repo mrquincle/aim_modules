@@ -51,14 +51,19 @@ Dirichlet Process itself.
 The implementation of the standard backend is finished. This uses data from the `/data` folder. To get data using
 the ports with for example the YARP middleware has not been tested yet.
 
-The algorithm that has been implemented:
+The algorithms that have been implemented:
 
-* Neal's algorithm 1.
+* Neal's algorithm 1: Gibbs sampling with conjugate priors
+* Neal's algorithm 5: Metropolis-Hastings for nonconjugate priors.
 
-This algorithm assumes a conjugate prior. It might be the case that I will find to implement algorithm 4 as well,
-which is a collapsed Gibbs sampler. The latter leads to much faster mixing that the current algorithm. Currently,
-however, it is reasonable to assume that I will first implement an algorithm that doesn't require conjugacy, for
-example algorithm 5.
+Algorithm 1 assumes a conjugate prior. It might be the case that I will find to implement algorithm 4 as well,
+which is a collapsed Gibbs sampler. The latter leads to much faster mixing that the current algorithm. 
+
+Algorithm 5 does not assume conjugacy. Although again the data is assumed to follow a Gaussian per class, there is no
+conjugate prior defined. This means that this algorithm is easy to adjust to other forms of distributions. This, 
+however, is not done yet.
+
+Algorithm 1 is finished. Algorithm 5 is still under development. Do not use it! 
 
 ## Can I see some results?
 
@@ -73,6 +78,9 @@ In the images above at the left we start clustering, at the right we are at the 
 this image visualizes a single Gibbs step. To get a nice posterior you will need to consider multiple results. It needs 
 to be thinned (because it is a Markov chain), burned-in (skip first samples) and averaged (over samples to get expected
 values for the random variables involved: the clusters).
+
+The visualization scripts use `octave` and can be found in the `/scripts` directory. Covariances are displayed with
+ellipses.
 
 ## How fast is it?
 
@@ -90,14 +98,18 @@ Follow the instructions on the [AIM website](http://dobots.github.com/aim/).
 ## Where can I read more?
 
 * [AIM website](http://dobots.github.com/aim-bzr/) 
-* Escobar1994               Estimating Normal Means with a Dirichlet Process Prior (1994) Escobar                      
-* Neal2000                  Markov Chain Sampling Methods for Dirichlet Process Mixture Models (2000) Neal             
-* Murphy2007                Conjugate Bayesian analysis of the Gaussian distribution (2007) Murphy  
+* Estimating Normal Means with a Dirichlet Process Prior (1994) Escobar                      
+* Markov Chain Sampling Methods for Dirichlet Process Mixture Models (2000) Neal             
+* Conjugate Bayesian analysis of the Gaussian distribution (2007) Murphy  
+
+For a detailed derivation of some of the algorithms, see also my blog:
+
+* http://www.annevanrossum.com/blog/2015/03/03/sampling-of-dirichlet-process/
 
 ## Copyrights
 
-The copyrights of this module (2013) belong to:
+The copyrights of this module (2015) belong to:
 
 - Author: Anne C. van Rossum
-- Distributed Organisms B.V.
-
+- Distributed Organisms B.V. (https://dobots.nl)
+- License: LPGPv3, Apache, MIT (your choice)
