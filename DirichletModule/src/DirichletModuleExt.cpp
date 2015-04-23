@@ -44,20 +44,6 @@ const static IOFormat VectorFormat(StreamPrecision, DontAlignCols, " ", " ");
  * Constructor initializes random generators and the dispersion factor for the Dirichlet Process.
  */
 DirichletModuleExt::DirichletModuleExt(): alpha(1.2), chinese_restaurant_process(alpha) {
-/*
-	int param_dim = 2;
-	prior_mean.resize(1,param_dim);
-	prior_covar.resize(param_dim,param_dim);
-	prior_covar.setZero();
-	for (int i = 0; i < param_dim; i++) {
-		prior_mean(i) = drand48();
-		prior_covar(i,i) = drand48();
-	}
-	int param_count = 10;
-	parameters.resize(param_dim,param_count);
-
-	prior_dist = new Eigen::EigenMultivariateNormal<value_t>(prior_mean,prior_covar);
-*/
 	long int seed = time(NULL);
 	dobots::debug << "Use seed: " << seed << std::endl;
 	srand48(seed);
