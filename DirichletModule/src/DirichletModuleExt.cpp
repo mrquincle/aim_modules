@@ -213,6 +213,8 @@ void DirichletModuleExt::Tick() {
 
 			// calculate maximum likelihood (for Gaussian), sample mean and variance
 			vector_t mean = mat.colwise().mean().transpose();
+
+			dobots::error << "Following is incorrect. Use sample mean and variance for Gibbs sampling instead!" << std::endl;
 			tables[index].mean = mean;
 
 			//std::cout << "Mean: " << mean << std::endl;
@@ -337,8 +339,6 @@ bool DirichletModuleExt::Acceptance(const NormalDistribution &nd_proposed,
 	value_t a = std::min((value_t)1, nom/denom);
 	value_t random = drand48();
 	bool accept = a > random;
-	//if (accept) dobots::debug << "Accept " << a << std::endl;
-	//if (!accept) dobots::debug << "Deny " << a << std::endl;
 	return (a > random);
 }
 
@@ -453,31 +453,15 @@ void DirichletModuleExt::UpdateSufficientStatistics(const SufficientStatistics &
 void DirichletModuleExt::PosteriorPredictive(const SufficientStatistics & ss, const vector_t & observation,
 		value_t & posterior_predictive) {
 
-	value_t p = ss.dim;
 	// parameters for the t-distribution
-	matrix_t S = ss.lambda * (ss.kappa + 1) / ( ss.kappa * ( ss.nu - p + 1) );
-	value_t nu = ss.nu - p + 1;
+	matrix_t S = ss.lambda * (ss.kappa + 1) / ( ss.kappa * ( ss.nu - ss.dim + 1) );
+	value_t nu = ss.nu - ss.dim + 1;
 	vector_t mu = ss.mu;
-	// calculate the t-distribution
-	// set up Cholesky decomposition to get S^{-1}
-	/*
-	LLT<matrix_t> llt;
-	llt.compute(S);
-	if (llt.debug() != Success) {
-		dobots::debug << "Error in LLT decomposition. Is covariance matrix positive semi-definite?" << std::endl;
-		return;
-	}*/
-	value_t Snupi = (S * nu * p).determinant();
-//	dobots::debug << "Snupi: " << Snupi << std::endl;
-//	value_t c0 = std::exp(lgamma((nu+p)/2)-lgamma(nu/2));
-//	dobots::debug << "c0: " << c0 << std::endl;
-	value_t c = std::exp(lgamma((nu+p)/2)-lgamma(nu/2)) * std::pow(Snupi, -0.5);
+	value_t Snupi = (S * nu * ss.dim).determinant();
+	value_t c = std::exp(lgamma((nu+ss.dim)/2)-lgamma(nu/2)) * std::pow(Snupi, -0.5);
 	vector_t diff = (observation - mu);
-//	dobots::debug << "c: " << c << std::endl;
 	value_t term = (diff.transpose() * S.inverse() * diff); 
-	value_t scatter = std::pow(1+term/nu, -(nu+p)/2);
-//	dobots::debug << "term: " << term << std::endl;
-//	dobots::debug << "scatter: " << scatter << std::endl;
+	value_t scatter = std::pow(1+term/nu, -(nu+ss.dim)/2);
 	posterior_predictive = scatter * c;
 }
 
@@ -494,25 +478,15 @@ void DirichletModuleExt::PosteriorPredictive(const SufficientStatistics & ss, co
  * @return                   probability [out], probability that this data point stems from this distribution
  */
 DirichletModuleExt::value_t DirichletModuleExt::Likelihood(const NormalDistribution &nd, const vector_t & observation) {
-	//dobots::debug << "Likelihood" << std::endl;
 	if (!nd.mean.rows()) {
 		std::cerr << "Mean should have values" << std::endl;
 		return 1;
 	}
-	/*
-	LLT<matrix_t> llt(nd.covar);
-	//llt.compute(nd.covar);
-	if (llt.debug() != Success) {
-		dobots::debug << "Error in LLT decomposition. Is covariance matrix positive semi-definite?" << std::endl;
-		return -1;
-	}
-	*/
 	const vector_t diff = (nd.mean - observation);
 	value_t dim = observation.size();
 	// return normal distribution
 	matrix_t inverse = nd.covar.inverse();
 	value_t exponent = -0.5 * diff.transpose() * inverse * diff;
-	//value_t det = llt.matrixL().diagonal().product();
 	value_t det = nd.covar.determinant();
 	value_t normalization = std::pow( 2*M_PI * det, -0.5*dim ) ; // check how to get det out of llt
 	return normalization * std::exp(exponent);
@@ -544,19 +518,16 @@ void DirichletModuleExt::PosteriorDensity(const SufficientStatistics & ss, const
  *       and adjust prior accordingly if necessary.
  */
 void DirichletModuleExt::SampleNormalInverseWishart(const SufficientStatistics & ss, NormalDistribution &nd) {
-	//dobots::debug << "Sample NIW" << std::endl;
 	SampleInverseWishart(ss, nd.covar);
 	SampleMultivariateNormal(ss.mu, nd.covar/ss.kappa, nd.mean);
-	//dobots::debug << "New NIW sample obtained" << std::endl;
 }
 
 /**
  * Generate a vector (e.g. a mean) using a multivariate normal distribution.
  */
 void DirichletModuleExt::SampleMultivariateNormal(const vector_t & mean, const matrix_t & S, vector_t & sample) {
-//	dobots::debug << "Sample N" << std::endl;
 	EigenMultivariateNormal<value_t> normX_solver(mean, S);
-	sample = normX_solver.samples(1);// might need transpose
+	sample = normX_solver.samples(1);
 	//dobots::debug << "Sample from " << mean.transpose() << " with covar " << S.format(VectorFormat) << " becomes: " 
 	//	<< sample.transpose() << std::endl;
 }
@@ -565,30 +536,14 @@ void DirichletModuleExt::SampleMultivariateNormal(const vector_t & mean, const m
  * Generate a matrix (e.g. a covariance matrix) using the hyperparameters given by the Inverse Wishart.
  */
 void DirichletModuleExt::SampleInverseWishart(const SufficientStatistics & ss, matrix_t & S) {
-//	dobots::debug << "Sample IW" << std::endl;
 	// zero-mean normal
 	vector_t zeromean = vector_t::Zero(ss.dim);
 	// huh, we take ss.lambda.inverse() every time? then who not ss.lambda_inv stored instead?
-	//EigenMultivariateNormal<value_t> normX_solver(ss.mu, ss.lambda);
-	//dobots::debug << ss.lambda.inverse() << std::endl;
 	EigenMultivariateNormal<value_t> normX_solver(zeromean, ss.lambda.inverse());
-	//EigenMultivariateNormal<value_t> normX_solver(zeromean, ss.lambda); // use no inverse
-//	dobots::debug << "Sample: " << normX_solver.samples(ss.nu).transpose() << std::endl;
 	matrix_t samples = normX_solver.samples(ss.nu);
 	matrix_t iS = samples*samples.transpose();
 	dobots::debug << "New precision matrix: " << iS.format(VectorFormat) << std::endl;
-//	dobots::debug << "Its determinant: " << iS.determinant() << std::endl; // duh... should be 0
-	/*
-	LLT<matrix_t> llt;
-	llt.compute(iS);
-	if (llt.debug() != Success) {
-		dobots::debug << "Error in LLT decomposition. How did we not create a covariance matrix?" << std::endl;
-		return;
-	}
-	S = llt().solve();
-	*/
 	S = iS.inverse();
-//	dobots::debug << "New covariance matrix: " << iS.inverse() << std::endl;
 }
 
 /**
