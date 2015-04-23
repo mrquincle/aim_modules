@@ -324,7 +324,6 @@ bool DirichletModuleExt::Acceptance(const NormalDistribution &nd_proposed,
 	value_t denom = Likelihood(nd_old, observation);
 	value_t a = std::min((value_t)1, nom/denom);
 	value_t random = drand48();
-	bool accept = a > random;
 	return (a > random);
 }
 
