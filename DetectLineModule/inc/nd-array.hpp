@@ -78,7 +78,8 @@ public:
 	}
 
 	/**
-	 *
+	 * Initialize the nd-array. The order in which the dimensions are expected is as explained in the constructor.
+	 * Setting the dimensions to [4,2], will allow you to use set(3,1,value), but not set(1,3,value).
 	 */
 	void init(dimension_container & dimensions) {
 		this->dimensions = dimensions;
@@ -115,6 +116,10 @@ public:
 	 * you are responsible for deallocation.
 	 */
 	virtual ~nd_array() {
+		clear();
+	}
+
+	void clear() {
 		strides.clear();
 		values.clear();
 		dimensions.clear();
@@ -373,7 +378,7 @@ private:
 		// setup arrays for dimensions and counters
 		dimension_type reset[dimsize+1];
 		dimension_type dimcnt[dimsize];
-		for (dimension_type i = dimsize-1; i >= 0; --i) {
+		for (dimension_type i = dimsize-1; i > 0; --i) {
 			dimcnt[i] = 0; reset[i] = 1;
 			for (dimension_type j = 0; j <= i; ++j) {
 				reset[i+1] *= table.dimensions[j];
@@ -382,7 +387,7 @@ private:
 
 		// output matrix
 		for (dimension_type i = 0; i < table.size(); ++i) {
-			for (dimension_type d = dimsize-1; d >= 0; --d) {
+			for (dimension_type d = dimsize-1; d > 0; --d) {
 				os << ' ' << dimcnt[d];
 				if (!((i+1) % reset[d])) ++dimcnt[d];
 				if (!((i+1) % reset[d+1])) dimcnt[d] = 0;
